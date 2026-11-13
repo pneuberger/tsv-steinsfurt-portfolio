@@ -100,6 +100,16 @@ npx cdk deploy --all -c domainName=www.tsv-steinsfurt.de -c hostedZoneId=Z0123�
 
 (or put these values into `infra/cdk.json`). Then update `site` in `astro.config.mjs`.
 
+### Cost alarm
+
+An account-wide monthly budget (6 USD ≈ 5 €) e-mails you at 80 % and 100 % of actual spend, and when AWS forecasts the month will go over. The e-mail address is passed at deploy time and kept out of the (public) repo:
+
+```sh
+AWS_PROFILE=<profile> npx cdk deploy TsvSteinsfurtBudget -c budgetEmail=you@example.com [-c budgetLimitUsd=6]
+```
+
+`cdk deploy --all` without `budgetEmail` leaves the existing budget untouched.
+
 ### Connect GitHub
 
 Copy the stack outputs into **GitHub → Settings → Secrets and variables → Actions → Variables**:

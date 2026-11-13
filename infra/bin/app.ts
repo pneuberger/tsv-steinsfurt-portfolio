@@ -1,4 +1,5 @@
 import { App } from 'aws-cdk-lib';
+import { BudgetStack } from '../lib/budget-stack.ts';
 import { CertificateStack } from '../lib/certificate-stack.ts';
 import { SiteStack } from '../lib/site-stack.ts';
 
@@ -37,3 +38,15 @@ new SiteStack(app, 'TsvSteinsfurtSite', {
       app.node.tryGetContext('createGithubOidcProvider') !== 'false',
   },
 });
+
+// Monthly cost alarm (account-wide). Only synthesized when an e-mail is passed:
+//   npx cdk deploy TsvSteinsfurtBudget -c budgetEmail=you@example.com
+// The address is deliberately not stored in cdk.json because the repo is public.
+const budgetEmail = ctx('budgetEmail');
+if (budgetEmail) {
+  new BudgetStack(app, 'TsvSteinsfurtBudget', {
+    env: { account, region },
+    email: budgetEmail,
+    limitUsd: Number(ctx('budgetLimitUsd') ?? 6), // ≈ 5 €
+  });
+}
