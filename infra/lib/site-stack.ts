@@ -42,6 +42,13 @@ export interface SiteStackProps extends StackProps {
     /** "owner/repo" */
     repo: string;
     branch: string;
+    /**
+     * Numeric GitHub IDs of owner and repository. GitHub's OIDC `sub` claim embeds them
+     * ("repo:owner@<ownerId>/repo@<repoId>:ref:…"), which ties the role to this exact repo
+     * even if a repo with the same name is ever recreated.
+     */
+    ownerId?: string;
+    repoId?: string;
     /** Only one GitHub OIDC provider can exist per AWS account. Set false if it already exists. */
     createOidcProvider: boolean;
   };
@@ -129,13 +136,22 @@ export class SiteStack extends Stack {
           `arn:aws:iam::${this.account}:oidc-provider/token.actions.githubusercontent.com`,
         );
 
+    const { repo, branch, ownerId, repoId } = props.github;
+    const [owner, repoName] = repo.split('/');
+    const allowedSubjects = [
+      // Format with immutable IDs (what GitHub currently sends)
+      ...(ownerId && repoId ? [`repo:${owner}@${ownerId}/${repoName}@${repoId}:ref:refs/heads/${branch}`] : []),
+      // Classic name-only format
+      `repo:${repo}:ref:refs/heads/${branch}`,
+    ];
+
     const deployRole = new Role(this, 'GithubDeployRole', {
       description: `Deploys the site from ${props.github.repo}@${props.github.branch}`,
       maxSessionDuration: Duration.hours(1),
       assumedBy: new WebIdentityPrincipal(oidcProvider.oidcProviderArn, {
         StringEquals: {
           'token.actions.githubusercontent.com:aud': 'sts.amazonaws.com',
-          'token.actions.githubusercontent.com:sub': `repo:${props.github.repo}:ref:refs/heads/${props.github.branch}`,
+          'token.actions.githubusercontent.com:sub': allowedSubjects,
         },
       }),
     });

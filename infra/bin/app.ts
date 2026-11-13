@@ -31,6 +31,8 @@ new SiteStack(app, 'TsvSteinsfurtSite', {
   github: {
     repo: ctx('githubRepo') ?? 'pneuberger/tsv-steinsfurt-portfolio',
     branch: ctx('githubBranch') ?? 'main',
+    ownerId: ctx('githubOwnerId'),
+    repoId: ctx('githubRepoId'),
     createOidcProvider: app.node.tryGetContext('createGithubOidcProvider') !== false &&
       app.node.tryGetContext('createGithubOidcProvider') !== 'false',
   },

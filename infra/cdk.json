@@ -3,6 +3,8 @@
   "context": {
     "githubRepo": "pneuberger/tsv-steinsfurt-portfolio",
     "githubBranch": "main",
+    "githubOwnerId": "33812192",
+    "githubRepoId": "1456784621",
     "createGithubOidcProvider": true,
     "domainName": "",
     "hostedZoneId": "",
