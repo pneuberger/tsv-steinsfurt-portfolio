@@ -1,0 +1,39 @@
+# Keeps GitHub Actions (pinned to commit SHAs) and npm dependencies up to date.
+# Every update arrives as a pull request; the workflow builds and type-checks it before you merge.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: Europe/Berlin
+    groups:
+      actions:
+        patterns: ['*']
+    commit-message:
+      prefix: ci
+
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: Europe/Berlin
+    groups:
+      site-minor-and-patch:
+        update-types: [minor, patch]
+    commit-message:
+      prefix: deps
+
+  - package-ecosystem: npm
+    directory: /infra
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: Europe/Berlin
+    groups:
+      infra-minor-and-patch:
+        update-types: [minor, patch]
+    commit-message:
+      prefix: deps(infra)
