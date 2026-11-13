@@ -87,6 +87,35 @@ export class SiteStack extends Stack {
         frameOptions: { frameOption: HeadersFrameOption.DENY, override: true },
         referrerPolicy: { referrerPolicy: HeadersReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN, override: true },
       },
+      customHeadersBehavior: {
+        customHeaders: [
+          {
+            // The site needs none of these browser features – switch them all off.
+            header: 'Permissions-Policy',
+            value: [
+              'accelerometer=()',
+              'autoplay=(self)', // muted background clips
+              'browsing-topics=()',
+              'camera=()',
+              'display-capture=()',
+              'fullscreen=(self)', // video controls in the lightbox
+              'geolocation=()',
+              'gyroscope=()',
+              'interest-cohort=()',
+              'magnetometer=()',
+              'microphone=()',
+              'midi=()',
+              'payment=()',
+              'publickey-credentials-get=()',
+              'screen-wake-lock=()',
+              'serial=()',
+              'usb=()',
+              'xr-spatial-tracking=()',
+            ].join(', '),
+            override: true,
+          },
+        ],
+      },
     });
 
     const distribution = new Distribution(this, 'Distribution', {

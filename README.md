@@ -55,6 +55,16 @@ ffmpeg -i hero.mp4 -frames:v 1 -q:v 3 hero-poster.jpg
 
 Clips autoplay muted only while visible and never for visitors who have "reduce motion" turned on.
 
+### Content-Security-Policy
+
+The page ships a strict CSP (`security.csp` in `astro.config.mjs`): only files from the site itself may load, and Astro adds hashes for its own scripts and styles on every build. Consequences:
+
+- **Don't use inline `style="…"` attributes or `<script is:inline>`.** The browser blocks them. Use CSS classes or regular `<script>` blocks (bundled and hashed by Astro). For staggered reveal animations, put the `stagger` class on the parent element.
+- **External content** (YouTube/Instagram embeds, a Google Maps iframe, analytics, external fonts) needs its origin added to the matching directive (`frame-src`, `img-src`, `script-src` …). Remember that this also needs the privacy policy updated.
+- The CSP only applies to `npm run build` + `npm run preview`, not to `npm run dev`.
+
+Other security headers (HSTS, X-Frame-Options, Permissions-Policy …) are set by CloudFront in `infra/lib/site-stack.ts`.
+
 ### Adding a language
 
 1. Copy `src/i18n/en.json` to `src/i18n/<code>.json` and translate it.

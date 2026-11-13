@@ -15,10 +15,10 @@ const { t } = Astro.props;
       <p>{t.about.text}</p>
     </div>
 
-    <ul class="stats">
+    <ul class="stats stagger">
       {
-        t.about.stats.map((s, i) => (
-          <li class="stat reveal" style={`--delay:${i * 90}ms`}>
+        t.about.stats.map((s) => (
+          <li class="stat reveal">
             <span class="stat-value">
               <span data-count={s.value}>{s.value}</span>
               {s.suffix}

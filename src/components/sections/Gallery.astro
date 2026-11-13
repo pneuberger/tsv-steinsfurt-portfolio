@@ -41,10 +41,10 @@ const large = await Promise.all(
       <h2>{t.gallery.title}</h2>
     </div>
 
-    <ul class="bento">
+    <ul class="bento stagger">
       {
         tiles.map((tile, i) => (
-          <li class:list={['tile reveal', tile.size]} style={`--delay:${(i % 4) * 70}ms`}>
+          <li class:list={['tile reveal', tile.size]}>
             {tile.kind === 'photo' ? (
               <button
                 type="button"

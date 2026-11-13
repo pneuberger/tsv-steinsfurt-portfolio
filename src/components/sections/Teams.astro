@@ -16,10 +16,10 @@ const { t } = Astro.props;
       <h2>{t.teams.title}</h2>
     </div>
 
-    <ul class="team-grid">
+    <ul class="team-grid stagger">
       {
-        t.teams.items.map((team, i) => (
-          <li class="team-card reveal" style={`--delay:${i * 80}ms`}>
+        t.teams.items.map((team) => (
+          <li class="team-card reveal">
             <div class="team-media">
               <Image src={img(team.image)} alt={team.name} widths={[400, 700, 1000]} sizes="(min-width: 1000px) 25vw, (min-width: 600px) 50vw, 100vw" />
               <span class="league">{team.league}</span>

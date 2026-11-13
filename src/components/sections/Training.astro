@@ -16,8 +16,8 @@ const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComp
       <p class="lead">{t.training.text}</p>
     </div>
 
-    <div class="cards">
-      <div class="card schedule reveal" style="--delay:80ms">
+    <div class="cards stagger">
+      <div class="card schedule reveal">
         <h3>🕖 {t.training.scheduleTitle}</h3>
         <dl>
           {
@@ -31,7 +31,7 @@ const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComp
         </dl>
       </div>
 
-      <div class="card location reveal" style="--delay:160ms">
+      <div class="card location reveal">
         <h3>📍 {t.training.locationTitle}</h3>
         <p>{t.training.address}</p>
         <a class="btn btn-primary" href={mapsUrl} target="_blank" rel="noopener noreferrer">

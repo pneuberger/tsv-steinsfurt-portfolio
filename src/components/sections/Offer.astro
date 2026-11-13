@@ -17,10 +17,10 @@ const { t } = Astro.props;
       <h2>{t.offer.title}</h2>
     </div>
 
-    <ul class="offer-grid">
+    <ul class="offer-grid stagger">
       {
-        t.offer.items.map((item, i) => (
-          <li class="offer-card reveal" style={`--delay:${(i % 3) * 90}ms`}>
+        t.offer.items.map((item) => (
+          <li class="offer-card reveal">
             <Image src={img(item.image)} alt="" widths={[400, 700]} sizes="(min-width: 900px) 33vw, (min-width: 600px) 50vw, 100vw" />
             <div class="offer-body">
               <span class="icon" aria-hidden="true">{item.icon}</span>
