@@ -1,0 +1,46 @@
+---
+import '@fontsource-variable/outfit';
+import '../styles/global.css';
+import { languages, pathFor, useTranslations, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const canonical = new URL(pathFor(lang), Astro.site);
+const ogImage = new URL('/og-image.jpg', Astro.site);
+---
+
+<!doctype html>
+<html lang={lang} class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{t.meta.title}</title>
+    <meta name="description" content={t.meta.description} />
+    <meta name="theme-color" content="#0b3d2e" />
+    <link rel="canonical" href={canonical} />
+    {languages.map((l) => <link rel="alternate" hreflang={l} href={new URL(pathFor(l), Astro.site)} />)}
+    <link rel="alternate" hreflang="x-default" href={new URL(pathFor('de'), Astro.site)} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={t.meta.title} />
+    <meta property="og:description" content={t.meta.description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content={lang === 'de' ? 'de_DE' : 'en_GB'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="generator" content={Astro.generator} />
+
+    <script is:inline>document.documentElement.classList.remove('no-js');</script>
+  </head>
+  <body>
+    <slot />
+    <script>
+      import '../scripts/interactions';
+    </script>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "app": "npx tsx bin/app.ts",
+  "context": {
+    "githubRepo": "pneuberger/tsv-steinsfurt-portfolio",
+    "githubBranch": "main",
+    "createGithubOidcProvider": true,
+    "domainName": "",
+    "hostedZoneId": "",
+    "hostedZoneName": "",
+    "@aws-cdk/core:checkSecretUsage": true,
+    "@aws-cdk/core:target-partitions": [
+      "aws"
+    ],
+    "@aws-cdk/core:defaultCrossStackReferences": "strong"
+  }
+}

@@ -1,0 +1,165 @@
+---
+import { Image, getImage } from 'astro:assets';
+import { img } from '../../lib/images';
+import VideoClip from '../ui/VideoClip.astro';
+import type { Dictionary } from '../../i18n';
+
+interface Props {
+  t: Dictionary;
+}
+const { t } = Astro.props;
+
+/**
+ * Bento grid of photos and clips. `size` controls the tile shape: wide | tall | big | (default 1×1).
+ * Photos: key from src/assets. Clips: name of public/media/videos/<name>.mp4.
+ */
+type Tile =
+  | { kind: 'photo'; key: string; size?: 'wide' | 'tall' | 'big' }
+  | { kind: 'clip'; name: string; size?: 'wide' | 'tall' | 'big' };
+
+const tiles: Tile[] = [
+  { kind: 'clip', name: 'clip-01', size: 'tall' },
+  { kind: 'photo', key: 'gallery-01', size: 'big' },
+  { kind: 'photo', key: 'gallery-02' },
+  { kind: 'photo', key: 'gallery-03' },
+  { kind: 'photo', key: 'gallery-04', size: 'wide' },
+  { kind: 'clip', name: 'clip-02', size: 'tall' },
+  { kind: 'photo', key: 'gallery-05', size: 'tall' },
+  { kind: 'photo', key: 'gallery-06', size: 'wide' },
+];
+
+// Large versions for the lightbox.
+const large = await Promise.all(
+  tiles.map((tile) => (tile.kind === 'photo' ? getImage({ src: img(tile.key), width: 1600 }) : null)),
+);
+---
+
+<section id="einblicke" class="section gallery">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">{t.gallery.eyebrow}</p>
+      <h2>{t.gallery.title}</h2>
+    </div>
+
+    <ul class="bento">
+      {
+        tiles.map((tile, i) => (
+          <li class:list={['tile reveal', tile.size]} style={`--delay:${(i % 4) * 70}ms`}>
+            {tile.kind === 'photo' ? (
+              <button
+                type="button"
+                data-lightbox="image"
+                data-src={large[i]!.src}
+                data-alt={`${t.gallery.photo} ${i + 1}`}
+                aria-label={`${t.gallery.open}: ${t.gallery.photo} ${i + 1}`}
+              >
+                <Image src={img(tile.key)} alt="" widths={[400, 800]} sizes="(min-width: 900px) 25vw, 50vw" />
+              </button>
+            ) : (
+              <button
+                type="button"
+                data-lightbox="video"
+                data-src={`/media/videos/${tile.name}.mp4`}
+                data-poster={`/media/videos/${tile.name}-poster.jpg`}
+                aria-label={`${t.gallery.open}: ${t.gallery.clip}`}
+              >
+                <VideoClip name={tile.name} label={t.gallery.clip} />
+                <span class="play" aria-hidden="true">▶</span>
+              </button>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <dialog id="lightbox" class="lightbox">
+    <button type="button" class="close" data-dialog-close aria-label={t.gallery.close}>✕</button>
+    <div data-stage></div>
+  </dialog>
+</section>
+
+<style>
+  .bento {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: clamp(140px, 22vw, 240px);
+    grid-auto-flow: dense;
+    gap: clamp(0.6rem, 1.5vw, 1rem);
+  }
+  @media (min-width: 900px) {
+    .bento { grid-template-columns: repeat(4, 1fr); }
+  }
+  .tile { border-radius: var(--radius); overflow: hidden; background: var(--c-line); }
+  .tile.wide { grid-column: span 2; }
+  .tile.tall { grid-row: span 2; }
+  .tile.big { grid-column: span 2; grid-row: span 2; }
+  .tile button {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: zoom-in;
+  }
+  .tile :global(img),
+  .tile :global(video) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .tile:hover :global(img),
+  .tile:hover :global(video) { transform: scale(1.05); }
+  .play {
+    position: absolute;
+    right: 0.8rem;
+    bottom: 0.8rem;
+    width: 2.6rem;
+    height: 2.6rem;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--c-accent);
+    color: var(--c-ink);
+    font-size: 0.9rem;
+    box-shadow: var(--shadow);
+  }
+
+  .lightbox {
+    margin: auto;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    max-width: min(92vw, 1400px);
+    max-height: 90svh;
+    overflow: visible;
+  }
+  .lightbox::backdrop {
+    background: rgb(8 20 14 / 0.88);
+    backdrop-filter: blur(4px);
+  }
+  .lightbox [data-stage] :global(img),
+  .lightbox [data-stage] :global(video) {
+    max-width: min(92vw, 1400px);
+    max-height: 85svh;
+    width: auto;
+    border-radius: var(--radius);
+  }
+  .close {
+    position: absolute;
+    top: -3.25rem;
+    right: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    border: 0;
+    background: #fff;
+    color: var(--c-ink);
+    font-size: 1.1rem;
+  }
+</style>

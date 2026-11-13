@@ -1,0 +1,91 @@
+---
+import { Image } from 'astro:assets';
+import { img } from '../../lib/images';
+import type { Dictionary } from '../../i18n';
+
+interface Props {
+  t: Dictionary;
+}
+const { t } = Astro.props;
+---
+
+<section id="stimmen" class="section voices">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">{t.testimonials.eyebrow}</p>
+      <h2>{t.testimonials.title}</h2>
+    </div>
+
+    <ul class="quotes">
+      {
+        t.testimonials.items.map((q, i) => (
+          <li class="quote reveal" style={`--delay:${i * 100}ms`}>
+            <blockquote>
+              <p><q>{q.quote}</q></p>
+            </blockquote>
+            <div class="who">
+              <Image src={img(q.image)} alt="" width={112} height={112} />
+              <div>
+                <strong>{q.name}</strong>
+                <span>{q.role}</span>
+              </div>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .voices {
+    background: linear-gradient(180deg, var(--c-bg), #fff6d6);
+  }
+  .quotes {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  }
+  .quote {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.5rem;
+    background: var(--c-surface);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+  .quote:nth-child(odd) { rotate: -1deg; }
+  .quote:nth-child(even) { rotate: 1deg; }
+  .quote::before {
+    content: '“';
+    position: absolute;
+    top: -1.6rem;
+    left: 1.25rem;
+    font-size: 6rem;
+    line-height: 1;
+    font-weight: 800;
+    color: var(--c-accent);
+  }
+  blockquote p {
+    font-size: 1.15rem;
+    font-weight: 500;
+  }
+  .who {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+  .who :global(img) {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .who strong { display: block; }
+  .who span { color: var(--c-ink-soft); font-size: 0.9rem; }
+</style>

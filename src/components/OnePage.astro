@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+import LangSwitch from './LangSwitch.astro';
+import Hero from './sections/Hero.astro';
+import About from './sections/About.astro';
+import Teams from './sections/Teams.astro';
+import Offer from './sections/Offer.astro';
+import Gallery from './sections/Gallery.astro';
+import Testimonials from './sections/Testimonials.astro';
+import Training from './sections/Training.astro';
+import Contact from './sections/Contact.astro';
+import Footer from './sections/Footer.astro';
+import { useTranslations, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<Base lang={lang}>
+  <LangSwitch lang={lang} />
+  <Hero t={t} />
+  <main>
+    <About t={t} />
+    <Teams t={t} />
+    <Offer t={t} />
+    <Gallery t={t} />
+    <Testimonials t={t} />
+    <Training t={t} />
+    <Contact t={t} />
+  </main>
+  <Footer t={t} />
+</Base>

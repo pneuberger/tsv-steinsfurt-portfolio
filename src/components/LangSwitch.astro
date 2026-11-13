@@ -1,0 +1,60 @@
+---
+import { languages, pathFor, useTranslations, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<nav class="lang" aria-label={t.lang.label}>
+  {
+    languages.map((l) => (
+      <a
+        href={pathFor(l)}
+        hreflang={l}
+        lang={l}
+        aria-current={l === lang ? 'true' : undefined}
+        title={t.lang[l]}
+      >
+        {l.toUpperCase()}
+      </a>
+    ))
+  }
+</nav>
+
+<style>
+  .lang {
+    position: fixed;
+    top: max(1rem, env(safe-area-inset-top));
+    right: max(1rem, env(safe-area-inset-right));
+    z-index: 50;
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.3rem;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.85);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow);
+  }
+  a {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-decoration: none;
+    color: var(--c-ink-soft);
+    transition: background-color 0.2s, color 0.2s;
+  }
+  a:hover {
+    color: var(--c-ink);
+  }
+  a[aria-current='true'] {
+    background: var(--c-primary);
+    color: #fff;
+  }
+</style>

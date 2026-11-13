@@ -1,0 +1,28 @@
+---
+/** Playful wave divider placed at the bottom of a section. `fill` = colour of the next section. */
+interface Props {
+  fill?: string;
+  flip?: boolean;
+}
+const { fill = 'var(--c-bg)', flip = false } = Astro.props;
+---
+
+<svg class:list={['wave', { flip }]} viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true">
+  <path
+    fill={fill}
+    d="M0 48c120 20 240 32 360 24S600 32 720 28s240 16 360 24 240 4 360-12v40H0z"></path>
+</svg>
+
+<style>
+  .wave {
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 100%;
+    height: clamp(30px, 5vw, 80px);
+    pointer-events: none;
+  }
+  .flip {
+    transform: scaleX(-1);
+  }
+</style>

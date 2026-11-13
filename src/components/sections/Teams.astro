@@ -1,0 +1,88 @@
+---
+import { Image } from 'astro:assets';
+import { img } from '../../lib/images';
+import type { Dictionary } from '../../i18n';
+
+interface Props {
+  t: Dictionary;
+}
+const { t } = Astro.props;
+---
+
+<section id="teams" class="section teams">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">{t.teams.eyebrow}</p>
+      <h2>{t.teams.title}</h2>
+    </div>
+
+    <ul class="team-grid">
+      {
+        t.teams.items.map((team, i) => (
+          <li class="team-card reveal" style={`--delay:${i * 80}ms`}>
+            <div class="team-media">
+              <Image src={img(team.image)} alt={team.name} widths={[400, 700, 1000]} sizes="(min-width: 1000px) 25vw, (min-width: 600px) 50vw, 100vw" />
+              <span class="league">{team.league}</span>
+            </div>
+            <div class="team-body">
+              <h3>{team.name}</h3>
+              <p>{team.vibe}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .team-grid {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+  }
+  .team-card {
+    background: var(--c-surface);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .team-card:hover {
+    transform: translateY(-6px) rotate(-0.6deg);
+    box-shadow: var(--shadow-lg);
+  }
+  .team-media {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+  .team-media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  .team-card:hover .team-media :global(img) {
+    transform: scale(1.06);
+  }
+  .league {
+    position: absolute;
+    top: 0.9rem;
+    left: 0.9rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 999px;
+    background: var(--c-accent);
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+  .team-body {
+    padding: 1.25rem 1.4rem 1.6rem;
+  }
+  .team-body p {
+    margin-top: 0.4rem;
+    color: var(--c-ink-soft);
+  }
+</style>

@@ -1,0 +1,89 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+      - run: npx astro check
+      - run: npm run build
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: dist
+          retention-days: 7
+
+  deploy:
+    # Only deploy from main. PRs just build and type-check.
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    # Note: adding `environment:` here changes the OIDC subject claim and would require
+    # updating the IAM trust condition in infra/lib/site-stack.ts.
+    permissions:
+      contents: read
+      id-token: write # GitHub OIDC → AWS IAM role, no stored AWS keys
+    env:
+      BUCKET: ${{ vars.AWS_S3_BUCKET }}
+      DISTRIBUTION_ID: ${{ vars.AWS_CLOUDFRONT_DISTRIBUTION_ID }}
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist
+
+      - uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: eu-central-1
+
+      # Upload order matters: assets first, HTML last, so a page never references a missing file.
+      - name: Upload hashed assets (cached forever)
+        run: |
+          if [ -d dist/_astro ]; then
+            aws s3 sync dist/_astro "s3://$BUCKET/_astro" \
+              --cache-control "public,max-age=31536000,immutable"
+          fi
+
+      - name: Upload media & static files (cached 1 day)
+        run: |
+          aws s3 sync dist "s3://$BUCKET" \
+            --exclude "*.html" --exclude "_astro/*" \
+            --cache-control "public,max-age=86400,stale-while-revalidate=604800"
+
+      - name: Upload HTML (always revalidated)
+        run: |
+          aws s3 sync dist "s3://$BUCKET" \
+            --exclude "*" --include "*.html" \
+            --cache-control "no-cache"
+
+      - name: Remove files that no longer exist
+        run: aws s3 sync dist "s3://$BUCKET" --delete
+
+      - name: Invalidate CloudFront
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id "$DISTRIBUTION_ID" \
+            --paths "/*" \
+            --query 'Invalidation.Id' --output text

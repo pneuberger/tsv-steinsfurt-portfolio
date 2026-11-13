@@ -1,0 +1,74 @@
+---
+import type { Dictionary } from '../../i18n';
+
+interface Props {
+  t: Dictionary;
+}
+const { t } = Astro.props;
+---
+
+<section id="ueber-uns" class="section about">
+  <div class="container about-grid">
+    <div class="section-head reveal">
+      <p class="eyebrow">{t.about.eyebrow}</p>
+      <h2>{t.about.title}</h2>
+      <p>{t.about.text}</p>
+    </div>
+
+    <ul class="stats">
+      {
+        t.about.stats.map((s, i) => (
+          <li class="stat reveal" style={`--delay:${i * 90}ms`}>
+            <span class="stat-value">
+              <span data-count={s.value}>{s.value}</span>
+              {s.suffix}
+            </span>
+            <span class="stat-label">{s.label}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .about-grid {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .about-grid { grid-template-columns: 1.1fr 1fr; }
+    .section-head { margin-bottom: 0; }
+  }
+  .stats {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .stat {
+    background: var(--c-surface);
+    border-radius: var(--radius);
+    padding: clamp(1.25rem, 3vw, 2rem);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .stat:nth-child(1) { rotate: -1.5deg; }
+  .stat:nth-child(2) { rotate: 1deg; background: var(--c-accent); }
+  .stat:nth-child(3) { rotate: 1.2deg; background: var(--c-primary); color: #fff; }
+  .stat:nth-child(4) { rotate: -0.8deg; }
+  .stat-value {
+    font-size: clamp(2.2rem, 1.6rem + 2.5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-label {
+    font-weight: 600;
+    opacity: 0.8;
+  }
+</style>

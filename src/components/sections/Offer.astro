@@ -1,0 +1,97 @@
+---
+import { Image } from 'astro:assets';
+import { img } from '../../lib/images';
+import Wave from '../ui/Wave.astro';
+import type { Dictionary } from '../../i18n';
+
+interface Props {
+  t: Dictionary;
+}
+const { t } = Astro.props;
+---
+
+<section id="angebot" class="section offer">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">{t.offer.eyebrow}</p>
+      <h2>{t.offer.title}</h2>
+    </div>
+
+    <ul class="offer-grid">
+      {
+        t.offer.items.map((item, i) => (
+          <li class="offer-card reveal" style={`--delay:${(i % 3) * 90}ms`}>
+            <Image src={img(item.image)} alt="" widths={[400, 700]} sizes="(min-width: 900px) 33vw, (min-width: 600px) 50vw, 100vw" />
+            <div class="offer-body">
+              <span class="icon" aria-hidden="true">{item.icon}</span>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+  <Wave flip />
+</section>
+
+<style>
+  .offer {
+    background: var(--c-primary-dark);
+    color: #fff;
+    padding-bottom: calc(var(--section-y) + 3rem);
+  }
+  .offer .eyebrow { color: var(--c-accent); }
+  .offer-grid {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  }
+  .offer-card {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .offer-card :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+    transition: transform 0.6s ease;
+  }
+  .offer-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, transparent 30%, rgb(11 61 46 / 0.92) 100%);
+  }
+  .offer-card:hover :global(img) { transform: scale(1.07) rotate(1deg); }
+  .offer-body {
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: 1.5rem;
+  }
+  .icon {
+    display: inline-grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 1rem;
+    background: var(--c-accent);
+    font-size: 1.4rem;
+    margin-bottom: 0.8rem;
+    transition: transform 0.3s cubic-bezier(.2,1.6,.4,1);
+  }
+  .offer-card:hover .icon { transform: rotate(-10deg) scale(1.1); }
+  .offer-body p {
+    margin-top: 0.35rem;
+    opacity: 0.9;
+  }
+</style>

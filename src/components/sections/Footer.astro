@@ -1,0 +1,111 @@
+---
+import type { Dictionary } from '../../i18n';
+
+interface Props {
+  t: Dictionary;
+}
+const { t } = Astro.props;
+const year = new Date().getFullYear();
+
+// Replace with the club's real profiles (or remove entries).
+const socials = [
+  { label: 'Instagram', href: 'https://www.instagram.com/' },
+  { label: 'Facebook', href: 'https://www.facebook.com/' },
+];
+---
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="brand">
+      <img src="/favicon.svg" alt="" width="40" height="40" />
+      <strong>TSV Steinsfurt</strong>
+    </div>
+
+    <div class="links">
+      <span>{t.footer.follow}:</span>
+      {socials.map((s) => <a href={s.href} target="_blank" rel="noopener noreferrer">{s.label}</a>)}
+    </div>
+
+    <div class="legal">
+      <button type="button" data-dialog-open="impressum">{t.footer.imprint}</button>
+      <button type="button" data-dialog-open="datenschutz">{t.footer.privacy}</button>
+    </div>
+
+    <p class="copy">© {year} TSV Steinsfurt e.V. · {t.footer.rights}</p>
+  </div>
+
+  {
+    [
+      { id: 'impressum', title: t.footer.imprint, text: t.footer.imprintText },
+      { id: 'datenschutz', title: t.footer.privacy, text: t.footer.privacyText },
+    ].map((d) => (
+      <dialog id={d.id} class="legal-dialog" aria-labelledby={`${d.id}-title`}>
+        <h2 id={`${d.id}-title`}>{d.title}</h2>
+        <p>{d.text}</p>
+        <button type="button" class="btn btn-primary" data-dialog-close>
+          {t.footer.close}
+        </button>
+      </dialog>
+    ))
+  }
+</footer>
+
+<style>
+  .footer {
+    background: var(--c-ink);
+    color: rgb(255 255 255 / 0.8);
+    padding-block: 3rem;
+    font-size: 0.95rem;
+  }
+  .footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem 2rem;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #fff;
+    font-size: 1.1rem;
+  }
+  .links, .legal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    align-items: center;
+  }
+  .links a, .legal button {
+    color: #fff;
+    background: none;
+    border: 0;
+    padding: 0.25rem 0;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--c-accent);
+  }
+  .copy {
+    flex-basis: 100%;
+    opacity: 0.6;
+    font-size: 0.85rem;
+  }
+  .legal-dialog {
+    margin: auto;
+    width: min(92vw, 40rem);
+    border: 0;
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    color: var(--c-ink);
+    box-shadow: var(--shadow-lg);
+  }
+  .legal-dialog::backdrop {
+    background: rgb(8 20 14 / 0.7);
+  }
+  .legal-dialog h2 {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+  }
+  .legal-dialog p { margin-bottom: 1.5rem; }
+</style>

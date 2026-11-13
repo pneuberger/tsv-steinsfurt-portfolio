@@ -1,0 +1,27 @@
+---
+/**
+ * Muted, looping clip that autoplays only while in view (see scripts/interactions.ts).
+ * Files live in public/media/videos/<name>.mp4 and <name>-poster.jpg.
+ * If the MP4 does not exist yet, the poster image stays visible.
+ */
+interface Props {
+  name: string;
+  label: string;
+  class?: string;
+}
+const { name, label, class: className } = Astro.props;
+const base = `/media/videos/${name}`;
+---
+
+<video
+  class={className}
+  data-inview
+  muted
+  loop
+  playsinline
+  preload="none"
+  poster={`${base}-poster.jpg`}
+  aria-label={label}
+>
+  <source src={`${base}.mp4`} type="video/mp4" />
+</video>

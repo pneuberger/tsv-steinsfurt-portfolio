@@ -1,0 +1,101 @@
+{
+  "meta": {
+    "title": "TSV Steinsfurt – Join the Team!",
+    "description": "Football in Steinsfurt: we're looking for players aged 16 to 40. Training, team spirit, community – come to a trial session!"
+  },
+  "lang": { "label": "Language", "de": "Deutsch", "en": "English" },
+  "hero": {
+    "eyebrow": "TSV Steinsfurt · Football",
+    "title": "Your club. Your team. Your game.",
+    "subtitle": "Aged 16 to 40 and keen to play football? Come along – trial sessions are possible any time.",
+    "cta": "Book a trial session",
+    "secondary": "What we offer",
+    "scroll": "Scroll"
+  },
+  "about": {
+    "eyebrow": "Who we are",
+    "title": "More than just a club",
+    "text": "For decades, TSV Steinsfurt has been home to everyone who loves football. Whether you're ambitious or just play for fun – you'll find your place here, on and off the pitch.",
+    "stats": [
+      { "value": 1900, "suffix": "", "label": "Founded" },
+      { "value": 4, "suffix": "", "label": "Active teams" },
+      { "value": 120, "suffix": "+", "label": "Active players" },
+      { "value": 3, "suffix": "×", "label": "Sessions per week" }
+    ]
+  },
+  "teams": {
+    "eyebrow": "Our teams",
+    "title": "Find your team",
+    "items": [
+      { "image": "team-erste", "name": "First team", "league": "Kreisliga", "vibe": "Ambitious, well-drilled – and always hungry for the next win." },
+      { "image": "team-zweite", "name": "Second team", "league": "Kreisklasse A", "vibe": "Perfect for starting out, coming back and getting match time." },
+      { "image": "team-frauen", "name": "Women", "league": "Bezirksliga", "vibe": "Strong team, strong bond – new faces welcome!" },
+      { "image": "team-ajugend", "name": "Under-19s", "league": "Kreisstaffel", "vibe": "For everyone 16+: the perfect step up to senior football." }
+    ]
+  },
+  "offer": {
+    "eyebrow": "What we offer",
+    "title": "What you get with us",
+    "items": [
+      { "image": "offer-training", "icon": "⚡", "title": "Structured training", "text": "Varied sessions with a plan – technique, tactics, fitness." },
+      { "image": "offer-platz", "icon": "🏟️", "title": "Great pitch & facilities", "text": "Well-kept grass, artificial turf for winter, floodlights and modern changing rooms." },
+      { "image": "offer-trainer", "icon": "🎯", "title": "Licensed coaches", "text": "Experienced coaches who help you improve individually." },
+      { "image": "offer-ausruestung", "icon": "👕", "title": "Kit", "text": "Training and match kit in club colours – provided by the club." },
+      { "image": "offer-events", "icon": "🎉", "title": "Team events", "text": "End-of-season party, training camp, summer fest – we celebrate together." },
+      { "image": "offer-gemeinschaft", "icon": "🤝", "title": "Community", "text": "A club where people know each other – and look out for each other." }
+    ]
+  },
+  "gallery": {
+    "eyebrow": "Impressions",
+    "title": "This is what TSV feels like",
+    "close": "Close",
+    "open": "Enlarge",
+    "clip": "Video clip",
+    "photo": "Photo"
+  },
+  "testimonials": {
+    "eyebrow": "Voices from the team",
+    "title": "Why we play here",
+    "items": [
+      { "image": "player-01", "quote": "I came for a trial session – and stayed. The lads welcomed me from day one.", "name": "Max, 24", "role": "Midfield, first team" },
+      { "image": "player-02", "quote": "Coming back after a five-year break was no problem at all here.", "name": "Lena, 31", "role": "Defence, women" },
+      { "image": "player-03", "quote": "From the under-19s to senior football – the coaches prepared me brilliantly.", "name": "Jonas, 18", "role": "Striker, second team" }
+    ]
+  },
+  "training": {
+    "eyebrow": "Training & trial sessions",
+    "title": "Just come along",
+    "text": "No sign-up, no stress: bring your boots and some enthusiasm – we'll take care of the rest. A quick heads-up beforehand is appreciated.",
+    "scheduleTitle": "Training times",
+    "schedule": [
+      { "team": "First & second team", "times": "Tue & Thu · 7:00–8:30 pm" },
+      { "team": "Women", "times": "Mon & Wed · 7:00–8:30 pm" },
+      { "team": "Under-19s", "times": "Tue & Fri · 6:00–7:30 pm" }
+    ],
+    "locationTitle": "Where to find us",
+    "address": "TSV Steinsfurt sports ground, 74889 Sinsheim-Steinsfurt, Germany",
+    "mapLink": "Open in Google Maps"
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Fancy it? Get in touch!",
+    "text": "Just message us on WhatsApp, give us a call or send an email – we'll get back to you quickly.",
+    "whatsapp": "WhatsApp",
+    "call": "Call",
+    "email": "Email",
+    "people": [
+      { "name": "First Last", "role": "Coach, first & second team", "phone": "+49 151 00000000", "email": "herren@tsv-steinsfurt.de" },
+      { "name": "First Last", "role": "Coach, women", "phone": "+49 151 00000001", "email": "frauen@tsv-steinsfurt.de" },
+      { "name": "First Last", "role": "Youth lead, under-19s", "phone": "+49 151 00000002", "email": "jugend@tsv-steinsfurt.de" }
+    ]
+  },
+  "footer": {
+    "follow": "Follow us",
+    "imprint": "Legal notice",
+    "privacy": "Privacy",
+    "close": "Close",
+    "imprintText": "Information according to § 5 DDG: TSV Steinsfurt e.V., [Street No.], 74889 Sinsheim, Germany. Represented by the board: [Name]. Register court: [Amtsgericht], register number: [VR …]. Contact: [Email].",
+    "privacyText": "This website sets no cookies and uses no tracking. Fonts are served locally. When you visit the page, our hosting provider (Amazon Web Services, Frankfurt region) processes technically necessary access data (e.g. IP address) to deliver the page. [Please add a complete privacy policy.]",
+    "rights": "All rights reserved."
+  }
+}

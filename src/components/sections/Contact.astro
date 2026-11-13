@@ -1,0 +1,95 @@
+---
+import type { Dictionary } from '../../i18n';
+
+interface Props {
+  t: Dictionary;
+}
+const { t } = Astro.props;
+const digits = (phone: string) => phone.replace(/[^\d+]/g, '');
+---
+
+<section id="kontakt" class="section contact">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">{t.contact.eyebrow}</p>
+      <h2>{t.contact.title}</h2>
+      <p>{t.contact.text}</p>
+    </div>
+
+    <ul class="people">
+      {
+        t.contact.people.map((p, i) => (
+          <li class="person reveal" style={`--delay:${i * 90}ms`}>
+            <div class="avatar" aria-hidden="true">
+              {p.name.split(' ').map((w) => w[0]).join('').slice(0, 2)}
+            </div>
+            <h3>{p.name}</h3>
+            <p class="role">{p.role}</p>
+            <div class="actions">
+              <a class="btn btn-accent" href={`https://wa.me/${digits(p.phone).replace('+', '')}`} target="_blank" rel="noopener noreferrer">
+                💬 {t.contact.whatsapp}
+              </a>
+              <a class="btn btn-ghost" href={`tel:${digits(p.phone)}`}>📞 {t.contact.call}</a>
+              <a class="btn btn-ghost" href={`mailto:${p.email}`}>✉️ {t.contact.email}</a>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .contact {
+    background:
+      radial-gradient(circle at 85% 10%, rgb(255 204 51 / 0.25), transparent 40%),
+      var(--c-primary);
+    color: #fff;
+  }
+  .contact .eyebrow { color: var(--c-accent); }
+  .contact .section-head p { color: rgb(255 255 255 / 0.85); }
+  .people {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  }
+  .person {
+    background: rgb(255 255 255 / 0.08);
+    border: 1px solid rgb(255 255 255 / 0.18);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+  .person:hover {
+    transform: translateY(-4px);
+    background: rgb(255 255 255 / 0.12);
+  }
+  .avatar {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--c-accent);
+    color: var(--c-ink);
+    font-weight: 800;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+  .role {
+    opacity: 0.8;
+    margin-top: 0.2rem;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+  .actions .btn {
+    padding: 0.7rem 1.1rem;
+    font-size: 0.95rem;
+  }
+</style>

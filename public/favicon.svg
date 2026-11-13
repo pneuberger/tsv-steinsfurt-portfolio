@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Placeholder crest – replace with the real TSV Steinsfurt logo -->
+  <path d="M32 3 8 11v20c0 15 10 25 24 30 14-5 24-15 24-30V11z" fill="#0f6b45" stroke="#fff" stroke-width="3"/>
+  <path d="M8 24h48" stroke="#ffcc33" stroke-width="5"/>
+  <text x="32" y="47" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="15" fill="#fff">TSV</text>
+</svg>
