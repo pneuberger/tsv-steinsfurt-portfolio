@@ -16,10 +16,10 @@ const { t } = Astro.props;
       <h2>{t.testimonials.title}</h2>
     </div>
 
-    <ul class="quotes">
+    <ul class="quotes stagger">
       {
-        t.testimonials.items.map((q, i) => (
-          <li class="quote reveal" style={`--delay:${i * 100}ms`}>
+        t.testimonials.items.map((q) => (
+          <li class="quote reveal">
             <blockquote>
               <p><q>{q.quote}</q></p>
             </blockquote>

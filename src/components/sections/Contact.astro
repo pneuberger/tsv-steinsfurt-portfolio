@@ -16,10 +16,10 @@ const digits = (phone: string) => phone.replace(/[^\d+]/g, '');
       <p>{t.contact.text}</p>
     </div>
 
-    <ul class="people">
+    <ul class="people stagger">
       {
-        t.contact.people.map((p, i) => (
-          <li class="person reveal" style={`--delay:${i * 90}ms`}>
+        t.contact.people.map((p) => (
+          <li class="person reveal">
             <div class="avatar" aria-hidden="true">
               {p.name.split(' ').map((w) => w[0]).join('').slice(0, 2)}
             </div>

@@ -79,9 +79,17 @@ p { text-wrap: pretty; }
 .btn-primary { background: var(--c-primary); color: #fff; }
 
 /* ---------- Scroll reveal ---------- */
-.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(.2,.8,.2,1); transition-delay: var(--delay, 0ms); }
-.reveal.is-visible { opacity: 1; transform: none; }
-.no-js .reveal { opacity: 1; transform: none; }
+/* Hidden-until-revealed only when JS runs: without JS (or in old browsers that
+   don't know the `scripting` media feature) everything simply stays visible.
+   No inline script needed → works with the strict CSP. */
+@media (scripting: enabled) {
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(.2,.8,.2,1); transition-delay: var(--delay, 0ms); }
+  .reveal.is-visible { opacity: 1; transform: none; }
+}
+/* Staggered reveal for lists: put .stagger on the parent (no inline styles → CSP-friendly) */
+.stagger > .reveal:nth-child(4n + 2) { --delay: 90ms; }
+.stagger > .reveal:nth-child(4n + 3) { --delay: 180ms; }
+.stagger > .reveal:nth-child(4n + 4) { --delay: 270ms; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
