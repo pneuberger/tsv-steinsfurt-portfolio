@@ -19,7 +19,7 @@ Registernummer: VR 340140
 
 ## Haftung für Links
 
-Diese Website enthält Links zu externen Websites Dritter (z. B. Google Maps, WhatsApp, Instagram, Facebook), auf deren Inhalte wir keinen Einfluss haben. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter verantwortlich. Bei Bekanntwerden von Rechtsverletzungen entfernen wir derartige Links umgehend.
+Diese Website enthält Links zu externen Websites Dritter (z. B. Google Maps, WhatsApp, Instagram, Facebook, FuPa), auf deren Inhalte wir keinen Einfluss haben. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter verantwortlich. Bei Bekanntwerden von Rechtsverletzungen entfernen wir derartige Links umgehend.
 
 ## Bildnachweise
 
