@@ -107,7 +107,8 @@ const dayOptions = [7, 14, 30, MAX_DAYS];
           </section>
 
           <p class="small">
-            Gesperrte Links funktionieren nach spätestens etwa einer Minute nicht mehr. Einträge werden 30 Tage nach Ablauf automatisch
+            Eine Sperre wird an alle CloudFront-Standorte verteilt und greift meist nach 20–60 Sekunden. Solange steht
+            „Sperre wird aktiv …“ in der Liste, danach „gesperrt ✓“. Einträge werden 30 Tage nach Ablauf automatisch
             gelöscht. <button type="button" class="linklike" id="logout">Abmelden</button>
           </p>
         </div>
@@ -176,6 +177,7 @@ const dayOptions = [7, 14, 30, MAX_DAYS];
   :global(.status-active) { background: #e3f1e6; color: #1d6b34; }
   :global(.status-expired) { background: var(--c-tint); color: var(--c-ink-soft); }
   :global(.status-revoked) { background: #fde7e7; color: #b42318; }
+  :global(.status-pending) { background: #fff4d6; color: #8a5a00; }
   :global(.revoke) { font: inherit; font-size: 0.85rem; font-weight: 600; color: #b42318; background: none; border: 0; text-decoration: underline; cursor: pointer; }
   .small { font-size: 0.88rem; color: var(--c-ink-soft); }
   .linklike { font: inherit; color: var(--c-primary); background: none; border: 0; padding: 0; text-decoration: underline; cursor: pointer; }

@@ -13,7 +13,21 @@ const createForm = $<HTMLFormElement>('#create');
 const result = $('#result');
 const tbody = $('#invites');
 
-type Invite = { id: string; name: string; createdBy?: string; createdAt: number; expiresAt: number; revoked: boolean };
+type Invite = {
+  id: string; name: string; createdBy?: string; createdAt: number; expiresAt: number;
+  revoked: boolean; revokedAt?: number; effectiveAt?: number;
+};
+type Check = { id: string; effective: boolean; revokedAt?: number; effectiveAt?: number };
+
+// A revocation needs ~20–60 s to reach all CloudFront edge locations. While it is on its way
+// the list shows "Sperre wird aktiv …" and asks the API every few seconds whether the link is
+// already rejected. Revocations older than this (or from before the check existed) count as done.
+const CHECK_EVERY_MS = 5000;
+const GIVE_UP_AFTER_S = 5 * 60;
+const nowS = () => Math.floor(Date.now() / 1000);
+const pending = (inv: Invite) =>
+  inv.revoked && !inv.effectiveAt && !!inv.revokedAt && nowS() - inv.revokedAt < GIVE_UP_AFTER_S;
+let pollTimer: number | undefined;
 
 const fmtDate = (s: number) =>
   new Date(s * 1000).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
@@ -51,8 +65,12 @@ async function api<T>(method: 'GET' | 'POST', path: string, body?: unknown): Pro
   return data as T;
 }
 
-function statusOf(inv: Invite): ['active' | 'expired' | 'revoked', string] {
-  if (inv.revoked) return ['revoked', 'gesperrt'];
+function statusOf(inv: Invite): ['active' | 'expired' | 'revoked' | 'pending', string] {
+  if (pending(inv)) return ['pending', 'Sperre wird aktiv …'];
+  if (inv.revoked) {
+    const took = inv.effectiveAt && inv.revokedAt ? ` (nach ${Math.max(1, inv.effectiveAt - inv.revokedAt)} s)` : '';
+    return ['revoked', `gesperrt ✓${took}`];
+  }
   if (inv.expiresAt * 1000 < Date.now()) return ['expired', 'abgelaufen'];
   return ['active', 'aktiv'];
 }
@@ -75,6 +93,7 @@ async function loadList() {
         const status = document.createElement('span');
         status.className = `status status-${key}`;
         status.textContent = label;
+        if (key === 'pending') status.title = 'Die Sperre wird gerade an alle CloudFront-Standorte verteilt (meist unter einer Minute).';
         const statusTd = document.createElement('td');
         statusTd.append(status);
         const actionTd = document.createElement('td');
@@ -91,10 +110,27 @@ async function loadList() {
       }),
     );
     $('#empty').hidden = invites.length > 0;
+    schedulePoll(invites);
   } catch (e) {
     if ((e as { status?: number }).status === 401) return logout('Bitte erneut anmelden.');
     showMsg(msg, (e as Error).message);
   }
+}
+
+/** While a revocation is on its way: check it every few seconds, then refresh the list. */
+function schedulePoll(invites: Invite[]) {
+  window.clearTimeout(pollTimer);
+  const waiting = invites.filter(pending);
+  if (!waiting.length || app.hidden) return;
+  pollTimer = window.setTimeout(async () => {
+    try {
+      const results = await Promise.all(waiting.map((inv) => api<Check>('GET', `/api/invites/${encodeURIComponent(inv.id)}/check`)));
+      if (results.some((r) => r.effective)) return loadList();
+    } catch {
+      /* temporary error: just try again */
+    }
+    schedulePoll(invites.filter(pending)); // re-filter: entries older than GIVE_UP_AFTER_S drop out
+  }, CHECK_EVERY_MS);
 }
 
 async function revoke(inv: Invite) {
@@ -119,6 +155,7 @@ function showResult(name: string, link: string, expiresAt: number) {
 }
 
 function logout(message = '') {
+  window.clearTimeout(pollTimer);
   sessionStorage.removeItem(PW_KEY);
   app.hidden = true;
   result.hidden = true;

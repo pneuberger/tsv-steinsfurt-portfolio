@@ -33,6 +33,7 @@ import {
 } from 'aws-cdk-lib/aws-iam';
 import { AaaaRecord, ARecord, HostedZone, RecordTarget } from 'aws-cdk-lib/aws-route53';
 import { CloudFrontTarget } from 'aws-cdk-lib/aws-route53-targets';
+import { StringParameter } from 'aws-cdk-lib/aws-ssm';
 import { BlockPublicAccess, Bucket, BucketEncryption, ObjectOwnership } from 'aws-cdk-lib/aws-s3';
 import type { Construct } from 'constructs';
 import { fileURLToPath } from 'node:url';
@@ -200,6 +201,14 @@ export class SiteStack extends Stack {
         timeToLiveAttribute: 'ttl', // entries are deleted 30 days after the link expires
         removalPolicy: RemovalPolicy.DESTROY,
       });
+      // Site URL for the revocation check. Stored in SSM instead of passing the domain to the
+      // Lambda directly: the distribution already depends on the Lambda (/api/* origin).
+      const siteUrlParam = `${gate.passwordParameterName.replace(/\/[^/]+$/, '')}/site-url`;
+      new StringParameter(this, 'SiteUrlParam', {
+        parameterName: siteUrlParam,
+        stringValue: props.dns ? `https://${props.dns.domainName}` : `https://${distribution.distributionDomainName}`,
+        description: 'Public site URL, used by the invite API to verify revocations',
+      });
       const api = new NodejsFunction(this, 'InviteApi', {
         entry: fileURLToPath(new URL('../lambda/invites/index.ts', import.meta.url)),
         runtime: Runtime.NODEJS_26_X, // public preview until GA (planned Nov 2026), fine for staging
@@ -209,6 +218,7 @@ export class SiteStack extends Stack {
           TABLE_NAME: table.tableName,
           KVS_ARN: gateStore.keyValueStoreArn,
           PASSWORD_PARAM: gate.passwordParameterName,
+          SITE_URL_PARAM: siteUrlParam,
         },
         bundling: { format: OutputFormat.ESM, minify: true, target: 'node26', externalModules: [], banner: "import{createRequire}from'module';const require=createRequire(import.meta.url);" },
         description: 'Invite-link API for the committee form',
@@ -220,7 +230,7 @@ export class SiteStack extends Stack {
       }));
       api.addToRolePolicy(new PolicyStatement({
         actions: ['ssm:GetParameter'],
-        resources: [`arn:aws:ssm:${this.region}:${this.account}:parameter${gate.passwordParameterName}`],
+        resources: [gate.passwordParameterName, siteUrlParam].map((name) => `arn:aws:ssm:${this.region}:${this.account}:parameter${name}`),
       }));
       api.addToRolePolicy(new PolicyStatement({
         actions: ['kms:Decrypt'],

@@ -5,6 +5,10 @@
  *   GET  /api/invites               list invites
  *   POST /api/invites               create  { name, days, createdBy? } → { id, token, expiresAt }
  *   POST /api/invites/{id}/revoke   revoke one invite
+ *   GET  /api/invites/{id}/check    is the revocation already in effect at the edge?
+ *                                   (the revocation list in the KeyValueStore needs ~20–60 s
+ *                                   to reach all edge locations; this calls the site with the
+ *                                   revoked link and records when it is rejected)
  *
  * Auth: header x-admin-password (the Authorization header is taken by the OAC signature),
  * checked against a scrypt hash in SSM. Tokens are signed with the HMAC secret from the
@@ -14,7 +18,7 @@ import { randomBytes, createHmac, scrypt as scryptCb, timingSafeEqual } from 'no
 import { promisify } from 'node:util';
 import type { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, PutCommand, ScanCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBDocumentClient, GetCommand, PutCommand, ScanCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { SSMClient, GetParameterCommand } from '@aws-sdk/client-ssm';
 import {
   CloudFrontKeyValueStoreClient,
@@ -25,7 +29,7 @@ import {
 import '@aws-sdk/signature-v4a'; // KeyValueStore API requires SigV4A signing
 
 const scrypt = promisify(scryptCb) as (pw: string, salt: Buffer, len: number, opts: object) => Promise<Buffer>;
-const { TABLE_NAME, KVS_ARN, PASSWORD_PARAM } = process.env as Record<string, string>;
+const { TABLE_NAME, KVS_ARN, PASSWORD_PARAM, SITE_URL_PARAM } = process.env as Record<string, string>;
 const MAX_DAYS = 60;
 const DEFAULT_DAYS = 14;
 const RETAIN_AFTER_EXPIRY = 30 * 24 * 3600; // DynamoDB TTL: delete 30 days after expiry
@@ -70,6 +74,29 @@ async function getSecret(): Promise<string> {
   return secret;
 }
 
+async function getSiteUrl(): Promise<string> {
+  const url = await cached('site', async () =>
+    (await ssm.send(new GetParameterCommand({ Name: SITE_URL_PARAM }))).Parameter?.Value);
+  if (!url) throw new Error('Site URL missing in SSM');
+  return url;
+}
+
+async function sign(id: string, expiresAt: number): Promise<string> {
+  const sig = createHmac('sha256', await getSecret()).update(`${id}.${expiresAt}`).digest('hex').slice(0, 32);
+  return `${id}.${expiresAt}.${sig}`;
+}
+
+/** Ask the nearest edge (Frankfurt for this Lambda) whether the revoked link is still let through. */
+async function rejectedAtEdge(token: string): Promise<boolean> {
+  const res = await fetch(`${await getSiteUrl()}/?t=${encodeURIComponent(token)}`, {
+    method: 'HEAD',
+    redirect: 'manual',
+    cache: 'no-store',
+    signal: AbortSignal.timeout(5000),
+  });
+  return res.status !== 200; // gate answers 302 → /no-access/ once the revocation has arrived
+}
+
 function newId(): string {
   return randomBytes(6).toString('base64url'); // 8 chars [A-Za-z0-9_-]
 }
@@ -103,7 +130,8 @@ export async function handler(event: APIGatewayProxyEventV2): Promise<APIGateway
     // ConsistentRead: a link created a moment ago must show up in the list right away.
     const { Items = [] } = await ddb.send(new ScanCommand({ TableName: TABLE_NAME, ConsistentRead: true }));
     Items.sort((a, b) => b.createdAt - a.createdAt);
-    return json(200, Items.map(({ id, name, createdBy, createdAt, expiresAt, revoked }) => ({ id, name, createdBy, createdAt, expiresAt, revoked: !!revoked })));
+    return json(200, Items.map(({ id, name, createdBy, createdAt, expiresAt, revoked, revokedAt, effectiveAt }) =>
+      ({ id, name, createdBy, createdAt, expiresAt, revoked: !!revoked, revokedAt, effectiveAt })));
   }
 
   if (method === 'POST' && path === '/api/invites') {
@@ -119,13 +147,13 @@ export async function handler(event: APIGatewayProxyEventV2): Promise<APIGateway
     const now = Math.floor(Date.now() / 1000);
     const expiresAt = now + days * 24 * 3600;
     const id = newId();
-    const sig = createHmac('sha256', await getSecret()).update(`${id}.${expiresAt}`).digest('hex').slice(0, 32);
+    const token = await sign(id, expiresAt);
     await ddb.send(new PutCommand({
       TableName: TABLE_NAME,
       Item: { id, name, createdBy: clean(input.createdBy, 40), createdAt: now, expiresAt, ttl: expiresAt + RETAIN_AFTER_EXPIRY },
       ConditionExpression: 'attribute_not_exists(id)',
     }));
-    return json(201, { id, token: `${id}.${expiresAt}.${sig}`, expiresAt });
+    return json(201, { id, token, expiresAt });
   }
 
   const revoke = path.match(/^\/api\/invites\/([A-Za-z0-9_-]{8})\/revoke$/);
@@ -134,10 +162,27 @@ export async function handler(event: APIGatewayProxyEventV2): Promise<APIGateway
     await revokeInKvs(id);
     await ddb.send(new UpdateCommand({
       TableName: TABLE_NAME, Key: { id },
-      UpdateExpression: 'SET revoked = :t', ConditionExpression: 'attribute_exists(id)',
-      ExpressionAttributeValues: { ':t': true },
+      UpdateExpression: 'SET revoked = :t, revokedAt = if_not_exists(revokedAt, :now)', ConditionExpression: 'attribute_exists(id)',
+      ExpressionAttributeValues: { ':t': true, ':now': Math.floor(Date.now() / 1000) },
     })).catch(() => undefined); // already deleted by TTL → revocation in KVS is what matters
     return json(200, { id, revoked: true });
+  }
+
+  const check = path.match(/^\/api\/invites\/([A-Za-z0-9_-]{8})\/check$/);
+  if (method === 'GET' && check) {
+    const { Item } = await ddb.send(new GetCommand({ TableName: TABLE_NAME, Key: { id: check[1] }, ConsistentRead: true }));
+    if (!Item) return json(404, { error: 'Nicht gefunden' });
+    if (!Item.revoked) return json(409, { error: 'Link ist nicht gesperrt' });
+    const revokedAt: number | undefined = Item.revokedAt;
+    if (Item.effectiveAt) return json(200, { id: Item.id, effective: true, revokedAt, effectiveAt: Item.effectiveAt });
+    if (!(await rejectedAtEdge(await sign(Item.id, Item.expiresAt)))) return json(200, { id: Item.id, effective: false, revokedAt });
+    const effectiveAt = Math.floor(Date.now() / 1000);
+    await ddb.send(new UpdateCommand({
+      TableName: TABLE_NAME, Key: { id: Item.id },
+      UpdateExpression: 'SET effectiveAt = if_not_exists(effectiveAt, :now)',
+      ExpressionAttributeValues: { ':now': effectiveAt },
+    }));
+    return json(200, { id: Item.id, effective: true, revokedAt, effectiveAt });
   }
 
   return json(404, { error: 'Nicht gefunden' });
