@@ -81,7 +81,8 @@
     "whatsapp": "WhatsApp",
     "call": "Anrufen",
     "people": [
-      { "name": "Jason Kreß", "role": "Spielausschuss", "phone": "+49 1523 3731019" }
+      { "name": "Jason Kreß", "role": "Ansprechpartner 1. Mannschaft", "phone": "+49 1523 3731019" },
+      { "name": "Dominik Streib", "role": "Ansprechpartner 2. Mannschaft", "phone": "+49 172 1320419" }
     ]
   },
   "footer": {

@@ -81,7 +81,8 @@
     "whatsapp": "WhatsApp",
     "call": "Call",
     "people": [
-      { "name": "Jason Kreß", "role": "Team committee", "phone": "+49 1523 3731019" }
+      { "name": "Jason Kreß", "role": "Contact, first team", "phone": "+49 1523 3731019" },
+      { "name": "Dominik Streib", "role": "Contact, second team", "phone": "+49 172 1320419" }
     ]
   },
   "footer": {
