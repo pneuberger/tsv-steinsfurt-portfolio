@@ -16,7 +16,7 @@ const NO_ACCESS = '/no-access/';
 
 // Reachable without invitation: no-access page, legal pages, committee form,
 // share preview image, crest/favicon, and the CSS/JS/fonts those pages need.
-// Photos and videos are NOT public.
+// Photos and videos are NOT public (exception: the two contact portraits).
 const PUBLIC = [
   /^\/no-access(\/|\/index\.html)?$/,
   /^\/en\/no-access(\/|\/index\.html)?$/,
@@ -29,6 +29,8 @@ const PUBLIC = [
   /^\/favicon\.(svg|ico)$/,
   /^\/logo\/[\w.-]+\.svg$/,
   /^\/_astro\/[\w.-]+\.(css|js|woff2?)$/,
+  // portraits of the contact people, shown on the no-access page (keep in sync with contact.people)
+  /^\/_astro\/person-(jason-kress|dominik-streib)\.[\w-]+\.(webp|avif|jpe?g|png)$/,
 ];
 
 function rewriteIndex(uri) {
