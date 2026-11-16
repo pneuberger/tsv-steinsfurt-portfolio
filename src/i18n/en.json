@@ -28,8 +28,8 @@
     "groupAlt": "Team photo of the first and second team of TSV Phönix Steinsfurt",
     "linkLabel": "Team page on FuPa",
     "items": [
-      { "image": "team-erste", "name": "First team", "league": "Kreisliga", "vibe": "Ambitious, well-drilled – and always hungry for the next win.", "url": "https://www.fupa.net/team/tsv-steinsfurt-m1-2026-27" },
-      { "image": "team-zweite", "name": "Second team", "league": "Kreisklasse C", "vibe": "Perfect for starting out, coming back and getting match time.", "url": "https://www.fupa.net/team/sg-steinsfurt-sv-reihen-m2-2026-27" }
+      { "image": "team-erste", "name": "First team", "league": "Kreisliga", "vibe": "Ambitious, young and always hungry for the next success.", "url": "https://www.fupa.net/team/tsv-steinsfurt-m1-2026-27" },
+      { "image": "team-zweite", "name": "Second team", "league": "Kreisklasse C", "vibe": "Get match time or make your comeback – in an ambitious squad.", "url": "https://www.fupa.net/team/sg-steinsfurt-sv-reihen-m2-2026-27" }
     ]
   },
   "offer": {

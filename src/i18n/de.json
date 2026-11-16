@@ -28,8 +28,8 @@
     "groupAlt": "Mannschaftsfoto der 1. und 2. Mannschaft des TSV Phönix Steinsfurt",
     "linkLabel": "Zum Team auf FuPa",
     "items": [
-      { "image": "team-erste", "name": "1. Mannschaft", "league": "Kreisliga", "vibe": "Ehrgeizig, eingespielt – und immer hungrig auf den nächsten Sieg.", "url": "https://www.fupa.net/team/tsv-steinsfurt-m1-2026-27" },
-      { "image": "team-zweite", "name": "2. Mannschaft", "league": "Kreisklasse C", "vibe": "Ideal zum Einsteigen, Wiedereinsteigen und Spielpraxis sammeln.", "url": "https://www.fupa.net/team/sg-steinsfurt-sv-reihen-m2-2026-27" }
+      { "image": "team-erste", "name": "1. Mannschaft", "league": "Kreisliga", "vibe": "Ehrgeizig, jung und immer hungrig auf den nächsten Erfolg.", "url": "https://www.fupa.net/team/tsv-steinsfurt-m1-2026-27" },
+      { "image": "team-zweite", "name": "2. Mannschaft", "league": "Kreisklasse C", "vibe": "Spielpraxis sammeln, Wiedereinsteigen in einer ambitionierten Truppe.", "url": "https://www.fupa.net/team/sg-steinsfurt-sv-reihen-m2-2026-27" }
     ]
   },
   "offer": {
