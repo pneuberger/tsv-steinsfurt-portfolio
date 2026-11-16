@@ -56,15 +56,6 @@
     "ctaTitle": "Werde Teil davon!",
     "ctaText": "Melde dich bei uns"
   },
-  "testimonials": {
-    "eyebrow": "Stimmen aus dem Team",
-    "title": "Warum wir hier spielen",
-    "items": [
-      { "image": "player-01", "quote": "Ich kam zum Probetraining – und bin geblieben. Die Jungs haben mich vom ersten Tag an aufgenommen.", "name": "Max, 24", "role": "Mittelfeld, 1. Mannschaft" },
-      { "image": "player-02", "quote": "Nach fünf Jahren Pause wieder einzusteigen war hier überhaupt kein Problem.", "name": "Daniel, 31", "role": "Abwehr, 2. Mannschaft" },
-      { "image": "player-03", "quote": "Von der A-Jugend in die Aktiven – die Trainer haben mich super vorbereitet.", "name": "Jonas, 18", "role": "Sturm, 2. Mannschaft" }
-    ]
-  },
   "training": {
     "eyebrow": "Training & Probetraining",
     "title": "Einfach vorbeikommen",

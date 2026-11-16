@@ -56,15 +56,6 @@
     "ctaTitle": "Be part of it!",
     "ctaText": "Get in touch"
   },
-  "testimonials": {
-    "eyebrow": "Voices from the team",
-    "title": "Why we play here",
-    "items": [
-      { "image": "player-01", "quote": "I came for a trial session – and stayed. The lads welcomed me from day one.", "name": "Max, 24", "role": "Midfield, first team" },
-      { "image": "player-02", "quote": "Coming back after a five-year break was no problem at all here.", "name": "Daniel, 31", "role": "Defence, second team" },
-      { "image": "player-03", "quote": "From the under-19s to senior football – the coaches prepared me brilliantly.", "name": "Jonas, 18", "role": "Striker, second team" }
-    ]
-  },
   "training": {
     "eyebrow": "Training & trial sessions",
     "title": "Just come along",
