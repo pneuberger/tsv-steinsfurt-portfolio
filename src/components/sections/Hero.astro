@@ -17,6 +17,7 @@ const { t } = Astro.props;
   <div class="container hero-content">
     <img class="crest" src="/logo/tsv-steinsfurt.svg" alt="TSV Phönix Steinsfurt Logo" width="96" height="109" />
     <p class="hero-eyebrow">{t.hero.eyebrow}</p>
+    {/* data-greeting: template for the personal greeting (staging only, script injected in astro.config.mjs) */}
     <h1 data-greeting={accessGate ? t.hero.titleGreeting : undefined}>{t.hero.title}</h1>
     <p class="hero-sub">{t.hero.subtitle}</p>
     <div class="hero-ctas">
@@ -31,14 +32,6 @@ const { t } = Astro.props;
   </a>
   <Wave />
 </header>
-
-{
-  accessGate && (
-    <script>
-      import '../../scripts/greeting';
-    </script>
-  )
-}
 
 <style>
   .hero {
