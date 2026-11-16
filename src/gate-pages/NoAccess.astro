@@ -1,0 +1,152 @@
+---
+/**
+ * "No access" page, shown to visitors without a valid invite link (staging build only):
+ *   /no-access/     – German (the gate redirects here)  → no-access.de.astro
+ *   /en/no-access/  – English                           → no-access.en.astro
+ * With the same DE/EN switch as the legal pages. Both paths are public in
+ * infra/functions/gate-request.js. Routes are registered in astro.config.mjs only for
+ * the staging build (PUBLIC_ACCESS_GATE=true).
+ */
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import LangSwitch from '../components/LangSwitch.astro';
+import Footer from '../components/sections/Footer.astro';
+import { useTranslations, type Lang, type PagePaths } from '../i18n';
+import { img } from '../lib/images';
+
+const noAccessPaths: PagePaths = { de: '/no-access/', en: '/en/no-access/' };
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+// Same contact people as in the #contact section of the one-pager (from the i18n files).
+// Their portraits are public in infra/functions/gate-request.js (all other photos are not).
+const t = useTranslations(lang);
+const digits = (phone: string) => phone.replace(/[^\d+]/g, '');
+const initials = (name: string) => name.split(' ').map((w) => w[0]).join('').slice(0, 2);
+const TEXT = {
+  de: {
+    title: 'Kein Zugang – TSV Phönix Steinsfurt',
+    description: 'Diese Seite ist nur mit persönlicher Einladung erreichbar.',
+    heading: 'Dieser Link ist nicht (mehr) gültig',
+    p1before: 'Diese Seite ist nur mit einem ',
+    p1strong: 'persönlichen Einladungslink',
+    p1after: ' erreichbar. Vielleicht ist dein Link abgelaufen oder wurde nicht vollständig kopiert.',
+    p2: 'Melde dich einfach bei einem unserer Ansprechpartner, wir schicken dir gern einen neuen:',
+  },
+  en: {
+    title: 'No access – TSV Phönix Steinsfurt',
+    description: 'This page is only available with a personal invitation.',
+    heading: 'This link is not (or no longer) valid',
+    p1before: 'This page is only available with a ',
+    p1strong: 'personal invite link',
+    p1after: '. Your link may have expired or may not have been copied completely.',
+    p2: "Just get in touch with one of our contacts and we'll send you a new one:",
+  },
+}[lang];
+---
+
+<Base lang={lang} paths={noAccessPaths} title={TEXT.title} description={TEXT.description} interactive={false}>
+  <LangSwitch lang={lang} paths={noAccessPaths} />
+  <header class="gate-head">
+    <div class="container head-inner">
+      <img src="/logo/tsv-steinsfurt.svg" alt="TSV Phönix Steinsfurt Logo" width="48" height="55" />
+      <strong>TSV Phönix Steinsfurt</strong>
+    </div>
+  </header>
+
+  <main class="container narrow">
+    <section class="card">
+      <h1>{TEXT.heading}</h1>
+      <p>{TEXT.p1before}<strong>{TEXT.p1strong}</strong>{TEXT.p1after}</p>
+      <p>{TEXT.p2}</p>
+      <ul class="people">
+        {
+          t.contact.people.map((p) => (
+            <li class="person">
+              {p.image ? (
+                <Image class="avatar" src={img(p.image)} alt={p.name} width={112} height={112} />
+              ) : (
+                <span class="avatar initials" aria-hidden="true">{initials(p.name)}</span>
+              )}
+              <div class="who">
+                <strong>{p.name}</strong>
+                <span>{p.role}</span>
+                <div class="actions">
+                  <a class="btn btn-primary" href={`https://wa.me/${digits(p.phone).replace('+', '')}`} target="_blank" rel="noopener noreferrer">
+                    💬 {t.contact.whatsapp}
+                  </a>
+                  <a class="btn btn-outline" href={`tel:${digits(p.phone)}`}>📞 {t.contact.call}</a>
+                </div>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
+
+  <Footer lang={lang} />
+</Base>
+
+<style>
+  .gate-head {
+    background: var(--c-primary-dark);
+    color: #fff;
+    padding-block: 1.25rem;
+  }
+  .head-inner {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    min-height: 3.5rem;
+    padding-right: 7rem; /* room for the fixed language switch */
+  }
+  .head-inner img { width: 2.6rem; height: auto; }
+  .narrow { max-width: 52rem; padding-block: clamp(2.5rem, 6vw, 4.5rem); }
+  h1 { font-size: clamp(2rem, 1.5rem + 2.5vw, 3rem); margin-bottom: 1rem; }
+  .card {
+    background: var(--c-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    padding: clamp(1.25rem, 3vw, 2rem);
+  }
+  .card p + p { margin-top: 0.75rem; }
+  .people {
+    list-style: none;
+    padding: 0;
+    margin-top: 1.5rem;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  }
+  .person {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 1.1rem;
+    border-radius: var(--radius-lg);
+    background: var(--c-tint);
+  }
+  .person :global(.avatar) {
+    flex-shrink: 0;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .initials {
+    display: grid;
+    place-items: center;
+    background: var(--c-primary);
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.2rem;
+  }
+  .who strong { display: block; font-size: 1.05rem; }
+  .who > span { color: var(--c-ink-soft); font-size: 0.9rem; }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.8rem; }
+  .actions .btn { padding: 0.55rem 1rem; font-size: 0.9rem; }
+  .btn-outline { background: #fff; color: var(--c-primary-dark); box-shadow: inset 0 0 0 2px var(--c-primary); }
+</style>

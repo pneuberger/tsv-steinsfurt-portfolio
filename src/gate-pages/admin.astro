@@ -1,0 +1,231 @@
+---
+/**
+ * /admin/ – committee form to create / list / revoke invite links (public page,
+ * the API behind it is password protected).
+ * Not in src/pages/: the route is registered in astro.config.mjs only for the staging
+ * build (PUBLIC_ACCESS_GATE=true), so production builds contain neither the page nor its
+ * script/CSS.
+ */
+import Base from '../layouts/Base.astro';
+import Footer from '../components/sections/Footer.astro';
+import { DEFAULT_DAYS, MAX_DAYS } from '../access-gate';
+
+const paths = { de: '/admin/', en: '/admin/' };
+const dayOptions = [7, 14, 30, MAX_DAYS];
+---
+
+<Base
+  lang="de"
+  paths={paths}
+  title="Einladungslinks – TSV Phönix Steinsfurt"
+  description="Einladungslinks für den Spielausschuss"
+  interactive={false}
+>
+  <header class="gate-head">
+    <div class="container head-inner">
+      <img src="/logo/tsv-steinsfurt.svg" alt="TSV Phönix Steinsfurt Logo" width="48" height="55" />
+      <strong>TSV Phönix Steinsfurt</strong>
+      <button type="button" class="btn btn-logout" id="logout" hidden>
+        Abmelden <span aria-hidden="true">→</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="container narrow admin" data-default-days={DEFAULT_DAYS}>
+    <h1>Einladungslinks</h1>
+    <p class="lead">
+      Für den Spielausschuss: persönliche Links für Interessenten erstellen, verschicken und bei Bedarf sperren.
+    </p>
+
+    <noscript>
+      <p class="card error">Dieses Formular braucht JavaScript. Bitte im Browser aktivieren.</p>
+    </noscript>
+
+    <form id="login" class="card" autocomplete="on">
+      <h2>Anmelden</h2>
+      <label>
+        Ausschuss-Passwort
+        <input type="password" name="password" autocomplete="current-password" required />
+      </label>
+      <button class="btn btn-primary" type="submit">Anmelden</button>
+      <p class="msg" role="alert" hidden></p>
+    </form>
+
+    <div id="app" hidden>
+      <form id="create" class="card">
+        <h2>Neuen Link erstellen</h2>
+        <div class="grid">
+          <label>
+            Vorname des Interessenten <small class="hint">wird ihm auf der Seite zur Begrüßung angezeigt</small>
+            <input name="name" maxlength="40" required placeholder="z. B. Max" />
+          </label>
+          <label>
+            Gültig für
+            <select name="days">
+              {dayOptions.map((d) => <option value={d} selected={d === DEFAULT_DAYS}>{d} Tage</option>)}
+            </select>
+          </label>
+          <label>
+            Erstellt von (optional)
+            <input name="createdBy" maxlength="40" placeholder="dein Name" />
+          </label>
+        </div>
+        <button class="btn btn-primary" type="submit">Link erstellen</button>
+        <p class="msg" role="alert" hidden></p>
+      </form>
+
+      <section id="result" class="card result" hidden>
+        <h2>Link für <span data-name></span></h2>
+        <p class="small">Gültig bis <strong data-expires></strong></p>
+        <input data-link readonly aria-label="Einladungslink" />
+        <div class="actions">
+          <button class="btn btn-primary" type="button" data-copy>Link kopieren</button>
+          <a class="btn btn-whatsapp" data-whatsapp target="_blank" rel="noopener noreferrer">Per WhatsApp teilen</a>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="list-head">
+          <h2>Alle Links</h2>
+          <button class="btn btn-ghost-dark" type="button" id="reload">Aktualisieren</button>
+        </div>
+        <p class="msg" id="list-msg" role="alert" hidden></p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Name</th><th>Erstellt von</th><th>Erstellt</th><th>Gültig bis</th><th>Status</th><th></th></tr>
+            </thead>
+            <tbody id="invites"></tbody>
+          </table>
+        </div>
+        <p class="small" id="empty" hidden>Noch keine Links erstellt.</p>
+      </section>
+
+      <p class="small">
+        Eine Sperre wird an alle CloudFront-Standorte verteilt und greift meist nach 20–60 Sekunden. Solange steht
+        „Sperre wird aktiv …“ in der Liste, danach „gesperrt ✓“. Einträge werden 30 Tage nach Ablauf automatisch
+        gelöscht.
+      </p>
+    </div>
+    <dialog id="confirm-revoke" class="modal" aria-labelledby="confirm-title" aria-describedby="confirm-text">
+      <div class="modal-icon" aria-hidden="true">🔒</div>
+      <h2 id="confirm-title">Link sperren?</h2>
+      <p id="confirm-text">
+        Der Link für <strong data-name></strong> funktioniert danach nicht mehr – auch wenn er schon geöffnet
+        wurde. Das lässt sich nicht rückgängig machen.
+      </p>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost-dark" data-cancel>Abbrechen</button>
+        <button type="button" class="btn btn-danger" data-confirm>Ja, sperren</button>
+      </div>
+    </dialog>
+  </main>
+
+  <Footer lang="de" />
+  <script>
+    import '../scripts/admin';
+  </script>
+</Base>
+
+<style>
+  .gate-head {
+    background: var(--c-primary-dark);
+    color: #fff;
+    padding-block: 1.25rem;
+  }
+  .head-inner { display: flex; align-items: center; gap: 0.9rem; min-height: 3.5rem; }
+  .head-inner img { width: 2.6rem; height: auto; }
+  .narrow { max-width: 52rem; padding-block: clamp(2.5rem, 6vw, 4.5rem); }
+  h1 { font-size: clamp(2rem, 1.5rem + 2.5vw, 3rem); margin-bottom: 1rem; }
+  h2 { font-size: 1.3rem; margin-bottom: 1rem; }
+  .lead { color: var(--c-ink-soft); margin-bottom: 2rem; }
+  .card {
+    background: var(--c-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    padding: clamp(1.25rem, 3vw, 2rem);
+    margin-bottom: 1.5rem;
+  }
+  .card p + p { margin-top: 0.75rem; }
+  .card a { color: var(--c-primary); }
+  label { display: grid; gap: 0.35rem; font-weight: 600; font-size: 0.95rem; margin-bottom: 1rem; }
+  input, select {
+    font: inherit; font-weight: 400;
+    padding: 0.7rem 0.9rem;
+    border: 1.5px solid var(--c-line);
+    border-radius: 0.75rem;
+    background: #fff;
+    color: var(--c-ink);
+    width: 100%;
+  }
+  input:focus, select:focus { border-color: var(--c-primary); outline: none; }
+  .grid { display: grid; gap: 0 1rem; }
+  @media (min-width: 720px) { .grid { grid-template-columns: 2fr 1fr 1.5fr; } }
+  .msg { margin-top: 0.75rem; font-weight: 600; color: #b42318; }
+  .msg.ok { color: var(--c-primary); }
+  .result { border: 2px solid var(--c-primary); }
+  .result input { font-family: ui-monospace, monospace; font-size: 0.85rem; margin: 0.5rem 0 1rem; }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .btn-whatsapp { background: #fff; color: var(--c-primary-dark); box-shadow: inset 0 0 0 2px var(--c-primary); }
+  .btn-ghost-dark { background: var(--c-tint); color: var(--c-primary-dark); padding: 0.55rem 1rem; font-size: 0.9rem; }
+  .btn-danger { background: #b42318; color: #fff; }
+  .btn-danger:hover { background: #912018; }
+  button.btn { font: inherit; font-weight: 700; cursor: pointer; }
+
+  /* confirmation dialog (replaces the browser's confirm()) */
+  .modal {
+    margin: auto; /* the global reset (margin: 0) would otherwise pin it to the top-left */
+    width: min(26rem, calc(100% - 2rem));
+    padding: 2rem 1.75rem 1.5rem;
+    border: 0;
+    border-radius: var(--radius-lg);
+    background: var(--c-surface);
+    color: var(--c-ink);
+    box-shadow: 0 24px 60px -12px rgb(0 0 64 / 0.45);
+    text-align: center;
+  }
+  .modal[open] { animation: modal-in 0.22s cubic-bezier(.2,.8,.2,1); }
+  .modal::backdrop { background: rgb(0 0 64 / 0.55); backdrop-filter: blur(3px); }
+  .modal-icon {
+    width: 3.5rem; height: 3.5rem; margin: 0 auto 1rem;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    background: #fde7e7;
+    font-size: 1.5rem;
+  }
+  .modal h2 { margin-bottom: 0.6rem; }
+  .modal p { color: var(--c-ink-soft); font-size: 0.95rem; }
+  .modal p strong { color: var(--c-ink); }
+  .modal-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; margin-top: 1.5rem; }
+  .modal-actions .btn { padding: 0.7rem 1.3rem; font-size: 0.95rem; }
+  @keyframes modal-in { from { opacity: 0; transform: translateY(12px) scale(0.97); } }
+  @media (prefers-reduced-motion: reduce) { .modal[open] { animation: none; } }
+  .list-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 0.5rem; }
+  .list-head h2 { margin: 0; }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  th, td { text-align: left; padding: 0.6rem 0.5rem; border-bottom: 1px solid var(--c-line); white-space: nowrap; }
+  th { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--c-ink-soft); }
+  :global(.status) { font-weight: 700; font-size: 0.8rem; padding: 0.2rem 0.6rem; border-radius: 999px; }
+  :global(.status-active) { background: #e3f1e6; color: #1d6b34; }
+  :global(.status-expired) { background: var(--c-tint); color: var(--c-ink-soft); }
+  :global(.status-revoked) { background: #fde7e7; color: #b42318; }
+  :global(.status-pending) { background: #fff4d6; color: #8a5a00; }
+  :global(.revoke) { font: inherit; font-size: 0.85rem; font-weight: 600; color: #b42318; background: none; border: 0; text-decoration: underline; cursor: pointer; }
+  .small { font-size: 0.88rem; color: var(--c-ink-soft); }
+  .hint { display: block; font-weight: 400; font-size: 0.82rem; color: var(--c-ink-soft); }
+  .btn-logout {
+    margin-left: auto;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0.55rem 1.1rem;
+    font-size: 0.92rem;
+    color: #fff;
+    background: rgb(255 255 255 / 0.1);
+    box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / 0.6);
+  }
+  .btn-logout:hover { background: rgb(255 255 255 / 0.2); }
+  .btn-logout[hidden] { display: none; }
+  .error { color: #b42318; font-weight: 600; }
+</style>

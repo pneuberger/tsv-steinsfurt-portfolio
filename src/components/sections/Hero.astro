@@ -2,6 +2,7 @@
 import VideoClip from '../ui/VideoClip.astro';
 import Wave from '../ui/Wave.astro';
 import type { Dictionary } from '../../i18n';
+import { accessGate } from '../../access-gate';
 
 interface Props {
   t: Dictionary;
@@ -16,7 +17,8 @@ const { t } = Astro.props;
   <div class="container hero-content">
     <img class="crest" src="/logo/tsv-steinsfurt.svg" alt="TSV Phönix Steinsfurt Logo" width="96" height="109" />
     <p class="hero-eyebrow">{t.hero.eyebrow}</p>
-    <h1>{t.hero.title}</h1>
+    {/* data-greeting: template for the personal greeting (staging only, script injected in astro.config.mjs) */}
+    <h1 data-greeting={accessGate ? t.hero.titleGreeting : undefined}>{t.hero.title}</h1>
     <p class="hero-sub">{t.hero.subtitle}</p>
     <div class="hero-ctas">
       <a class="btn btn-accent" href="#contact">{t.hero.cta} <span aria-hidden="true">→</span></a>

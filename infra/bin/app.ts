@@ -39,6 +39,15 @@ new SiteStack(app, 'TsvSteinsfurtSite', {
   },
 });
 
+// Staging: separate bucket + CloudFront URL with the invite-link access gate.
+// Deployed by hand (`npm run deploy:staging`), never by the GitHub pipeline.
+// Production (TsvSteinsfurtSite above) stays public and unchanged.
+new SiteStack(app, 'TsvSteinsfurtStaging', {
+  env: { account, region },
+  comment: 'TSV Steinsfurt recruitment site – STAGING (invite links)',
+  accessGate: { passwordParameterName: '/tsv-steinsfurt/staging/admin-password-hash' },
+});
+
 // Monthly cost alarm (account-wide). Only synthesized when an e-mail is passed:
 //   npx cdk deploy TsvSteinsfurtBudget -c budgetEmail=you@example.com
 // The address is deliberately not stored in cdk.json because the repo is public.
