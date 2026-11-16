@@ -1,10 +1,11 @@
 ---
-import type { Dictionary } from '../../i18n';
+import { legalPaths, useTranslations, type Lang } from '../../i18n';
 
 interface Props {
-  t: Dictionary;
+  lang: Lang;
 }
-const { t } = Astro.props;
+const { lang } = Astro.props;
+const t = useTranslations(lang);
 const year = new Date().getFullYear();
 
 // Replace with the club's real profiles (or remove entries).
@@ -26,28 +27,13 @@ const socials = [
       {socials.map((s) => <a href={s.href} target="_blank" rel="noopener noreferrer">{s.label}</a>)}
     </div>
 
-    <div class="legal">
-      <button type="button" data-dialog-open="impressum">{t.footer.imprint}</button>
-      <button type="button" data-dialog-open="datenschutz">{t.footer.privacy}</button>
-    </div>
+    <nav class="legal" aria-label={`${t.footer.imprint} / ${t.footer.privacy}`}>
+      <a href={legalPaths.imprint[lang]}>{t.footer.imprint}</a>
+      <a href={legalPaths.privacy[lang]}>{t.footer.privacy}</a>
+    </nav>
 
     <p class="copy">© {year} TSV Phönix Steinsfurt e.V. · {t.footer.rights}</p>
   </div>
-
-  {
-    [
-      { id: 'impressum', title: t.footer.imprint, text: t.footer.imprintText },
-      { id: 'datenschutz', title: t.footer.privacy, text: t.footer.privacyText },
-    ].map((d) => (
-      <dialog id={d.id} class="legal-dialog" aria-labelledby={`${d.id}-title`}>
-        <h2 id={`${d.id}-title`}>{d.title}</h2>
-        <p>{d.text}</p>
-        <button type="button" class="btn btn-primary" data-dialog-close>
-          {t.footer.close}
-        </button>
-      </dialog>
-    ))
-  }
 </footer>
 
 <style>
@@ -77,10 +63,8 @@ const socials = [
     gap: 0.5rem 1rem;
     align-items: center;
   }
-  .links a, .legal button {
+  .links a, .legal a {
     color: #fff;
-    background: none;
-    border: 0;
     padding: 0.25rem 0;
     text-decoration: underline;
     text-underline-offset: 3px;
@@ -91,21 +75,4 @@ const socials = [
     opacity: 0.6;
     font-size: 0.85rem;
   }
-  .legal-dialog {
-    margin: auto;
-    width: min(92vw, 40rem);
-    border: 0;
-    border-radius: var(--radius-lg);
-    padding: 2rem;
-    color: var(--c-ink);
-    box-shadow: var(--shadow-lg);
-  }
-  .legal-dialog::backdrop {
-    background: rgb(0 0 40 / 0.7);
-  }
-  .legal-dialog h2 {
-    font-size: 1.75rem;
-    margin-bottom: 1rem;
-  }
-  .legal-dialog p { margin-bottom: 1.5rem; }
 </style>

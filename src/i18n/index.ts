@@ -26,3 +26,14 @@ export function useTranslations(lang: Lang): Dictionary {
 export function pathFor(lang: Lang): string {
   return lang === defaultLang ? '/' : `/${lang}/`;
 }
+
+/** Legal pages (separate HTML pages, reachable without JavaScript). */
+export type LegalKind = 'imprint' | 'privacy';
+export const legalPaths: Record<LegalKind, Record<Lang, string>> = {
+  imprint: { de: '/impressum/', en: '/en/legal-notice/' },
+  privacy: { de: '/datenschutz/', en: '/en/privacy/' },
+};
+
+/** Paths of the same page in every language (for hreflang + language switch). */
+export type PagePaths = Record<Lang, string>;
+export const homePaths: PagePaths = Object.fromEntries(languages.map((l) => [l, pathFor(l)])) as PagePaths;
