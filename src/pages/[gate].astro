@@ -117,6 +117,18 @@ const dayOptions = [7, 14, 30, MAX_DAYS];
             gelöscht.
           </p>
         </div>
+        <dialog id="confirm-revoke" class="modal" aria-labelledby="confirm-title" aria-describedby="confirm-text">
+          <div class="modal-icon" aria-hidden="true">🔒</div>
+          <h2 id="confirm-title">Link sperren?</h2>
+          <p id="confirm-text">
+            Der Link für <strong data-name></strong> funktioniert danach nicht mehr – auch wenn er schon geöffnet
+            wurde. Das lässt sich nicht rückgängig machen.
+          </p>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-ghost-dark" data-cancel>Abbrechen</button>
+            <button type="button" class="btn btn-danger" data-confirm>Ja, sperren</button>
+          </div>
+        </dialog>
       </main>
     )
   }
@@ -172,6 +184,38 @@ const dayOptions = [7, 14, 30, MAX_DAYS];
   .actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
   .btn-whatsapp { background: #fff; color: var(--c-primary-dark); box-shadow: inset 0 0 0 2px var(--c-primary); }
   .btn-ghost-dark { background: var(--c-tint); color: var(--c-primary-dark); padding: 0.55rem 1rem; font-size: 0.9rem; }
+  .btn-danger { background: #b42318; color: #fff; }
+  .btn-danger:hover { background: #912018; }
+  button.btn { font: inherit; font-weight: 700; cursor: pointer; }
+
+  /* confirmation dialog (replaces the browser's confirm()) */
+  .modal {
+    margin: auto; /* the global reset (margin: 0) would otherwise pin it to the top-left */
+    width: min(26rem, calc(100% - 2rem));
+    padding: 2rem 1.75rem 1.5rem;
+    border: 0;
+    border-radius: var(--radius-lg);
+    background: var(--c-surface);
+    color: var(--c-ink);
+    box-shadow: 0 24px 60px -12px rgb(0 0 64 / 0.45);
+    text-align: center;
+  }
+  .modal[open] { animation: modal-in 0.22s cubic-bezier(.2,.8,.2,1); }
+  .modal::backdrop { background: rgb(0 0 64 / 0.55); backdrop-filter: blur(3px); }
+  .modal-icon {
+    width: 3.5rem; height: 3.5rem; margin: 0 auto 1rem;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    background: #fde7e7;
+    font-size: 1.5rem;
+  }
+  .modal h2 { margin-bottom: 0.6rem; }
+  .modal p { color: var(--c-ink-soft); font-size: 0.95rem; }
+  .modal p strong { color: var(--c-ink); }
+  .modal-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; margin-top: 1.5rem; }
+  .modal-actions .btn { padding: 0.7rem 1.3rem; font-size: 0.95rem; }
+  @keyframes modal-in { from { opacity: 0; transform: translateY(12px) scale(0.97); } }
+  @media (prefers-reduced-motion: reduce) { .modal[open] { animation: none; } }
   .list-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 0.5rem; }
   .list-head h2 { margin: 0; }
   .table-wrap { overflow-x: auto; }

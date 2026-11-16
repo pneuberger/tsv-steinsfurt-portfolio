@@ -140,8 +140,26 @@ function schedulePoll(invites: Invite[]) {
   }, CHECK_EVERY_MS);
 }
 
+const confirmDialog = $<HTMLDialogElement>('#confirm-revoke');
+$('[data-cancel]', confirmDialog).addEventListener('click', () => confirmDialog.close('cancel'));
+$('[data-confirm]', confirmDialog).addEventListener('click', () => confirmDialog.close('confirm'));
+// click on the dimmed backdrop (outside the box) = cancel
+confirmDialog.addEventListener('click', (ev) => {
+  if (ev.target === confirmDialog) confirmDialog.close('cancel');
+});
+
+/** Styled replacement for confirm(): resolves true only for "Ja, sperren". Escape = cancel. */
+function confirmRevoke(name: string): Promise<boolean> {
+  $('[data-name]', confirmDialog).textContent = name; // text only, never HTML
+  confirmDialog.returnValue = '';
+  confirmDialog.showModal();
+  $<HTMLButtonElement>('[data-cancel]', confirmDialog).focus(); // safe default
+  return new Promise((resolve) =>
+    confirmDialog.addEventListener('close', () => resolve(confirmDialog.returnValue === 'confirm'), { once: true }));
+}
+
 async function revoke(inv: Invite) {
-  if (!confirm(`Link für „${inv.name}“ wirklich sperren? Das lässt sich nicht rückgängig machen.`)) return;
+  if (!(await confirmRevoke(inv.name))) return;
   try {
     await api('POST', `/api/invites/${encodeURIComponent(inv.id)}/revoke`);
     await loadList();
