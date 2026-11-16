@@ -63,6 +63,8 @@ const bgFallback = await getImage({ src: bgDesktop, width: 1920, format: 'jpg' }
     object-fit: cover;
     z-index: -2;
   }
+  /* landscape art: anchored right, so narrow windows crop the empty dark left side, not the phoenix */
+  .hero-bg img { object-position: 100% 0; }
   /* desktop: slightly smaller headline so it stays on the dark left side, clear of the phoenix */
   @media (min-width: 900px) {
     h1 { font-size: clamp(2.6rem, 0.8rem + 3.6vw, 4.75rem); }
@@ -73,6 +75,18 @@ const bgFallback = await getImage({ src: bgDesktop, width: 1920, format: 'jpg' }
     .hero { align-items: end; }
     .hero-content { padding-block: 7rem 8.5rem; }
     .crest { display: none; }
+  }
+  /* portrait art (phones, upright tablets): anchored at the top and enlarged so the phoenix fills
+     the upper part; no darkening there – the overlay only starts where the text is */
+  @media (orientation: portrait) {
+    .hero-bg img {
+      object-position: 50% 0;
+      transform: scale(1.2);
+      transform-origin: 50% 0;
+    }
+    .hero > .hero-overlay { /* higher specificity: the base rule below comes later */
+      background: linear-gradient(180deg, transparent 0%, transparent 38%, rgb(0 0 64 / 0.55) 65%, rgb(0 0 64 / 0.85) 100%);
+    }
   }
   .hero-overlay {
     position: absolute;
