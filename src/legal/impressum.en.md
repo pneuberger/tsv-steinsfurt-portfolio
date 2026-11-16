@@ -11,8 +11,7 @@ Chairman: Reinhard Bayer
 
 ## Contact
 
-Email: vorstand@tsv-steinsfurt.de\
-Phone: [+49 …]
+Email: vorstand@tsv-steinsfurt.de
 
 ## Register entry
 

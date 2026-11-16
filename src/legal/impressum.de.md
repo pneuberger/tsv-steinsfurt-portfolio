@@ -10,8 +10,7 @@ Steinsfurter Str. 2a\
 
 ## Kontakt
 
-E-Mail: vorstand@tsv-steinsfurt.de\
-Telefon: [+49 …]
+E-Mail: vorstand@tsv-steinsfurt.de
 
 ## Registereintrag
 
