@@ -81,6 +81,9 @@ export class SiteStack extends Stack {
     });
 
     const headers = new ResponseHeadersPolicy(this, 'SecurityHeaders', {
+      // Don't advertise the hosting stack (S3 origin, encryption, object versions).
+      // ETag stays – browsers need it for cache revalidation.
+      removeHeaders: ['server', 'x-amz-server-side-encryption', 'x-amz-version-id'],
       securityHeadersBehavior: {
         strictTransportSecurity: { accessControlMaxAge: Duration.days(365), includeSubdomains: true, override: true },
         contentTypeOptions: { override: true },
