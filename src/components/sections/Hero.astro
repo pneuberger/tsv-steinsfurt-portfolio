@@ -74,7 +74,14 @@ const bgFallback = await getImage({ src: bgDesktop, width: 1920, format: 'jpg' }
   @media (orientation: portrait) and (max-width: 899px) {
     .hero { align-items: end; }
     .hero-content { padding-block: 7rem 8.5rem; }
-    .crest { display: none; }
+    /* crest small in the top-left corner (opposite the DE/EN switch), the phoenix fills the top */
+    .crest {
+      position: absolute;
+      top: max(1rem, env(safe-area-inset-top));
+      left: max(var(--gutter), env(safe-area-inset-left));
+      width: 3.25rem;
+      margin: 0;
+    }
   }
   /* portrait art (phones, upright tablets): anchored at the top and enlarged so the phoenix fills
      the upper part; no darkening there – the overlay only starts where the text is */

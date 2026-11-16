@@ -25,3 +25,5 @@ This website contains links to external third-party websites (e.g. Google Maps, 
 ## Image credits
 
 Photos and videos: [TSV Phönix Steinsfurt e.V. / name of photographer]
+
+Home page background image (phoenix): AI-generated

@@ -24,3 +24,5 @@ Diese Website enthält Links zu externen Websites Dritter (z. B. Google Maps, Wh
 ## Bildnachweise
 
 Fotos und Videos: [TSV Phönix Steinsfurt e.V. / Name der Fotografin bzw. des Fotografen]
+
+Hintergrundbild der Startseite (Phönix): KI-generiert
