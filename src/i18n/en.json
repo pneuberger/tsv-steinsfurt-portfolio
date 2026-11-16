@@ -6,8 +6,8 @@
   "lang": { "label": "Language", "de": "Deutsch", "en": "English" },
   "hero": {
     "eyebrow": "TSV Phönix Steinsfurt · Football",
-    "title": "Your club. Your team. Your game.",
-    "subtitle": "Aged 18+ and keen to play football? Come along – trial sessions are possible any time.",
+    "title": "We want you to be part of the Phönix community",
+    "subtitle": "Aged 18+ and keen to play football? Get in touch – we'd love to arrange a chat or a trial session.",
     "cta": "Arrange a chat",
     "secondary": "What we offer",
     "scroll": "Scroll"
@@ -45,7 +45,10 @@
       { "image": "offer-gemeinschaft", "icon": "🤝", "title": "Community", "text": "A club where people know each other – and look out for each other." },
       { "image": "offer-rundenabschluss", "icon": "🏆", "title": "Season finale", "text": "At the end of the season we celebrate together – with all teams, coaches and supporters." },
       { "image": "offer-kabinenparty", "icon": "🎶", "title": "Locker-room party", "text": "After a win the music gets loud – the locker room is where we celebrate." },
-      { "image": "offer-teamabende", "icon": "🍻", "title": "Team nights", "text": "LAN parties, barbecues, bowling – regular get-togethers, off the pitch too." }
+      { "image": "offer-teamabende", "icon": "🍻", "title": "Team nights", "text": "LAN parties, barbecues, bowling – regular get-togethers, off the pitch too." },
+      { "image": "offer-kabine", "icon": "🏠", "title": "New locker room", "text": "Freshly renovated – with TV, speaker and fridge. A place where the team feels at home." },
+      { "image": "offer-dusche", "icon": "🚿", "title": "Modern showers", "text": "Newly tiled and bright – with our crest on the wall." },
+      { "image": "offer-leuchtwappen", "icon": "💡", "title": "Neon crest", "text": "Our crest in neon – the highlight of the renovated locker room." }
     ]
   },
   "gallery": {
@@ -58,6 +61,17 @@
     "watchFull": "Watch the full video (5 min)",
     "ctaTitle": "Be part of it!",
     "ctaText": "Get in touch"
+  },
+  "testimonials": {
+    "eyebrow": "Voices from the team",
+    "title": "Why we play here",
+    "items": [
+      { "quote": "For young players who want to develop and take the next step, we're exactly the right club. Our coach backs young players, gives them the trust they need and lets them make mistakes so they can learn from them.\n\nOur team is very well-drilled and the team spirit is truly special. We're like a small family where everyone looks out for each other. That creates a great environment where you feel at home as a player and can grow both on and off the pitch.", "name": "Jan Schumacher", "role": "", "image": "person-jan-schumacher" },
+      { "quote": "Reason 1: The bond between all of us is simply awesome – everyone supports everyone, in everything.\n\nReason 2: Everything the club does for the team around the games is just brilliant, and something we as players are really proud of.", "name": "Jonas Richter", "role": "", "image": "person-jonas-richter" },
+      { "quote": "Here you're not just a player – you're part of a team where togetherness, fun and supporting each other really matter. We want to achieve something together on the pitch, but we also have a really great community off it – and that's exactly what makes our team.", "name": "Dominik Streib", "role": "Contact, second team", "image": "person-dominik-streib" },
+      { "quote": "Steinsfurt welcomed me like family straight away and gave me a close-knit yet ambitious environment. With the support of everyone involved, I've also been able to develop really well as a player.", "name": "Lukas Schell", "role": "", "image": "person-lukas-schell" },
+      { "quote": "I've played for the club since the under-9s. I'd never want to go anywhere else.", "name": "Dale Werner", "role": "", "image": "person-dale-werner" }
+    ]
   },
   "training": {
     "eyebrow": "Training & trial sessions",
@@ -78,8 +92,8 @@
     "whatsapp": "WhatsApp",
     "call": "Call",
     "people": [
-      { "name": "Jason Kreß", "role": "Contact, first team", "phone": "+49 1523 3731019" },
-      { "name": "Dominik Streib", "role": "Contact, second team", "phone": "+49 172 1320419" }
+      { "name": "Jason Kreß", "role": "Contact, first team", "phone": "+49 1523 3731019", "image": "person-jason-kress" },
+      { "name": "Dominik Streib", "role": "Contact, second team", "phone": "+49 172 1320419", "image": "person-dominik-streib" }
     ]
   },
   "footer": {

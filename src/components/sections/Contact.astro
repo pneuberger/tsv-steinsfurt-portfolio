@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import { img } from '../../lib/images';
 import type { Dictionary } from '../../i18n';
 
 interface Props {
@@ -20,9 +22,13 @@ const digits = (phone: string) => phone.replace(/[^\d+]/g, '');
       {
         t.contact.people.map((p) => (
           <li class="person reveal">
-            <div class="avatar" aria-hidden="true">
-              {p.name.split(' ').map((w) => w[0]).join('').slice(0, 2)}
-            </div>
+            {p.image ? (
+              <Image class="avatar photo" src={img(p.image)} alt={p.name} width={128} height={128} />
+            ) : (
+              <div class="avatar" aria-hidden="true">
+                {p.name.split(' ').map((w) => w[0]).join('').slice(0, 2)}
+              </div>
+            )}
             <h3>{p.name}</h3>
             <p class="role">{p.role}</p>
             <div class="actions">
@@ -76,6 +82,12 @@ const digits = (phone: string) => phone.replace(/[^\d+]/g, '');
     font-weight: 800;
     font-size: 1.3rem;
     margin-bottom: 1rem;
+  }
+  .avatar.photo {
+    width: 5rem;
+    height: 5rem;
+    object-fit: cover;
+    border: 3px solid rgb(255 255 255 / 0.85);
   }
   .role {
     opacity: 0.8;

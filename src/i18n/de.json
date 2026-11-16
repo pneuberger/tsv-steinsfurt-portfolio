@@ -6,8 +6,8 @@
   "lang": { "label": "Sprache", "de": "Deutsch", "en": "English" },
   "hero": {
     "eyebrow": "TSV Phönix Steinsfurt · Fußball",
-    "title": "Dein Verein. Dein Team. Dein Spiel.",
-    "subtitle": "Du bist ab 18 und hast Bock auf Fußball? Dann komm vorbei – Probetraining ist jederzeit möglich.",
+    "title": "Wir wollen dich als Teil der Phönix-Gemeinschaft",
+    "subtitle": "Du bist ab 18 und hast Bock auf Fußball? Dann melde dich bei uns – wir vereinbaren gern ein Gespräch oder ein Probetraining.",
     "cta": "Jetzt Gespräch vereinbaren",
     "secondary": "Was wir bieten",
     "scroll": "Scrollen"
@@ -45,7 +45,10 @@
       { "image": "offer-gemeinschaft", "icon": "🤝", "title": "Gemeinschaft", "text": "Ein Verein, in dem man sich kennt – und füreinander da ist." },
       { "image": "offer-rundenabschluss", "icon": "🏆", "title": "Rundenabschluss", "text": "Zum Saisonende feiern wir zusammen – mit allen Teams, Trainern und Unterstützern." },
       { "image": "offer-kabinenparty", "icon": "🎶", "title": "Kabinenparty", "text": "Nach dem Sieg wird die Musik laut – die Kabine ist unser Ort zum Feiern." },
-      { "image": "offer-teamabende", "icon": "🍻", "title": "Teamabende", "text": "LAN-Party, Grillen, Bowling – regelmäßig etwas zusammen unternehmen, auch abseits des Platzes." }
+      { "image": "offer-teamabende", "icon": "🍻", "title": "Teamabende", "text": "LAN-Party, Grillen, Bowling – regelmäßig etwas zusammen unternehmen, auch abseits des Platzes." },
+      { "image": "offer-kabine", "icon": "🏠", "title": "Neue Kabine", "text": "Frisch renoviert – mit TV, Musikbox und Kühlschrank. Hier fühlt sich die Mannschaft zu Hause." },
+      { "image": "offer-dusche", "icon": "🚿", "title": "Moderne Duschen", "text": "Neu gefliest und hell – mit unserem Wappen an der Wand." },
+      { "image": "offer-leuchtwappen", "icon": "💡", "title": "Leuchtwappen", "text": "Unser Wappen in Neon – das Highlight der renovierten Kabine." }
     ]
   },
   "gallery": {
@@ -58,6 +61,17 @@
     "watchFull": "Ganzes Video ansehen (5 Min.)",
     "ctaTitle": "Werde Teil davon!",
     "ctaText": "Melde dich bei uns"
+  },
+  "testimonials": {
+    "eyebrow": "Stimmen aus dem Team",
+    "title": "Warum wir hier spielen",
+    "items": [
+      { "quote": "Gerade für junge Spieler, die sich weiterentwickeln und den nächsten Schritt machen möchten, sind wir genau der richtige Verein. Bei uns hat man einen Trainer, der auf junge Spieler setzt, ihnen das nötige Vertrauen schenkt und bei dem man auch Fehler machen darf, um daraus zu lernen.\n\nUnsere Mannschaft ist sehr eingespielt und der Zusammenhalt ist wirklich besonders. Wir sind wie eine kleine Familie, in der jeder für den anderen da ist. Das schafft ein tolles Umfeld, in dem man sich als Spieler wohlfühlt und sowohl sportlich als auch persönlich weiterentwickeln kann.", "name": "Jan Schumacher", "role": "", "image": "person-jan-schumacher" },
+      { "quote": "Grund 1: Der Zusammenhalt untereinander ist mit jedem einfach nur mega, es wird sich bei allem von jedem unterstützt.\n\nGrund 2: Das ganze Drumherum, was der Verein für die Mannschaft leistet, ist einfach nur der Hammer und ein Punkt, auf den wir als Spieler sehr stolz sind.", "name": "Jonas Richter", "role": "", "image": "person-jonas-richter" },
+      { "quote": "Bei uns bist du nicht einfach nur ein Spieler, sondern Teil einer Mannschaft, in der Zusammenhalt, Spaß und gegenseitige Unterstützung großgeschrieben werden. Wir wollen gemeinsam sportlich etwas erreichen, haben aber genauso neben dem Platz eine richtig gute Gemeinschaft – und genau das macht unser Team aus.", "name": "Dominik Streib", "role": "Ansprechpartner 2. Mannschaft", "image": "person-dominik-streib" },
+      { "quote": "Steinsfurt hat mich sofort wie eine Familie aufgenommen und mir ein familiäres und ehrgeiziges Umfeld gegeben. Sportlich konnte ich mich hier auch durch die Unterstützung aller Beteiligten sehr gut weiterentwickeln.", "name": "Lukas Schell", "role": "", "image": "person-lukas-schell" },
+      { "quote": "Ich spiele seit der F-Jugend im Verein. Würde nie woanders hinwollen.", "name": "Dale Werner", "role": "", "image": "person-dale-werner" }
+    ]
   },
   "training": {
     "eyebrow": "Training & Probetraining",
@@ -78,8 +92,8 @@
     "whatsapp": "WhatsApp",
     "call": "Anrufen",
     "people": [
-      { "name": "Jason Kreß", "role": "Ansprechpartner 1. Mannschaft", "phone": "+49 1523 3731019" },
-      { "name": "Dominik Streib", "role": "Ansprechpartner 2. Mannschaft", "phone": "+49 172 1320419" }
+      { "name": "Jason Kreß", "role": "Ansprechpartner 1. Mannschaft", "phone": "+49 1523 3731019", "image": "person-jason-kress" },
+      { "name": "Dominik Streib", "role": "Ansprechpartner 2. Mannschaft", "phone": "+49 172 1320419", "image": "person-dominik-streib" }
     ]
   },
   "footer": {
