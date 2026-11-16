@@ -84,10 +84,18 @@ p { text-wrap: pretty; }
 /* ---------- Scroll reveal ---------- */
 /* Hidden-until-revealed only when JS runs: without JS (or in old browsers that
    don't know the `scripting` media feature) everything simply stays visible.
-   No inline script needed → works with the strict CSP. */
+   No inline script needed → works with the strict CSP.
+   The slide uses the standalone `translate` property, so it never clashes with
+   hover effects that use `transform`. Components with their own transitions
+   must include the reveal part instead of replacing it:
+     transition: var(--reveal-transition, opacity 0s), transform 0.3s ease;
+   (--reveal-transition is defined per element so each card's --delay applies.) */
 @media (scripting: enabled) {
-  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(.2,.8,.2,1); transition-delay: var(--delay, 0ms); }
-  .reveal.is-visible { opacity: 1; transform: none; }
+  .reveal {
+    --reveal-transition: opacity 0.7s ease var(--delay, 0ms), translate 0.7s cubic-bezier(.2,.8,.2,1) var(--delay, 0ms);
+    opacity: 0; translate: 0 28px; transition: var(--reveal-transition);
+  }
+  .reveal.is-visible { opacity: 1; translate: none; }
 }
 /* Staggered reveal for lists: put .stagger on the parent (no inline styles → CSP-friendly) */
 .stagger > .reveal:nth-child(4n + 2) { --delay: 90ms; }
@@ -97,7 +105,7 @@ p { text-wrap: pretty; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-  .reveal { opacity: 1; transform: none; }
+  .reveal { opacity: 1; translate: none; }
 }
 
 .visually-hidden {

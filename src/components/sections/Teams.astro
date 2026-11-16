@@ -48,7 +48,7 @@ const { t } = Astro.props;
     border-radius: var(--radius-lg);
     overflow: hidden;
     box-shadow: var(--shadow);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: var(--reveal-transition, opacity 0s), transform 0.3s ease, box-shadow 0.3s ease;
   }
   .team-card:hover {
     transform: translateY(-6px) rotate(-0.6deg);
