@@ -1,146 +1,130 @@
 ---
 /**
- * Pages that only exist when the invite-link access gate is enabled (staging build):
- *   /admin/ – committee form to create / list / revoke invite links (public page,
- *             the API behind it is password protected)
- * The no-access page (/no-access/, /en/no-access/) is in [...noAccess].astro.
- * Without PUBLIC_ACCESS_GATE=true, getStaticPaths returns nothing → no pages are built.
+ * /admin/ – committee form to create / list / revoke invite links (public page,
+ * the API behind it is password protected).
+ * Not in src/pages/: the route is registered in astro.config.mjs only for the staging
+ * build (PUBLIC_ACCESS_GATE=true), so production builds contain neither the page nor its
+ * script/CSS.
  */
 import Base from '../layouts/Base.astro';
 import Footer from '../components/sections/Footer.astro';
-import { accessGate, DEFAULT_DAYS, MAX_DAYS } from '../access-gate';
+import { DEFAULT_DAYS, MAX_DAYS } from '../access-gate';
 
-export function getStaticPaths() {
-  return accessGate ? [{ params: { gate: 'admin' } }] : [];
-}
-
-const { gate } = Astro.params;
-const isAdmin = gate === 'admin';
-const paths = { de: `/${gate}/`, en: `/${gate}/` };
+const paths = { de: '/admin/', en: '/admin/' };
 const dayOptions = [7, 14, 30, MAX_DAYS];
 ---
 
 <Base
   lang="de"
   paths={paths}
-  title={isAdmin ? 'Einladungslinks – TSV Phönix Steinsfurt' : 'Kein Zugang – TSV Phönix Steinsfurt'}
-  description={isAdmin ? 'Einladungslinks für den Spielausschuss' : 'Diese Seite ist nur mit persönlicher Einladung erreichbar.'}
+  title="Einladungslinks – TSV Phönix Steinsfurt"
+  description="Einladungslinks für den Spielausschuss"
   interactive={false}
 >
   <header class="gate-head">
     <div class="container head-inner">
       <img src="/logo/tsv-steinsfurt.svg" alt="TSV Phönix Steinsfurt Logo" width="48" height="55" />
       <strong>TSV Phönix Steinsfurt</strong>
-      {isAdmin && (
-        <button type="button" class="btn btn-logout" id="logout" hidden>
-          Abmelden <span aria-hidden="true">→</span>
-        </button>
-      )}
+      <button type="button" class="btn btn-logout" id="logout" hidden>
+        Abmelden <span aria-hidden="true">→</span>
+      </button>
     </div>
   </header>
 
-  {
-    isAdmin && (
-      <main class="container narrow admin" data-default-days={DEFAULT_DAYS}>
-        <h1>Einladungslinks</h1>
-        <p class="lead">
-          Für den Spielausschuss: persönliche Links für Interessenten erstellen, verschicken und bei Bedarf sperren.
-        </p>
+  <main class="container narrow admin" data-default-days={DEFAULT_DAYS}>
+    <h1>Einladungslinks</h1>
+    <p class="lead">
+      Für den Spielausschuss: persönliche Links für Interessenten erstellen, verschicken und bei Bedarf sperren.
+    </p>
 
-        <noscript>
-          <p class="card error">Dieses Formular braucht JavaScript. Bitte im Browser aktivieren.</p>
-        </noscript>
+    <noscript>
+      <p class="card error">Dieses Formular braucht JavaScript. Bitte im Browser aktivieren.</p>
+    </noscript>
 
-        <form id="login" class="card" autocomplete="on">
-          <h2>Anmelden</h2>
+    <form id="login" class="card" autocomplete="on">
+      <h2>Anmelden</h2>
+      <label>
+        Ausschuss-Passwort
+        <input type="password" name="password" autocomplete="current-password" required />
+      </label>
+      <button class="btn btn-primary" type="submit">Anmelden</button>
+      <p class="msg" role="alert" hidden></p>
+    </form>
+
+    <div id="app" hidden>
+      <form id="create" class="card">
+        <h2>Neuen Link erstellen</h2>
+        <div class="grid">
           <label>
-            Ausschuss-Passwort
-            <input type="password" name="password" autocomplete="current-password" required />
+            Vorname des Interessenten <small class="hint">wird ihm auf der Seite zur Begrüßung angezeigt</small>
+            <input name="name" maxlength="40" required placeholder="z. B. Max" />
           </label>
-          <button class="btn btn-primary" type="submit">Anmelden</button>
-          <p class="msg" role="alert" hidden></p>
-        </form>
-
-        <div id="app" hidden>
-          <form id="create" class="card">
-            <h2>Neuen Link erstellen</h2>
-            <div class="grid">
-              <label>
-                Vorname des Interessenten <small class="hint">wird ihm auf der Seite zur Begrüßung angezeigt</small>
-                <input name="name" maxlength="40" required placeholder="z. B. Max" />
-              </label>
-              <label>
-                Gültig für
-                <select name="days">
-                  {dayOptions.map((d) => <option value={d} selected={d === DEFAULT_DAYS}>{d} Tage</option>)}
-                </select>
-              </label>
-              <label>
-                Erstellt von (optional)
-                <input name="createdBy" maxlength="40" placeholder="dein Name" />
-              </label>
-            </div>
-            <button class="btn btn-primary" type="submit">Link erstellen</button>
-            <p class="msg" role="alert" hidden></p>
-          </form>
-
-          <section id="result" class="card result" hidden>
-            <h2>Link für <span data-name></span></h2>
-            <p class="small">Gültig bis <strong data-expires></strong></p>
-            <input data-link readonly aria-label="Einladungslink" />
-            <div class="actions">
-              <button class="btn btn-primary" type="button" data-copy>Link kopieren</button>
-              <a class="btn btn-whatsapp" data-whatsapp target="_blank" rel="noopener noreferrer">Per WhatsApp teilen</a>
-            </div>
-          </section>
-
-          <section class="card">
-            <div class="list-head">
-              <h2>Alle Links</h2>
-              <button class="btn btn-ghost-dark" type="button" id="reload">Aktualisieren</button>
-            </div>
-            <p class="msg" id="list-msg" role="alert" hidden></p>
-            <div class="table-wrap">
-              <table>
-                <thead>
-                  <tr><th>Name</th><th>Erstellt von</th><th>Erstellt</th><th>Gültig bis</th><th>Status</th><th></th></tr>
-                </thead>
-                <tbody id="invites"></tbody>
-              </table>
-            </div>
-            <p class="small" id="empty" hidden>Noch keine Links erstellt.</p>
-          </section>
-
-          <p class="small">
-            Eine Sperre wird an alle CloudFront-Standorte verteilt und greift meist nach 20–60 Sekunden. Solange steht
-            „Sperre wird aktiv …“ in der Liste, danach „gesperrt ✓“. Einträge werden 30 Tage nach Ablauf automatisch
-            gelöscht.
-          </p>
+          <label>
+            Gültig für
+            <select name="days">
+              {dayOptions.map((d) => <option value={d} selected={d === DEFAULT_DAYS}>{d} Tage</option>)}
+            </select>
+          </label>
+          <label>
+            Erstellt von (optional)
+            <input name="createdBy" maxlength="40" placeholder="dein Name" />
+          </label>
         </div>
-        <dialog id="confirm-revoke" class="modal" aria-labelledby="confirm-title" aria-describedby="confirm-text">
-          <div class="modal-icon" aria-hidden="true">🔒</div>
-          <h2 id="confirm-title">Link sperren?</h2>
-          <p id="confirm-text">
-            Der Link für <strong data-name></strong> funktioniert danach nicht mehr – auch wenn er schon geöffnet
-            wurde. Das lässt sich nicht rückgängig machen.
-          </p>
-          <div class="modal-actions">
-            <button type="button" class="btn btn-ghost-dark" data-cancel>Abbrechen</button>
-            <button type="button" class="btn btn-danger" data-confirm>Ja, sperren</button>
-          </div>
-        </dialog>
-      </main>
-    )
-  }
+        <button class="btn btn-primary" type="submit">Link erstellen</button>
+        <p class="msg" role="alert" hidden></p>
+      </form>
+
+      <section id="result" class="card result" hidden>
+        <h2>Link für <span data-name></span></h2>
+        <p class="small">Gültig bis <strong data-expires></strong></p>
+        <input data-link readonly aria-label="Einladungslink" />
+        <div class="actions">
+          <button class="btn btn-primary" type="button" data-copy>Link kopieren</button>
+          <a class="btn btn-whatsapp" data-whatsapp target="_blank" rel="noopener noreferrer">Per WhatsApp teilen</a>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="list-head">
+          <h2>Alle Links</h2>
+          <button class="btn btn-ghost-dark" type="button" id="reload">Aktualisieren</button>
+        </div>
+        <p class="msg" id="list-msg" role="alert" hidden></p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Name</th><th>Erstellt von</th><th>Erstellt</th><th>Gültig bis</th><th>Status</th><th></th></tr>
+            </thead>
+            <tbody id="invites"></tbody>
+          </table>
+        </div>
+        <p class="small" id="empty" hidden>Noch keine Links erstellt.</p>
+      </section>
+
+      <p class="small">
+        Eine Sperre wird an alle CloudFront-Standorte verteilt und greift meist nach 20–60 Sekunden. Solange steht
+        „Sperre wird aktiv …“ in der Liste, danach „gesperrt ✓“. Einträge werden 30 Tage nach Ablauf automatisch
+        gelöscht.
+      </p>
+    </div>
+    <dialog id="confirm-revoke" class="modal" aria-labelledby="confirm-title" aria-describedby="confirm-text">
+      <div class="modal-icon" aria-hidden="true">🔒</div>
+      <h2 id="confirm-title">Link sperren?</h2>
+      <p id="confirm-text">
+        Der Link für <strong data-name></strong> funktioniert danach nicht mehr – auch wenn er schon geöffnet
+        wurde. Das lässt sich nicht rückgängig machen.
+      </p>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost-dark" data-cancel>Abbrechen</button>
+        <button type="button" class="btn btn-danger" data-confirm>Ja, sperren</button>
+      </div>
+    </dialog>
+  </main>
 
   <Footer lang="de" />
-  {
-    isAdmin && (
-      <script>
-        import '../scripts/admin';
-      </script>
-    )
-  }
+  <script>
+    import '../scripts/admin';
+  </script>
 </Base>
 
 <style>

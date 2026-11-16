@@ -1,8 +1,27 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
+/**
+ * Invite-link pages (/admin/, /no-access/, /en/no-access/) exist only in the staging build
+ * (PUBLIC_ACCESS_GATE=true, set by `npm run deploy:staging`). They live in src/gate-pages/
+ * instead of src/pages/, so production builds contain neither the pages nor their scripts/CSS.
+ * @type {import('astro').AstroIntegration}
+ */
+const gatePages = {
+  name: 'gate-pages',
+  hooks: {
+    'astro:config:setup': ({ injectRoute }) => {
+      if (process.env.PUBLIC_ACCESS_GATE !== 'true') return;
+      injectRoute({ pattern: '/admin', entrypoint: './src/gate-pages/admin.astro' });
+      injectRoute({ pattern: '/no-access', entrypoint: './src/gate-pages/no-access.de.astro' });
+      injectRoute({ pattern: '/en/no-access', entrypoint: './src/gate-pages/no-access.en.astro' });
+    },
+  },
+};
+
 // https://astro.build/config
 export default defineConfig({
+  integrations: [gatePages],
   // Public address of the site (used for canonical/hreflang/OG URLs).
   // For now the CloudFront URL; switch to the custom domain once one is set up.
   // The site is independent of the club homepage (tsvphoenixsteinsfurt.de).

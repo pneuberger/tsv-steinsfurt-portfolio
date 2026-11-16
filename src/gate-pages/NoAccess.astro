@@ -1,30 +1,25 @@
 ---
 /**
  * "No access" page, shown to visitors without a valid invite link (staging build only):
- *   /no-access/       – German (the gate redirects here)
- *   /en/no-access/    – English
+ *   /no-access/     – German (the gate redirects here)  → no-access.de.astro
+ *   /en/no-access/  – English                           → no-access.en.astro
  * With the same DE/EN switch as the legal pages. Both paths are public in
- * infra/functions/gate-request.js. Without PUBLIC_ACCESS_GATE=true no pages are built.
+ * infra/functions/gate-request.js. Routes are registered in astro.config.mjs only for
+ * the staging build (PUBLIC_ACCESS_GATE=true).
  */
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import LangSwitch from '../components/LangSwitch.astro';
 import Footer from '../components/sections/Footer.astro';
-import { accessGate } from '../access-gate';
 import { useTranslations, type Lang, type PagePaths } from '../i18n';
 import { img } from '../lib/images';
 
 const noAccessPaths: PagePaths = { de: '/no-access/', en: '/en/no-access/' };
 
-export function getStaticPaths() {
-  if (!accessGate) return [];
-  return [
-    { params: { noAccess: 'no-access' }, props: { lang: 'de' } },
-    { params: { noAccess: 'en/no-access' }, props: { lang: 'en' } },
-  ];
+interface Props {
+  lang: Lang;
 }
-
-const { lang } = Astro.props as { lang: Lang };
+const { lang } = Astro.props;
 // Same contact people as in the #contact section of the one-pager (from the i18n files).
 // Their portraits are public in infra/functions/gate-request.js (all other photos are not).
 const t = useTranslations(lang);
