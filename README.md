@@ -155,6 +155,35 @@ Copy the stack outputs into **GitHub → Settings → Secrets and variables → 
 
 From then on, every push to `main` builds the site, uploads it to S3 (hashed assets cached forever, media for 1 day, HTML always revalidated) and invalidates CloudFront. Pull requests are only built and type-checked.
 
+## Private access via invite links (staging only)
+
+The site is meant to be **private**: the team committee (Spielausschuss) sends personal, time-limited links to prospective players. This runs in a **separate staging environment** for now. **Production stays public and unchanged**, and the GitHub pipeline never deploys staging.
+
+**How it works**
+- An invite link looks like `https://<staging-url>/?t=<id>.<expiry>.<signature>`. A CloudFront Function checks the HMAC signature, the expiry and a revocation list at the edge. Without a valid link, visitors see `/kein-zugang/`; photos and videos return 403.
+- On the first visit, the token is stored in an `HttpOnly` cookie (`tsv_zugang`) that expires with the link, so reloads and subpages work.
+- Always public: `/kein-zugang/`, the legal pages, `/admin/`, the share image, logo and favicon, CSS, JS and fonts.
+- The committee creates, lists and revokes links at **`/admin/`** with a shared password. The API is a Lambda behind CloudFront `/api/*`. Invites are stored in DynamoDB and deleted automatically 30 days after expiry.
+- The HMAC secret and the revocation list live in a CloudFront KeyValueStore. The password is stored only as a scrypt hash in SSM Parameter Store.
+- Feature switches: `accessGate` in the CDK stack, and `PUBLIC_ACCESS_GATE=true` at build time, which adds `/admin/`, `/kein-zugang/` and an extra privacy section. Without them, nothing changes.
+
+**Setup and deploy (staging)**
+
+```sh
+aws sso login --profile tsv
+npm run staging:infra     # CDK: bucket, CloudFront, gate functions, KeyValueStore, Lambda, DynamoDB
+npm run staging:setup     # creates HMAC secret + committee password (printed once!)
+npm run deploy:staging    # builds with the gate and uploads to the staging bucket
+```
+
+| Task | Command |
+| --- | --- |
+| **Emergency stop:** invalidate *all* invite links | `npm run staging:setup -- --rotate-secret` |
+| New committee password | `npm run staging:setup -- --new-password` |
+| Revoke a single link | committee form → "Sperren" |
+
+**For the committee (/admin/):** log in with the committee password, enter the prospect's first name or initials, pick the validity (default 14 days), then "Link erstellen" and "Link kopieren" or "Per WhatsApp teilen". All links are listed with their status. "Sperren" disables a link within a few seconds.
+
 ## Project structure
 
 ```

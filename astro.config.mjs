@@ -6,7 +6,8 @@ export default defineConfig({
   // Public address of the site (used for canonical/hreflang/OG URLs).
   // For now the CloudFront URL; switch to the custom domain once one is set up.
   // The site is independent of the club homepage (tsvphoenixsteinsfurt.de).
-  site: 'https://d384ezf8yukgl8.cloudfront.net',
+  // SITE_URL overrides it for other environments (staging deploy script).
+  site: process.env.SITE_URL || 'https://d384ezf8yukgl8.cloudfront.net',
   trailingSlash: 'ignore',
   build: {
     // /en/ -> dist/en/index.html (the CloudFront Function maps /en/ to it)

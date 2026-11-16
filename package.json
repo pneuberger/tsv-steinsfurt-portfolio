@@ -9,7 +9,10 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "staging:infra": "cd infra && npx cdk deploy TsvSteinsfurtStaging",
+    "staging:setup": "bash scripts/staging-setup.sh",
+    "deploy:staging": "bash scripts/deploy-staging.sh"
   },
   "dependencies": {
     "@fontsource-variable/outfit": "^5.3.0",
@@ -17,6 +20,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
+    "@types/node": "^26.6.6",
     "typescript": "^6.0.3"
   }
 }

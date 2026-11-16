@@ -13,6 +13,9 @@ import * as imprintDe from '../legal/impressum.de.md';
 import * as imprintEn from '../legal/impressum.en.md';
 import * as privacyDe from '../legal/datenschutz.de.md';
 import * as privacyEn from '../legal/datenschutz.en.md';
+import * as gateDe from '../legal/datenschutz-zugang.de.md';
+import * as gateEn from '../legal/datenschutz-zugang.en.md';
+import { accessGate } from '../access-gate';
 
 interface Props {
   lang: Lang;
@@ -22,6 +25,8 @@ const { lang, kind } = Astro.props;
 const t = useTranslations(lang);
 const docs = { imprint: { de: imprintDe, en: imprintEn }, privacy: { de: privacyDe, en: privacyEn } };
 const { Content } = docs[kind][lang];
+// Extra privacy section only when the invite-link access gate is enabled (staging build).
+const GateSection = accessGate && kind === 'privacy' ? (lang === 'de' ? gateDe : gateEn).Content : undefined;
 const title = kind === 'imprint' ? t.legal.imprintTitle : t.legal.privacyTitle;
 const description = kind === 'imprint' ? t.legal.imprintDescription : t.legal.privacyDescription;
 ---
@@ -42,6 +47,7 @@ const description = kind === 'imprint' ? t.legal.imprintDescription : t.legal.pr
     {t.legal.germanBinding && <p class="note">{t.legal.germanBinding}</p>}
     <article class="prose">
       <Content />
+      {GateSection && <GateSection />}
     </article>
   </main>
 

@@ -1,4 +1,8 @@
 import { CfnOutput, Duration, RemovalPolicy, Stack, type StackProps } from 'aws-cdk-lib';
+import { AttributeType, BillingMode, Table } from 'aws-cdk-lib/aws-dynamodb';
+import { FunctionUrlAuthType, Runtime } from 'aws-cdk-lib/aws-lambda';
+import { NodejsFunction, OutputFormat } from 'aws-cdk-lib/aws-lambda-nodejs';
+import { readFileSync } from 'node:fs';
 import type { ICertificate } from 'aws-cdk-lib/aws-certificatemanager';
 import {
   AllowedMethods,
@@ -11,12 +15,14 @@ import {
   HeadersFrameOption,
   HeadersReferrerPolicy,
   HttpVersion,
+  KeyValueStore,
+  OriginRequestPolicy,
   PriceClass,
   ResponseHeadersPolicy,
   SecurityPolicyProtocol,
   ViewerProtocolPolicy,
 } from 'aws-cdk-lib/aws-cloudfront';
-import { S3BucketOrigin } from 'aws-cdk-lib/aws-cloudfront-origins';
+import { FunctionUrlOrigin, S3BucketOrigin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import {
   Effect,
   OidcProviderNative,
@@ -38,7 +44,8 @@ export interface SiteStackProps extends StackProps {
     hostedZoneName: string;
     certificate: ICertificate;
   };
-  github: {
+  /** GitHub Actions deploy role. Omit for environments deployed by hand (staging). */
+  github?: {
     /** "owner/repo" */
     repo: string;
     branch: string;
@@ -52,6 +59,16 @@ export interface SiteStackProps extends StackProps {
     /** Only one GitHub OIDC provider can exist per AWS account. Set false if it already exists. */
     createOidcProvider: boolean;
   };
+  /**
+   * Invite-link access gate (private site). Off in production for now.
+   * Adds: CloudFront KeyValueStore + gate functions, /api/* → Lambda (invite API), DynamoDB table.
+   */
+  accessGate?: {
+    /** SSM SecureString holding the committee password hash (created by `npm run staging:setup`). */
+    passwordParameterName: string;
+  };
+  /** Distribution comment (shown in the AWS console). */
+  comment?: string;
 }
 
 const GITHUB_OIDC_URL = 'https://token.actions.githubusercontent.com';
@@ -72,13 +89,39 @@ export class SiteStack extends Stack {
     });
 
     // ---------- CDN ----------
-    const indexRewrite = new CfFunction(this, 'IndexRewrite', {
-      runtime: FunctionRuntime.JS_2_0,
-      code: FunctionCode.fromFile({
-        filePath: fileURLToPath(new URL('../functions/index-rewrite.js', import.meta.url)),
-      }),
-      comment: 'Map directory URLs (/en/) to index.html',
-    });
+    const fnFile = (name: string) => fileURLToPath(new URL(`../functions/${name}`, import.meta.url));
+    const gate = props.accessGate;
+    let functionAssociations;
+    let gateStore: KeyValueStore | undefined;
+    if (!gate) {
+      // Public site: only map directory URLs to index.html (unchanged production setup).
+      const indexRewrite = new CfFunction(this, 'IndexRewrite', {
+        runtime: FunctionRuntime.JS_2_0,
+        code: FunctionCode.fromFile({ filePath: fnFile('index-rewrite.js') }),
+        comment: 'Map directory URLs (/en/) to index.html',
+      });
+      functionAssociations = [{ function: indexRewrite, eventType: FunctionEventType.VIEWER_REQUEST }];
+    } else {
+      // Private site: invite-link gate. HMAC secret + revocation list live in a KeyValueStore.
+      gateStore = new KeyValueStore(this, 'GateStore', { comment: 'Invite links: HMAC secret + revoked ids' });
+      const gateRequest = new CfFunction(this, 'GateRequest', {
+        runtime: FunctionRuntime.JS_2_0,
+        code: FunctionCode.fromInline(
+          readFileSync(fnFile('gate-request.js'), 'utf8').replace('__KVS_ID__', gateStore.keyValueStoreId),
+        ),
+        keyValueStore: gateStore,
+        comment: 'Invite-link access gate + index.html rewrite',
+      });
+      const gateResponse = new CfFunction(this, 'GateResponse', {
+        runtime: FunctionRuntime.JS_2_0,
+        code: FunctionCode.fromFile({ filePath: fnFile('gate-response.js') }),
+        comment: 'Store invite token in a cookie',
+      });
+      functionAssociations = [
+        { function: gateRequest, eventType: FunctionEventType.VIEWER_REQUEST },
+        { function: gateResponse, eventType: FunctionEventType.VIEWER_RESPONSE },
+      ];
+    }
 
     const headers = new ResponseHeadersPolicy(this, 'SecurityHeaders', {
       // Don't advertise the hosting stack (S3 origin, encryption, object versions).
@@ -122,7 +165,7 @@ export class SiteStack extends Stack {
     });
 
     const distribution = new Distribution(this, 'Distribution', {
-      comment: 'TSV Steinsfurt recruitment site',
+      comment: props.comment ?? 'TSV Steinsfurt recruitment site',
       defaultRootObject: 'index.html',
       priceClass: PriceClass.PRICE_CLASS_100, // Europe + North America edges
       httpVersion: HttpVersion.HTTP2_AND_3,
@@ -136,14 +179,65 @@ export class SiteStack extends Stack {
         cachePolicy: CachePolicy.CACHING_OPTIMIZED, // honours Cache-Control set at upload time
         compress: true,
         responseHeadersPolicy: headers,
-        functionAssociations: [{ function: indexRewrite, eventType: FunctionEventType.VIEWER_REQUEST }],
+        functionAssociations,
       },
       // Unknown paths land on the one-pager instead of an S3 XML error.
-      errorResponses: [
-        { httpStatus: 403, responseHttpStatus: 404, responsePagePath: '/index.html', ttl: Duration.minutes(5) },
-        { httpStatus: 404, responseHttpStatus: 404, responsePagePath: '/index.html', ttl: Duration.minutes(5) },
-      ],
+      // With the access gate they land on the public no-access page instead – otherwise
+      // a missing file under a public path (e.g. /logo/x.svg) would serve the private page.
+      errorResponses: [403, 404].map((httpStatus) => ({
+        httpStatus,
+        responseHttpStatus: 404,
+        responsePagePath: gate ? '/kein-zugang/index.html' : '/index.html',
+        ttl: Duration.minutes(5),
+      })),
     });
+
+    // ---------- Invite API (only with access gate) ----------
+    if (gate && gateStore) {
+      const table = new Table(this, 'Invites', {
+        partitionKey: { name: 'id', type: AttributeType.STRING },
+        billingMode: BillingMode.PAY_PER_REQUEST,
+        timeToLiveAttribute: 'ttl', // entries are deleted 30 days after the link expires
+        removalPolicy: RemovalPolicy.DESTROY,
+      });
+      const api = new NodejsFunction(this, 'InviteApi', {
+        entry: fileURLToPath(new URL('../lambda/invites/index.ts', import.meta.url)),
+        runtime: Runtime.NODEJS_24_X,
+        memorySize: 256, // scrypt needs ~32 MB
+        timeout: Duration.seconds(10),
+        environment: {
+          TABLE_NAME: table.tableName,
+          KVS_ARN: gateStore.keyValueStoreArn,
+          PASSWORD_PARAM: gate.passwordParameterName,
+        },
+        bundling: { format: OutputFormat.ESM, minify: true, target: 'node24', externalModules: [], banner: "import{createRequire}from'module';const require=createRequire(import.meta.url);" },
+        description: 'Invite-link API for the committee form',
+      });
+      table.grantReadWriteData(api);
+      api.addToRolePolicy(new PolicyStatement({
+        actions: ['cloudfront-keyvaluestore:DescribeKeyValueStore', 'cloudfront-keyvaluestore:GetKey', 'cloudfront-keyvaluestore:PutKey'],
+        resources: [gateStore.keyValueStoreArn],
+      }));
+      api.addToRolePolicy(new PolicyStatement({
+        actions: ['ssm:GetParameter'],
+        resources: [`arn:aws:ssm:${this.region}:${this.account}:parameter${gate.passwordParameterName}`],
+      }));
+      api.addToRolePolicy(new PolicyStatement({
+        actions: ['kms:Decrypt'],
+        resources: ['*'],
+        conditions: { StringEquals: { 'kms:ViaService': `ssm.${this.region}.amazonaws.com` } },
+      }));
+      const apiUrl = api.addFunctionUrl({ authType: FunctionUrlAuthType.AWS_IAM });
+      distribution.addBehavior('/api/*', FunctionUrlOrigin.withOriginAccessControl(apiUrl), {
+        viewerProtocolPolicy: ViewerProtocolPolicy.HTTPS_ONLY,
+        allowedMethods: AllowedMethods.ALLOW_ALL,
+        cachePolicy: CachePolicy.CACHING_DISABLED,
+        originRequestPolicy: OriginRequestPolicy.ALL_VIEWER_EXCEPT_HOST_HEADER,
+        responseHeadersPolicy: headers,
+      });
+      new CfnOutput(this, 'KvsArn', { value: gateStore.keyValueStoreArn });
+      new CfnOutput(this, 'InvitesTable', { value: table.tableName });
+    }
 
     // ---------- DNS (optional) ----------
     if (props.dns) {
@@ -155,6 +249,14 @@ export class SiteStack extends Stack {
       new ARecord(this, 'AliasA', { zone, recordName: props.dns.domainName, target });
       new AaaaRecord(this, 'AliasAAAA', { zone, recordName: props.dns.domainName, target });
     }
+
+    // ---------- Outputs ----------
+    new CfnOutput(this, 'BucketName', { value: bucket.bucketName, description: 'GitHub variable AWS_S3_BUCKET' });
+    new CfnOutput(this, 'DistributionId', { value: distribution.distributionId, description: 'GitHub variable AWS_CLOUDFRONT_DISTRIBUTION_ID' });
+    new CfnOutput(this, 'SiteUrl', {
+      value: props.dns ? `https://${props.dns.domainName}` : `https://${distribution.distributionDomainName}`,
+    });
+    if (!props.github) return;
 
     // ---------- GitHub Actions deploy role (OIDC, no stored keys) ----------
     const oidcProvider: IOidcProvider = props.github.createOidcProvider
@@ -210,12 +312,6 @@ export class SiteStack extends Stack {
       }),
     );
 
-    // ---------- Outputs → GitHub repository variables ----------
-    new CfnOutput(this, 'BucketName', { value: bucket.bucketName, description: 'GitHub variable AWS_S3_BUCKET' });
-    new CfnOutput(this, 'DistributionId', { value: distribution.distributionId, description: 'GitHub variable AWS_CLOUDFRONT_DISTRIBUTION_ID' });
     new CfnOutput(this, 'DeployRoleArn', { value: deployRole.roleArn, description: 'GitHub variable AWS_DEPLOY_ROLE_ARN' });
-    new CfnOutput(this, 'SiteUrl', {
-      value: props.dns ? `https://${props.dns.domainName}` : `https://${distribution.distributionDomainName}`,
-    });
   }
 }
