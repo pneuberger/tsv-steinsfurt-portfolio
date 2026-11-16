@@ -40,6 +40,7 @@
       { "image": "offer-platz", "icon": "🏟️", "title": "Top Platz & Anlage", "text": "Gepflegter Rasen, Kunstrasen für den Winter, Flutlicht und moderne Kabinen." },
       { "image": "offer-athletik", "icon": "💪", "title": "Athletiktraining", "text": "Kraft, Schnelligkeit und Ausdauer – gezielt trainiert, damit du fit durch die Saison kommst." },
       { "image": "offer-ausruestung", "icon": "👕", "title": "Ausrüstung", "text": "Trainings- und Spielkleidung im Vereinsdesign – gestellt vom Verein." },
+      { "image": "offer-fanbase", "icon": "📣", "title": "Große Fanbase", "text": "Bei Heimspielen stehen unsere Fans voll hinter uns – mit Trommeln, Fahnen und Bannern. Gänsehaut garantiert." },
       { "image": "offer-events", "icon": "🎉", "title": "Teamevents", "text": "Fußballgolf, Trainingslager, Sommerfest – wir unternehmen viel gemeinsam." },
       { "image": "offer-gemeinschaft", "icon": "🤝", "title": "Gemeinschaft", "text": "Ein Verein, in dem man sich kennt – und füreinander da ist." },
       { "image": "offer-rundenabschluss", "icon": "🏆", "title": "Rundenabschluss", "text": "Zum Saisonende feiern wir zusammen – mit allen Teams, Trainern und Unterstützern." },
@@ -47,7 +48,9 @@
       { "image": "offer-teamabende", "icon": "🍻", "title": "Teamabende", "text": "LAN-Party, Grillen, Bowling – regelmäßig etwas zusammen unternehmen, auch abseits des Platzes." },
       { "image": "offer-kabine", "icon": "🏠", "title": "Neue Kabine", "text": "Frisch renoviert – mit TV, Musikbox und Kühlschrank. Hier fühlt sich die Mannschaft zu Hause." },
       { "image": "offer-dusche", "icon": "🚿", "title": "Moderne Duschen", "text": "Neu gefliest und hell – mit unserem Wappen an der Wand." },
-      { "image": "offer-leuchtwappen", "icon": "💡", "title": "Leuchtwappen", "text": "Unser Wappen in Neon – das Highlight der renovierten Kabine." }
+      { "image": "offer-leuchtwappen", "icon": "💡", "title": "Leuchtwappen", "text": "Unser Wappen in Neon – das Highlight der renovierten Kabine." },
+      { "image": "offer-neu-14", "icon": "✨", "title": "Platzhalter Angebot 14", "text": "Platzhalter – Text folgt." },
+      { "image": "offer-neu-15", "icon": "✨", "title": "Platzhalter Angebot 15", "text": "Platzhalter – Text folgt." }
     ]
   },
   "gallery": {
