@@ -30,8 +30,8 @@ export function pathFor(lang: Lang): string {
 /** Legal pages (separate HTML pages, reachable without JavaScript). */
 export type LegalKind = 'imprint' | 'privacy';
 export const legalPaths: Record<LegalKind, Record<Lang, string>> = {
-  imprint: { de: '/impressum/', en: '/en/legal-notice/' },
-  privacy: { de: '/datenschutz/', en: '/en/privacy/' },
+  imprint: { de: '/legal-notice/', en: '/en/legal-notice/' },
+  privacy: { de: '/privacy/', en: '/en/privacy/' },
 };
 
 /** Paths of the same page in every language (for hreflang + language switch). */

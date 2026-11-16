@@ -17,7 +17,7 @@ type Size = 'wide' | 'tall' | 'big';
 type Tile =
   | { kind: 'photo'; key: string; size?: Size }
   | { kind: 'clip'; name: string; size?: Size }
-  | { kind: 'cta'; size?: Size }; // "Werde Teil davon" tile → #kontakt
+  | { kind: 'cta'; size?: Size }; // "Werde Teil davon" tile → #contact
 
 // 4-column grid (2 on mobile): big = 2×2, wide = 2×1, tall = 1×2, default = 1×1.
 // Keep the cells adding up to full rows (here 16) so the grid has no holes.
@@ -38,7 +38,7 @@ const large = await Promise.all(
 );
 ---
 
-<section id="einblicke" class="section gallery">
+<section id="gallery" class="section gallery">
   <div class="container">
     <div class="section-head reveal">
       <p class="eyebrow">{t.gallery.eyebrow}</p>
@@ -78,7 +78,7 @@ const large = await Promise.all(
                 />
               </button>
             ) : tile.kind === 'cta' ? (
-              <a class="cta-tile" href="#kontakt">
+              <a class="cta-tile" href="#contact">
                 <img src="/logo/tsv-steinsfurt.svg" alt="" width="48" height="55" />
                 <strong>{t.gallery.ctaTitle}</strong>
                 <span>{t.gallery.ctaText} <span aria-hidden="true">→</span></span>
