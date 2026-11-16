@@ -66,8 +66,8 @@ const dayOptions = [7, 14, 30, MAX_DAYS];
             <h2>Neuen Link erstellen</h2>
             <div class="grid">
               <label>
-                Vorname oder Kürzel des Interessenten
-                <input name="name" maxlength="40" required placeholder="z. B. Max M." />
+                Vorname des Interessenten <small class="hint">wird ihm auf der Seite zur Begrüßung angezeigt</small>
+                <input name="name" maxlength="40" required placeholder="z. B. Max" />
               </label>
               <label>
                 Gültig für
@@ -185,6 +185,7 @@ const dayOptions = [7, 14, 30, MAX_DAYS];
   :global(.status-pending) { background: #fff4d6; color: #8a5a00; }
   :global(.revoke) { font: inherit; font-size: 0.85rem; font-weight: 600; color: #b42318; background: none; border: 0; text-decoration: underline; cursor: pointer; }
   .small { font-size: 0.88rem; color: var(--c-ink-soft); }
+  .hint { display: block; font-weight: 400; font-size: 0.82rem; color: var(--c-ink-soft); }
   .btn-logout {
     margin-left: auto;
     font: inherit;

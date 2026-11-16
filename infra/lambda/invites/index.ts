@@ -5,6 +5,8 @@
  *   GET  /api/invites               list invites
  *   POST /api/invites               create  { name, days, createdBy? } → { id, token, expiresAt }
  *   POST /api/invites/{id}/revoke   revoke one invite
+ *   GET  /api/greeting              PUBLIC (no password): { name } for the visitor's own valid,
+ *                                   non-revoked access cookie – used to greet invited players
  *   GET  /api/invites/{id}/check    is the revocation already in effect at the edge?
  *                                   (the revocation list in the KeyValueStore needs ~20–60 s
  *                                   to reach all edge locations; this calls the site with the
@@ -114,12 +116,44 @@ async function revokeInKvs(id: string): Promise<void> {
   throw new Error('KeyValueStore busy, please retry');
 }
 
+/** Name for a valid, non-revoked access token (from the visitor's tsv_zugang cookie), else undefined. */
+async function nameForToken(token: string | undefined): Promise<string | undefined> {
+  if (!token || token.length > 80) return undefined;
+  const [id, exp, sig] = token.split('.');
+  if (!/^[A-Za-z0-9_-]{8}$/.test(id ?? '') || !/^\d{10}$/.test(exp ?? '') || !/^[0-9a-f]{32}$/.test(sig ?? '')) return undefined;
+  if (Number(exp) <= Math.floor(Date.now() / 1000)) return undefined;
+  const expected = Buffer.from((await sign(id, Number(exp))).split('.')[2]);
+  if (!timingSafeEqual(Buffer.from(sig), expected)) return undefined;
+  const { Item } = await ddb.send(new GetCommand({ TableName: TABLE_NAME, Key: { id }, ConsistentRead: true }));
+  if (!Item || Item.revoked || Item.expiresAt !== Number(exp)) return undefined; // revoked → no greeting, immediately
+  return typeof Item.name === 'string' ? Item.name : undefined;
+}
+
+function cookie(event: APIGatewayProxyEventV2, name: string): string | undefined {
+  const all = [...(event.cookies ?? []), ...(event.headers.cookie ?? '').split(';')];
+  for (const c of all) {
+    const [k, ...v] = c.trim().split('=');
+    if (k === name) return v.join('=');
+  }
+  return undefined;
+}
+
 const clean = (s: unknown, max: number) =>
   typeof s === 'string' ? s.replace(/[\u0000-\u001f<>]/g, '').trim().slice(0, max) : '';
 
 export async function handler(event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> {
   const method = event.requestContext.http.method;
   const path = event.rawPath.replace(/\/+$/, '');
+
+  // Public: greet invited players by name. Only answers for the caller's own valid cookie.
+  if (method === 'GET' && path === '/api/greeting') {
+    const name = await nameForToken(cookie(event, 'tsv_zugang')).catch(() => undefined);
+    return {
+      statusCode: 200,
+      headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store, private' },
+      body: JSON.stringify(name ? { name } : {}),
+    };
+  }
 
   if (!(await checkPassword(event.headers['x-admin-password']))) {
     await new Promise((r) => setTimeout(r, 1500)); // slow down guessing
