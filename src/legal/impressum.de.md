@@ -1,29 +1,22 @@
 ## Angaben gemäß § 5 DDG
 
 **TSV Phönix Steinsfurt e.V.**\
-[Straße Hausnummer]\
+Steinsfurter Str. 2a\
 74889 Sinsheim-Steinsfurt
 
-## Vertreten durch den Vorstand
+## Vertreten durch
 
-[Vorname Nachname] (1. Vorsitzende/r)\
-[Vorname Nachname] (2. Vorsitzende/r)
+1\. Vorsitzender: Reinhard Bayer
 
 ## Kontakt
 
-Telefon: [+49 …]\
-E-Mail: [info@tsv-steinsfurt.de]
+E-Mail: vorstand@tsv-steinsfurt.de\
+Telefon: [+49 …]
 
 ## Registereintrag
 
-Eingetragen im Vereinsregister.\
-Registergericht: [Amtsgericht Mannheim]\
-Registernummer: [VR …]
-
-## Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV
-
-[Vorname Nachname]\
-[Anschrift wie oben]
+Eingetragen im Vereinsregister des Amtsgerichts Mannheim\
+Registernummer: VR 340140
 
 ## Haftung für Links
 

@@ -5,12 +5,11 @@ Last updated: [DD.MM.YYYY]
 The controller responsible for data processing on this website is:
 
 **TSV Phönix Steinsfurt e.V.**\
-[Street No.]\
+Steinsfurter Str. 2a\
 74889 Sinsheim-Steinsfurt, Germany\
-Email: [info@tsv-steinsfurt.de]\
-Phone: [+49 …]
+Email: vorstand@tsv-steinsfurt.de
 
-Represented by the board: [First Last].
+Represented by the chairman, Reinhard Bayer.
 
 [If a data protection officer has been appointed: add name and contact here.]
 
@@ -56,7 +55,7 @@ We link to services of other providers. These are **not embedded**; merely visit
 
 ## 6. Photos and videos
 
-This website shows photos and videos from club life. People who can be identified in them have consented to publication (Art. 6 (1) (a) GDPR). Consent can be withdrawn at any time with effect for the future; the photo or video will then be removed. [Add contact for withdrawals, e.g. the board's email address.]
+This website shows photos and videos from club life. People who can be identified in them have consented to publication (Art. 6 (1) (a) GDPR). Consent can be withdrawn at any time with effect for the future; the photo or video will then be removed. Please send withdrawals by email to vorstand@tsv-steinsfurt.de.
 
 ## 7. Your rights
 

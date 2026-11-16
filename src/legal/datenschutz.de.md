@@ -5,12 +5,11 @@ Stand: [TT.MM.JJJJ]
 Verantwortlich für die Datenverarbeitung auf dieser Website ist:
 
 **TSV Phönix Steinsfurt e.V.**\
-[Straße Hausnummer]\
+Steinsfurter Str. 2a\
 74889 Sinsheim-Steinsfurt\
-E-Mail: [info@tsv-steinsfurt.de]\
-Telefon: [+49 …]
+E-Mail: vorstand@tsv-steinsfurt.de
 
-Vertreten durch den Vorstand: [Vorname Nachname].
+Vertreten durch den 1. Vorsitzenden Reinhard Bayer.
 
 [Falls ein Datenschutzbeauftragter benannt ist: Name und Kontakt hier ergänzen. Ein Verein muss in der Regel erst dann einen Datenschutzbeauftragten benennen, wenn mindestens 20 Personen ständig mit der automatisierten Verarbeitung personenbezogener Daten beschäftigt sind.]
 
@@ -56,7 +55,7 @@ Auf dieser Website verlinken wir auf Angebote anderer Anbieter. Diese sind **nic
 
 ## 6. Fotos und Videos
 
-Auf dieser Website zeigen wir Fotos und Videos aus dem Vereinsleben. Personen, die darauf erkennbar sind, haben der Veröffentlichung zugestimmt (Art. 6 Abs. 1 lit. a DSGVO). Eine Einwilligung kann jederzeit mit Wirkung für die Zukunft widerrufen werden; das Foto bzw. Video wird dann entfernt. [Kontakt für den Widerruf ergänzen, z. B. E-Mail-Adresse des Vorstands.]
+Auf dieser Website zeigen wir Fotos und Videos aus dem Vereinsleben. Personen, die darauf erkennbar sind, haben der Veröffentlichung zugestimmt (Art. 6 Abs. 1 lit. a DSGVO). Eine Einwilligung kann jederzeit mit Wirkung für die Zukunft widerrufen werden; das Foto bzw. Video wird dann entfernt. Widerruf bitte per E-Mail an vorstand@tsv-steinsfurt.de.
 
 ## 7. Ihre Rechte
 

@@ -38,7 +38,7 @@ npx astro check    # type-check
 
 ### Legal texts
 
-The legal texts are Markdown files in `src/legal/`. You can edit them like a normal text document (`## ` = heading, `**bold**`, `- ` = list item, a trailing `\` = line break). Everything in `[square brackets]` is a **placeholder** that the club has to fill in: address, board, register court and number, contact details, retention period, date.
+The legal texts are Markdown files in `src/legal/`. You can edit them like a normal text document (`## ` = heading, `**bold**`, `- ` = list item, a trailing `\` = line break; a line starting with a number and a dot becomes a numbered list, so write `1\. Vorsitzender`). Everything in `[square brackets]` is a **placeholder** that the club has to fill in: address, board, register court and number, contact details, retention period, date.
 
 - The **privacy policy draft** already contains the technical facts of this site: AWS hosting in Frankfurt, CloudFront, no access logs, no cookies or tracking, self-hosted fonts, links instead of embeds. Check it against your association's template (e.g. Badischer Fußballverband / Badischer Sportbund) or a generator such as Datenschutz-Generator.de, and **update it whenever the site changes**. Adding YouTube embeds, a map, analytics or a contact form needs new sections.
 - The German versions are the legally binding ones; the English pages show a note saying so.

@@ -1,30 +1,23 @@
 ## Information pursuant to § 5 DDG (German Digital Services Act)
 
 **TSV Phönix Steinsfurt e.V.**\
-[Street No.]\
+Steinsfurter Str. 2a\
 74889 Sinsheim-Steinsfurt\
 Germany
 
-## Represented by the board
+## Represented by
 
-[First Last] (Chair)\
-[First Last] (Vice chair)
+Chairman: Reinhard Bayer
 
 ## Contact
 
-Phone: [+49 …]\
-Email: [info@tsv-steinsfurt.de]
+Email: vorstand@tsv-steinsfurt.de\
+Phone: [+49 …]
 
 ## Register entry
 
-Registered in the register of associations (Vereinsregister).\
-Register court: [Amtsgericht Mannheim]\
-Register number: [VR …]
-
-## Responsible for content pursuant to § 18 (2) MStV
-
-[First Last]\
-[Address as above]
+Registered in the register of associations (Vereinsregister) at the local court (Amtsgericht) of Mannheim\
+Register number: VR 340140
 
 ## Liability for links
 
