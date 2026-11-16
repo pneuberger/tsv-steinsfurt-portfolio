@@ -19,7 +19,6 @@ const { t } = Astro.props;
     <p class="hero-eyebrow">{t.hero.eyebrow}</p>
     {/* data-greeting: template for the personal greeting (staging only, script injected in astro.config.mjs) */}
     <h1 data-greeting={accessGate ? t.hero.titleGreeting : undefined}>{t.hero.title}</h1>
-    <p class="hero-sub">{t.hero.subtitle}</p>
     <div class="hero-ctas">
       <a class="btn btn-accent" href="#contact">{t.hero.cta} <span aria-hidden="true">→</span></a>
       <a class="btn btn-ghost" href="#offer">{t.hero.secondary}</a>
@@ -83,19 +82,12 @@ const { t } = Astro.props;
     max-width: 22ch; /* wide enough to keep "Phönix-Gemeinschaft" on one line on desktop */
     animation: rise 0.9s 0.1s cubic-bezier(.2,.8,.2,1) both;
   }
-  .hero-sub {
-    max-width: 36rem;
-    margin-top: 1.5rem;
-    font-size: clamp(1.1rem, 1rem + 0.5vw, 1.35rem);
-    opacity: 0.92;
-    animation: rise 0.9s 0.25s cubic-bezier(.2,.8,.2,1) both;
-  }
   .hero-ctas {
     display: flex;
     flex-wrap: wrap;
     gap: 0.9rem;
     margin-top: 2.25rem;
-    animation: rise 0.9s 0.4s cubic-bezier(.2,.8,.2,1) both;
+    animation: rise 0.9s 0.25s cubic-bezier(.2,.8,.2,1) both;
   }
   .scroll-hint {
     position: absolute;
