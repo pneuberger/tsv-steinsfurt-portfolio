@@ -1,0 +1,93 @@
+---
+/**
+ * "No access" page, shown to visitors without a valid invite link (staging build only):
+ *   /kein-zugang/     – German (the gate redirects here)
+ *   /en/no-access/    – English
+ * With the same DE/EN switch as the legal pages. Both paths are public in
+ * infra/functions/gate-request.js. Without PUBLIC_ACCESS_GATE=true no pages are built.
+ */
+import Base from '../layouts/Base.astro';
+import LangSwitch from '../components/LangSwitch.astro';
+import Footer from '../components/sections/Footer.astro';
+import { accessGate } from '../access-gate';
+import type { Lang, PagePaths } from '../i18n';
+
+const noAccessPaths: PagePaths = { de: '/kein-zugang/', en: '/en/no-access/' };
+
+export function getStaticPaths() {
+  if (!accessGate) return [];
+  return [
+    { params: { noAccess: 'kein-zugang' }, props: { lang: 'de' } },
+    { params: { noAccess: 'en/no-access' }, props: { lang: 'en' } },
+  ];
+}
+
+const { lang } = Astro.props as { lang: Lang };
+const MAIL = 'vorstand@tsv-steinsfurt.de';
+const TEXT = {
+  de: {
+    title: 'Kein Zugang – TSV Phönix Steinsfurt',
+    description: 'Diese Seite ist nur mit persönlicher Einladung erreichbar.',
+    heading: 'Dieser Link ist nicht (mehr) gültig',
+    p1before: 'Diese Seite ist nur mit einem ',
+    p1strong: 'persönlichen Einladungslink',
+    p1after: ' erreichbar. Vielleicht ist dein Link abgelaufen oder wurde nicht vollständig kopiert.',
+    p2: 'Melde dich einfach bei uns, wir schicken dir gern einen neuen:',
+  },
+  en: {
+    title: 'No access – TSV Phönix Steinsfurt',
+    description: 'This page is only available with a personal invitation.',
+    heading: 'This link is not (or no longer) valid',
+    p1before: 'This page is only available with a ',
+    p1strong: 'personal invite link',
+    p1after: '. Your link may have expired or may not have been copied completely.',
+    p2: "Just get in touch and we'll send you a new one:",
+  },
+}[lang];
+---
+
+<Base lang={lang} paths={noAccessPaths} title={TEXT.title} description={TEXT.description} interactive={false}>
+  <LangSwitch lang={lang} paths={noAccessPaths} />
+  <header class="gate-head">
+    <div class="container head-inner">
+      <img src="/logo/tsv-steinsfurt.svg" alt="TSV Phönix Steinsfurt Logo" width="48" height="55" />
+      <strong>TSV Phönix Steinsfurt</strong>
+    </div>
+  </header>
+
+  <main class="container narrow">
+    <section class="card">
+      <h1>{TEXT.heading}</h1>
+      <p>{TEXT.p1before}<strong>{TEXT.p1strong}</strong>{TEXT.p1after}</p>
+      <p>{TEXT.p2} <a href={`mailto:${MAIL}`}>{MAIL}</a></p>
+    </section>
+  </main>
+
+  <Footer lang={lang} />
+</Base>
+
+<style>
+  .gate-head {
+    background: var(--c-primary-dark);
+    color: #fff;
+    padding-block: 1.25rem;
+  }
+  .head-inner {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    min-height: 3.5rem;
+    padding-right: 7rem; /* room for the fixed language switch */
+  }
+  .head-inner img { width: 2.6rem; height: auto; }
+  .narrow { max-width: 52rem; padding-block: clamp(2.5rem, 6vw, 4.5rem); }
+  h1 { font-size: clamp(2rem, 1.5rem + 2.5vw, 3rem); margin-bottom: 1rem; }
+  .card {
+    background: var(--c-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    padding: clamp(1.25rem, 3vw, 2rem);
+  }
+  .card p + p { margin-top: 0.75rem; }
+  .card a { color: var(--c-primary); overflow-wrap: anywhere; }
+</style>

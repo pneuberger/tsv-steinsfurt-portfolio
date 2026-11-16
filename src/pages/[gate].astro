@@ -1,9 +1,9 @@
 ---
 /**
  * Pages that only exist when the invite-link access gate is enabled (staging build):
- *   /kein-zugang/  – shown to visitors without a valid invite link (public)
- *   /admin/        – committee form to create / list / revoke invite links (public page,
- *                    the API behind it is password protected)
+ *   /admin/ – committee form to create / list / revoke invite links (public page,
+ *             the API behind it is password protected)
+ * The no-access page (/kein-zugang/, /en/no-access/) is in [...noAccess].astro.
  * Without PUBLIC_ACCESS_GATE=true, getStaticPaths returns nothing → no pages are built.
  */
 import Base from '../layouts/Base.astro';
@@ -11,7 +11,7 @@ import Footer from '../components/sections/Footer.astro';
 import { accessGate, DEFAULT_DAYS, MAX_DAYS } from '../access-gate';
 
 export function getStaticPaths() {
-  return accessGate ? [{ params: { gate: 'kein-zugang' } }, { params: { gate: 'admin' } }] : [];
+  return accessGate ? [{ params: { gate: 'admin' } }] : [];
 }
 
 const { gate } = Astro.params;
@@ -33,32 +33,6 @@ const dayOptions = [7, 14, 30, MAX_DAYS];
       <strong>TSV Phönix Steinsfurt</strong>
     </div>
   </header>
-
-  {
-    !isAdmin && (
-      <main class="container narrow">
-        <section class="card">
-          <h1>Dieser Link ist nicht (mehr) gültig</h1>
-          <p>
-            Diese Seite ist nur mit einem <strong>persönlichen Einladungslink</strong> erreichbar. Vielleicht ist dein Link
-            abgelaufen oder wurde nicht vollständig kopiert.
-          </p>
-          <p>
-            Melde dich einfach bei uns, wir schicken dir gern einen neuen:{' '}
-            <a href="mailto:vorstand@tsv-steinsfurt.de">vorstand@tsv-steinsfurt.de</a>
-          </p>
-        </section>
-        <section class="card en" lang="en">
-          <h2>This link is not (or no longer) valid</h2>
-          <p>
-            This page is only available with a <strong>personal invite link</strong>. Your link may have expired or may not
-            have been copied completely. Just get in touch and we'll send you a new one:{' '}
-            <a href="mailto:vorstand@tsv-steinsfurt.de">vorstand@tsv-steinsfurt.de</a>
-          </p>
-        </section>
-      </main>
-    )
-  }
 
   {
     isAdmin && (
@@ -172,7 +146,6 @@ const dayOptions = [7, 14, 30, MAX_DAYS];
   }
   .card p + p { margin-top: 0.75rem; }
   .card a { color: var(--c-primary); }
-  .en { background: var(--c-tint); box-shadow: none; }
   label { display: grid; gap: 0.35rem; font-weight: 600; font-size: 0.95rem; margin-bottom: 1rem; }
   input, select {
     font: inherit; font-weight: 400;

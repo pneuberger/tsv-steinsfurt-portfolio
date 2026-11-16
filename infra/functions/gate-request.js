@@ -19,6 +19,7 @@ const NO_ACCESS = '/kein-zugang/';
 // Photos and videos are NOT public.
 const PUBLIC = [
   /^\/kein-zugang(\/|\/index\.html)?$/,
+  /^\/en\/no-access(\/|\/index\.html)?$/,
   /^\/impressum(\/|\/index\.html)?$/,
   /^\/datenschutz(\/|\/index\.html)?$/,
   /^\/en\/legal-notice(\/|\/index\.html)?$/,
