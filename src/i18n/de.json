@@ -30,7 +30,7 @@
     "linkLabel": "Zum Team auf FuPa",
     "items": [
       { "image": "team-erste", "name": "1. Mannschaft", "league": "Kreisliga", "vibe": "Ehrgeizig, eingespielt – und immer hungrig auf den nächsten Sieg.", "url": "https://www.fupa.net/team/tsv-steinsfurt-m1-2026-27" },
-      { "image": "team-zweite", "name": "2. Mannschaft", "league": "Kreisklasse A", "vibe": "Ideal zum Einsteigen, Wiedereinsteigen und Spielpraxis sammeln.", "url": "https://www.fupa.net/team/sg-steinsfurt-sv-reihen-m2-2026-27" }
+      { "image": "team-zweite", "name": "2. Mannschaft", "league": "Kreisklasse C", "vibe": "Ideal zum Einsteigen, Wiedereinsteigen und Spielpraxis sammeln.", "url": "https://www.fupa.net/team/sg-steinsfurt-sv-reihen-m2-2026-27" }
     ]
   },
   "offer": {
