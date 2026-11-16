@@ -3,7 +3,7 @@
 A single scrolling page that wins new male players (aged 18+) for TSV Phönix Steinsfurt. It's built with **Astro** as a static site and hosted on **AWS** (S3 in `eu-central-1` / Frankfurt behind CloudFront). It's deployed by **GitHub Actions**.
 
 - German at `/`, English at `/en/`. The DE/EN switch sits top right.
-- Legal pages: `/impressum/`, `/datenschutz/` (English: `/en/legal-notice/`, `/en/privacy/`). Plain HTML, no JavaScript.
+- Legal pages: `/legal-notice/`, `/privacy/` (English: `/en/legal-notice/`, `/en/privacy/`). All URLs and section anchors use English names. Plain HTML, no JavaScript.
 - No tracking and no cookies. Fonts are self-hosted.
 - ⚠️ Currently **hidden from search engines** (`noindex`) until the placeholder content is replaced. See [Going live](#going-live).
 
@@ -160,7 +160,7 @@ From then on, every push to `main` builds the site, uploads it to S3 (hashed ass
 ```
 src/
   pages/index.astro, pages/en/index.astro   # both render the same OnePage
-  pages/impressum.astro, datenschutz.astro, en/legal-notice.astro, en/privacy.astro
+  pages/legal-notice.astro, privacy.astro, en/legal-notice.astro, en/privacy.astro
   layouts/Base.astro, layouts/LegalPage.astro
   legal/*.md                                # legal texts (Markdown)
   site.config.ts                            # indexable switch (noindex until launch)
