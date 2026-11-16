@@ -3,8 +3,10 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-  // Set to the real domain once it exists (used for canonical/hreflang/OG URLs).
-  site: 'https://www.tsv-steinsfurt.de',
+  // Public address of the site (used for canonical/hreflang/OG URLs).
+  // For now the CloudFront URL; switch to the custom domain once one is set up.
+  // The site is independent of the club homepage (tsvphoenixsteinsfurt.de).
+  site: 'https://d384ezf8yukgl8.cloudfront.net',
   trailingSlash: 'ignore',
   build: {
     // /en/ -> dist/en/index.html (the CloudFront Function maps /en/ to it)

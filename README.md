@@ -128,7 +128,7 @@ If your account **already has a GitHub OIDC provider** (`token.actions.githubuse
 **Custom domain (later):** if the domain's DNS is in Route 53, deploy with
 
 ```sh
-npx cdk deploy --all -c domainName=www.tsv-steinsfurt.de -c hostedZoneId=Z0123… -c hostedZoneName=tsv-steinsfurt.de
+npx cdk deploy --all -c domainName=www.example.de -c hostedZoneId=Z0123… -c hostedZoneName=example.de
 ```
 
 (or put these values into `infra/cdk.json`). Then update `site` in `astro.config.mjs`.
