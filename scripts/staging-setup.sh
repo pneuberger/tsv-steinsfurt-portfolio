@@ -50,13 +50,10 @@ if aws ssm get-parameter --region "$REGION" --name "$PARAM" >/dev/null 2>&1 && [
   echo "✓ Ausschuss-Passwort existiert bereits (unverändert)."
 else
   # 4 groups of 5 characters, without easily confused characters (0/O, 1/l/I)
-  PASSWORD=$(LC_ALL=C tr -dc 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789' </dev/urandom | head -c 20 | sed -E 's/(.{5})(.{5})(.{5})(.{5})/\1-\2-\3-\4/')
-  HASH=$(PW="$PASSWORD" node -e '
-    const { scryptSync, randomBytes } = require("node:crypto");
-    const N = 32768, salt = randomBytes(16);
-    const hash = scryptSync(process.env.PW, salt, 32, { N, maxmem: 256 * 1024 * 1024 });
-    process.stdout.write(`scrypt$${N}$${salt.toString("hex")}$${hash.toString("hex")}`);
-  ')
+  # Password + scrypt hash from a small Node script (no `tr | head` pipe: with pipefail
+  # its SIGPIPE would abort this script silently).
+  read -r PASSWORD HASH < <(node "$(dirname "$0")/make-password.mjs")
+  [ -n "$PASSWORD" ] && [[ "$HASH" == scrypt\$* ]] || { echo "Passwort-Erzeugung fehlgeschlagen" >&2; exit 1; }
   aws ssm put-parameter --region "$REGION" --name "$PARAM" --type SecureString --overwrite --value "$HASH" >/dev/null
   echo
   echo "✓ Neues Ausschuss-Passwort (wird NUR JETZT angezeigt, bitte sicher weitergeben):"
