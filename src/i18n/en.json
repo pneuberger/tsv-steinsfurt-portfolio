@@ -18,7 +18,7 @@
     "stats": [
       { "value": 1910, "suffix": "", "label": "Founded" },
       { "value": 2, "suffix": "", "label": "Active teams" },
-      { "value": 50, "suffix": "+", "label": "Active players" },
+      { "value": 40, "suffix": "+", "label": "Active players" },
       { "value": 2, "suffix": "×", "label": "Sessions per week" }
     ]
   },

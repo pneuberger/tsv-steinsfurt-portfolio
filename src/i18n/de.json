@@ -18,7 +18,7 @@
     "stats": [
       { "value": 1910, "suffix": "", "label": "Gegründet" },
       { "value": 2, "suffix": "", "label": "Aktive Teams" },
-      { "value": 50, "suffix": "+", "label": "Aktive Spieler" },
+      { "value": 40, "suffix": "+", "label": "Aktive Spieler" },
       { "value": 2, "suffix": "×", "label": "Training pro Woche" }
     ]
   },
