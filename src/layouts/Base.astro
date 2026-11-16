@@ -19,7 +19,7 @@ const ogImage = new URL('/og-image.jpg', Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{t.meta.title}</title>
     <meta name="description" content={t.meta.description} />
-    <meta name="theme-color" content="#0b3d2e" />
+    <meta name="theme-color" content="#000040" />
     <link rel="canonical" href={canonical} />
     {languages.map((l) => <link rel="alternate" hreflang={l} href={new URL(pathFor(l), Astro.site)} />)}
     <link rel="alternate" hreflang="x-default" href={new URL(pathFor('de'), Astro.site)} />

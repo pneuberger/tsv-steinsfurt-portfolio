@@ -1,6 +1,6 @@
-# TSV Steinsfurt – Recruitment One-Pager
+# TSV Phönix Steinsfurt – Recruitment One-Pager
 
-A single scrolling page that wins new players (aged 16–40) for TSV Steinsfurt. It's built with **Astro** as a static site and hosted on **AWS** (S3 in `eu-central-1` / Frankfurt behind CloudFront). It's deployed by **GitHub Actions**.
+A single scrolling page that wins new players (aged 16–40) for TSV Phönix Steinsfurt. It's built with **Astro** as a static site and hosted on **AWS** (S3 in `eu-central-1` / Frankfurt behind CloudFront). It's deployed by **GitHub Actions**.
 
 - German at `/`, English at `/en/`. The DE/EN switch sits top right.
 - No tracking and no cookies. Fonts are self-hosted.
@@ -36,6 +36,8 @@ npx astro check    # type-check
 ### Replacing placeholder photos
 
 Photos are referenced by a key (e.g. `"image": "team-erste"`). Put a real photo with the **same file name** into `src/assets/photos/` (e.g. `src/assets/photos/team-erste.jpg`). It automatically takes precedence over the placeholder in `src/assets/placeholders/`. Astro resizes the photos and converts them to WebP at build time.
+
+> **Old image still showing in `npm run dev`?** The dev server serves images under the same URL with a long cache lifetime, so the browser keeps the old version. Hard-reload (Cmd + Shift + R) or tick "Disable cache" in the DevTools. Production builds use content-hashed file names, so this doesn't happen live.
 
 ### Videos
 

@@ -34,7 +34,7 @@ const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComp
       <div class="card location reveal">
         <h3>📍 {t.training.locationTitle}</h3>
         <p>{t.training.address}</p>
-        <a class="btn btn-primary" href={mapsUrl} target="_blank" rel="noopener noreferrer">
+        <a class="btn btn-accent" href={mapsUrl} target="_blank" rel="noopener noreferrer">
           {t.training.mapLink} <span aria-hidden="true">↗</span>
         </a>
       </div>
@@ -78,7 +78,8 @@ const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComp
   dt { font-weight: 700; }
   dd { color: var(--c-ink-soft); font-variant-numeric: tabular-nums; }
   .location {
-    background: var(--c-accent);
+    background: var(--c-primary);
+    color: #fff;
   }
   .location p { margin-bottom: 1.25rem; font-weight: 500; }
 </style>

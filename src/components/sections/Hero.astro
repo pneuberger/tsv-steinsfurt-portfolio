@@ -14,7 +14,7 @@ const { t } = Astro.props;
   <div class="hero-overlay" aria-hidden="true"></div>
 
   <div class="container hero-content">
-    <img class="crest" src="/favicon.svg" alt="TSV Steinsfurt" width="72" height="72" />
+    <img class="crest" src="/logo/tsv-steinsfurt.svg" alt="TSV Phönix Steinsfurt Logo" width="96" height="109" />
     <p class="hero-eyebrow">{t.hero.eyebrow}</p>
     <h1>{t.hero.title}</h1>
     <p class="hero-sub">{t.hero.subtitle}</p>
@@ -55,16 +55,16 @@ const { t } = Astro.props;
     inset: 0;
     z-index: -1;
     background:
-      radial-gradient(ellipse at 20% 80%, rgb(15 107 69 / 0.55), transparent 60%),
-      linear-gradient(180deg, rgb(11 61 46 / 0.35) 0%, rgb(11 61 46 / 0.75) 100%);
+      radial-gradient(ellipse at 20% 80%, rgb(38 89 161 / 0.5), transparent 60%),
+      linear-gradient(180deg, rgb(0 0 64 / 0.35) 0%, rgb(0 0 64 / 0.8) 100%);
   }
   .hero-content {
     padding-block: 7rem 9rem;
     max-width: var(--max);
   }
   .crest {
-    width: 4.5rem;
-    height: 4.5rem;
+    width: clamp(5rem, 4rem + 3vw, 6.5rem);
+    height: auto;
     margin-bottom: 1.5rem;
     filter: drop-shadow(0 6px 16px rgb(0 0 0 / 0.3));
     animation: pop 0.8s cubic-bezier(.2,1.6,.4,1) both;
@@ -74,7 +74,7 @@ const { t } = Astro.props;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     font-size: 0.9rem;
-    color: var(--c-accent);
+    color: var(--c-highlight);
     margin-bottom: 1rem;
   }
   h1 {

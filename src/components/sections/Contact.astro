@@ -42,11 +42,11 @@ const digits = (phone: string) => phone.replace(/[^\d+]/g, '');
 <style>
   .contact {
     background:
-      radial-gradient(circle at 85% 10%, rgb(255 204 51 / 0.25), transparent 40%),
-      var(--c-primary);
+      radial-gradient(circle at 85% 10%, rgb(38 89 161 / 0.65), transparent 55%),
+      var(--c-primary-dark);
     color: #fff;
   }
-  .contact .eyebrow { color: var(--c-accent); }
+  .contact .eyebrow { color: var(--c-highlight); }
   .contact .section-head p { color: rgb(255 255 255 / 0.85); }
   .people {
     list-style: none;
@@ -73,7 +73,7 @@ const digits = (phone: string) => phone.replace(/[^\d+]/g, '');
     display: grid;
     place-items: center;
     background: var(--c-accent);
-    color: var(--c-ink);
+    color: var(--c-primary-dark);
     font-weight: 800;
     font-size: 1.3rem;
     margin-bottom: 1rem;

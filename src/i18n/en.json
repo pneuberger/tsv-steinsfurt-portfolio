@@ -1,11 +1,11 @@
 {
   "meta": {
-    "title": "TSV Steinsfurt – Join the Team!",
+    "title": "TSV Phönix Steinsfurt – Join the Team!",
     "description": "Football in Steinsfurt: we're looking for players aged 16 to 40. Training, team spirit, community – come to a trial session!"
   },
   "lang": { "label": "Language", "de": "Deutsch", "en": "English" },
   "hero": {
-    "eyebrow": "TSV Steinsfurt · Football",
+    "eyebrow": "TSV Phönix Steinsfurt · Football",
     "title": "Your club. Your team. Your game.",
     "subtitle": "Aged 16 to 40 and keen to play football? Come along – trial sessions are possible any time.",
     "cta": "Book a trial session",
@@ -15,9 +15,9 @@
   "about": {
     "eyebrow": "Who we are",
     "title": "More than just a club",
-    "text": "For decades, TSV Steinsfurt has been home to everyone who loves football. Whether you're ambitious or just play for fun – you'll find your place here, on and off the pitch.",
+    "text": "For decades, TSV Phönix Steinsfurt has been home to everyone who loves football. Whether you're ambitious or just play for fun – you'll find your place here, on and off the pitch.",
     "stats": [
-      { "value": 1900, "suffix": "", "label": "Founded" },
+      { "value": 1910, "suffix": "", "label": "Founded" },
       { "value": 4, "suffix": "", "label": "Active teams" },
       { "value": 120, "suffix": "+", "label": "Active players" },
       { "value": 3, "suffix": "×", "label": "Sessions per week" }
@@ -73,7 +73,7 @@
       { "team": "Under-19s", "times": "Tue & Fri · 6:00–7:30 pm" }
     ],
     "locationTitle": "Where to find us",
-    "address": "TSV Steinsfurt sports ground, 74889 Sinsheim-Steinsfurt, Germany",
+    "address": "TSV Phönix Steinsfurt sports ground, 74889 Sinsheim-Steinsfurt, Germany",
     "mapLink": "Open in Google Maps"
   },
   "contact": {
@@ -94,7 +94,7 @@
     "imprint": "Legal notice",
     "privacy": "Privacy",
     "close": "Close",
-    "imprintText": "Information according to § 5 DDG: TSV Steinsfurt e.V., [Street No.], 74889 Sinsheim, Germany. Represented by the board: [Name]. Register court: [Amtsgericht], register number: [VR …]. Contact: [Email].",
+    "imprintText": "Information according to § 5 DDG: TSV Phönix Steinsfurt e.V., [Street No.], 74889 Sinsheim, Germany. Represented by the board: [Name]. Register court: [Amtsgericht], register number: [VR …]. Contact: [Email].",
     "privacyText": "This website sets no cookies and uses no tracking. Fonts are served locally. When you visit the page, our hosting provider (Amazon Web Services, Frankfurt region) processes technically necessary access data (e.g. IP address) to deliver the page. [Please add a complete privacy policy.]",
     "rights": "All rights reserved."
   }
