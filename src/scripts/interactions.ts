@@ -4,7 +4,6 @@
  *  - in-view autoplay for <video data-inview>
  *  - animated stat counters ([data-count])
  *  - lightbox (<dialog id="lightbox">) for [data-lightbox] triggers
- *  - legal modals ([data-dialog-open="id"])
  * Everything degrades gracefully: without JS the content is fully visible.
  */
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -101,12 +100,7 @@ document.querySelectorAll<HTMLElement>('[data-lightbox]').forEach((trigger) => {
   });
 });
 
-// ---------- Generic dialogs (lightbox close, legal notices) ----------
-document.querySelectorAll<HTMLElement>('[data-dialog-open]').forEach((btn) => {
-  btn.addEventListener('click', () => {
-    document.querySelector<HTMLDialogElement>(`#${btn.dataset.dialogOpen}`)?.showModal();
-  });
-});
+// ---------- Dialogs (lightbox): close button, backdrop click, pause video ----------
 document.querySelectorAll<HTMLDialogElement>('dialog').forEach((d) => {
   d.querySelectorAll('[data-dialog-close]').forEach((b) => b.addEventListener('click', () => d.close()));
   // Click on the backdrop closes the dialog.

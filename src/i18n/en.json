@@ -88,9 +88,14 @@
     "follow": "Follow us",
     "imprint": "Legal notice",
     "privacy": "Privacy",
-    "close": "Close",
-    "imprintText": "Information according to § 5 DDG: TSV Phönix Steinsfurt e.V., [Street No.], 74889 Sinsheim, Germany. Represented by the board: [Name]. Register court: [Amtsgericht], register number: [VR …]. Contact: [Email].",
-    "privacyText": "This website sets no cookies and uses no tracking. Fonts are served locally. When you visit the page, our hosting provider (Amazon Web Services, Frankfurt region) processes technically necessary access data (e.g. IP address) to deliver the page. [Please add a complete privacy policy.]",
     "rights": "All rights reserved."
+  },
+  "legal": {
+    "imprintTitle": "Legal notice",
+    "privacyTitle": "Privacy policy",
+    "backHome": "Back to the homepage",
+    "imprintDescription": "Legal notice of TSV Phönix Steinsfurt e.V.",
+    "privacyDescription": "Privacy policy of TSV Phönix Steinsfurt e.V.",
+    "germanBinding": "This is a courtesy translation. Only the German version is legally binding."
   }
 }

@@ -3,7 +3,9 @@
 A single scrolling page that wins new male players (aged 18+) for TSV Phönix Steinsfurt. It's built with **Astro** as a static site and hosted on **AWS** (S3 in `eu-central-1` / Frankfurt behind CloudFront). It's deployed by **GitHub Actions**.
 
 - German at `/`, English at `/en/`. The DE/EN switch sits top right.
+- Legal pages: `/impressum/`, `/datenschutz/` (English: `/en/legal-notice/`, `/en/privacy/`). Plain HTML, no JavaScript.
 - No tracking and no cookies. Fonts are self-hosted.
+- ⚠️ Currently **hidden from search engines** (`noindex`) until the placeholder content is replaced. See [Going live](#going-live).
 
 ## Local development
 
@@ -30,8 +32,27 @@ npx astro check    # type-check
 | Crest / favicon | `public/favicon.svg` (+ `favicon.ico`) |
 | Social share image | `public/og-image.jpg` (1200×630) |
 | Domain for canonical/SEO URLs | `site` in `astro.config.mjs` |
+| Legal notice (Impressum) | `src/legal/impressum.de.md`, `src/legal/impressum.en.md` |
+| Privacy policy (Datenschutz) | `src/legal/datenschutz.de.md`, `src/legal/datenschutz.en.md` |
+| Search engine visibility | `indexable` in `src/site.config.ts` |
 
-> ⚠️ The **Impressum** and **Datenschutz** texts in the JSON files are placeholders. Fill them in before going live (both are legally required in Germany).
+### Legal texts
+
+The legal texts are Markdown files in `src/legal/`. You can edit them like a normal text document (`## ` = heading, `**bold**`, `- ` = list item, a trailing `\` = line break). Everything in `[square brackets]` is a **placeholder** that the club has to fill in: address, board, register court and number, contact details, retention period, date.
+
+- The **privacy policy draft** already contains the technical facts of this site: AWS hosting in Frankfurt, CloudFront, no access logs, no cookies or tracking, self-hosted fonts, links instead of embeds. Check it against your association's template (e.g. Badischer Fußballverband / Badischer Sportbund) or a generator such as Datenschutz-Generator.de, and **update it whenever the site changes**. Adding YouTube embeds, a map, analytics or a contact form needs new sections.
+- The German versions are the legally binding ones; the English pages show a note saying so.
+- Not legal advice. Have the final texts checked if in doubt.
+
+### Going live
+
+Before promoting the site:
+
+1. Replace all `[placeholders]` in `src/legal/*.md` and set the date.
+2. Replace placeholder content: real photos and clips, real player quotes (with consent), real numbers, training times and coach contacts (with consent).
+3. Get written consent from everyone recognisable in photos and videos.
+4. Set `indexable = true` in `src/site.config.ts`, so search engines may list the site.
+5. Optional: set up the custom domain (see [Hosting on AWS](#hosting-on-aws)) and update `site` in `astro.config.mjs`.
 
 ### Replacing placeholder photos
 
@@ -139,12 +160,16 @@ From then on, every push to `main` builds the site, uploads it to S3 (hashed ass
 ```
 src/
   pages/index.astro, pages/en/index.astro   # both render the same OnePage
+  pages/impressum.astro, datenschutz.astro, en/legal-notice.astro, en/privacy.astro
+  layouts/Base.astro, layouts/LegalPage.astro
+  legal/*.md                                # legal texts (Markdown)
+  site.config.ts                            # indexable switch (noindex until launch)
   components/OnePage.astro                  # section order
   components/sections/*.astro               # Hero, About, Teams, Offer, Gallery, Testimonials, Training, Contact, Footer
   components/ui/                            # VideoClip, Wave divider
   i18n/                                     # texts + helpers
   lib/images.ts                             # image key → photo/placeholder lookup
-  scripts/interactions.ts                   # scroll reveal, in-view video, counters, lightbox, dialogs
+  scripts/interactions.ts                   # scroll reveal, in-view video, counters, lightbox
   styles/global.css                         # design tokens + base styles
 public/media/videos/                        # clips + posters
 infra/                                      # AWS CDK app

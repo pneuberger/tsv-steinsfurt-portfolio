@@ -1,10 +1,12 @@
 ---
-import { languages, pathFor, useTranslations, type Lang } from '../i18n';
+import { homePaths, languages, useTranslations, type Lang, type PagePaths } from '../i18n';
 
 interface Props {
   lang: Lang;
+  /** Target of each language link (defaults to the one-pager). */
+  paths?: PagePaths;
 }
-const { lang } = Astro.props;
+const { lang, paths = homePaths } = Astro.props;
 const t = useTranslations(lang);
 ---
 
@@ -12,7 +14,7 @@ const t = useTranslations(lang);
   {
     languages.map((l) => (
       <a
-        href={pathFor(l)}
+        href={paths[l]}
         hreflang={l}
         lang={l}
         aria-current={l === lang ? 'true' : undefined}

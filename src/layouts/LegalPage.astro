@@ -1,0 +1,117 @@
+---
+/**
+ * Text page for the legal notice / privacy policy.
+ * Plain HTML, no JavaScript: reachable for every visitor, screen reader and crawler.
+ * Content comes from Markdown files in src/legal/ (easy to edit without code).
+ */
+import Base from './Base.astro';
+import LangSwitch from '../components/LangSwitch.astro';
+import Footer from '../components/sections/Footer.astro';
+import { legalPaths, pathFor, useTranslations, type Lang, type LegalKind } from '../i18n';
+
+import * as imprintDe from '../legal/impressum.de.md';
+import * as imprintEn from '../legal/impressum.en.md';
+import * as privacyDe from '../legal/datenschutz.de.md';
+import * as privacyEn from '../legal/datenschutz.en.md';
+
+interface Props {
+  lang: Lang;
+  kind: LegalKind;
+}
+const { lang, kind } = Astro.props;
+const t = useTranslations(lang);
+const docs = { imprint: { de: imprintDe, en: imprintEn }, privacy: { de: privacyDe, en: privacyEn } };
+const { Content } = docs[kind][lang];
+const title = kind === 'imprint' ? t.legal.imprintTitle : t.legal.privacyTitle;
+const description = kind === 'imprint' ? t.legal.imprintDescription : t.legal.privacyDescription;
+---
+
+<Base lang={lang} paths={legalPaths[kind]} title={`${title} – TSV Phönix Steinsfurt`} description={description} interactive={false}>
+  <LangSwitch lang={lang} paths={legalPaths[kind]} />
+  <header class="legal-head">
+    <div class="container head-inner">
+      <a class="home" href={pathFor(lang)}>
+        <img src="/logo/tsv-steinsfurt.svg" alt="" width="48" height="55" />
+        <span><span aria-hidden="true">←</span> {t.legal.backHome}</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="container legal-body">
+    <h1>{title}</h1>
+    {t.legal.germanBinding && <p class="note">{t.legal.germanBinding}</p>}
+    <article class="prose">
+      <Content />
+    </article>
+  </main>
+
+  <Footer lang={lang} />
+</Base>
+
+<style>
+  .legal-head {
+    background: var(--c-primary-dark);
+    color: #fff;
+    padding-block: 1.25rem;
+  }
+  .head-inner {
+    display: flex;
+    align-items: center;
+    min-height: 3.5rem;
+    padding-right: 7rem; /* room for the fixed language switch */
+  }
+  .home {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.9rem;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .home:hover span span { margin-right: 0.15rem; }
+  .home img { width: 2.6rem; height: auto; }
+  .legal-body {
+    max-width: 46rem;
+    padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(3rem, 8vw, 6rem);
+  }
+  h1 {
+    font-size: clamp(2rem, 1.5rem + 2.5vw, 3rem);
+    margin-bottom: 1.5rem;
+  }
+  .note {
+    padding: 0.9rem 1.1rem;
+    border-radius: var(--radius);
+    background: var(--c-tint);
+    color: var(--c-ink-soft);
+    margin-bottom: 2rem;
+  }
+  .prose :global(h2) {
+    font-size: 1.35rem;
+    letter-spacing: -0.01em;
+    margin: 2.25rem 0 0.75rem;
+  }
+  .prose :global(h3) {
+    font-size: 1.1rem;
+    margin: 1.5rem 0 0.5rem;
+  }
+  .prose :global(p),
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin-bottom: 1rem;
+    color: var(--c-ink);
+  }
+  .prose :global(ul),
+  .prose :global(ol) { padding-left: 1.25rem; }
+  .prose :global(li) { margin-bottom: 0.35rem; }
+  .prose :global(a) {
+    color: var(--c-primary);
+    text-underline-offset: 3px;
+    overflow-wrap: anywhere;
+  }
+  .prose :global(strong) { font-weight: 700; }
+  .prose :global(hr) {
+    border: 0;
+    border-top: 1px solid var(--c-line);
+    margin: 2rem 0;
+  }
+</style>
