@@ -1,13 +1,13 @@
 {
   "meta": {
     "title": "TSV Phönix Steinsfurt – Komm ins Team!",
-    "description": "Fußball in Steinsfurt: Wir suchen Spielerinnen und Spieler zwischen 16 und 40. Training, Teamgeist, Gemeinschaft – komm zum Probetraining!"
+    "description": "Fußball in Steinsfurt: Wir suchen Fußballer ab 18 für unsere 1. und 2. Mannschaft. Training, Teamgeist, Gemeinschaft – komm zum Probetraining!"
   },
   "lang": { "label": "Sprache", "de": "Deutsch", "en": "English" },
   "hero": {
     "eyebrow": "TSV Phönix Steinsfurt · Fußball",
     "title": "Dein Verein. Dein Team. Dein Spiel.",
-    "subtitle": "Du bist zwischen 16 und 40 und hast Bock auf Fußball? Dann komm vorbei – Probetraining ist jederzeit möglich.",
+    "subtitle": "Du bist ab 18 und hast Bock auf Fußball? Dann komm vorbei – Probetraining ist jederzeit möglich.",
     "cta": "Jetzt Probetraining sichern",
     "secondary": "Was wir bieten",
     "scroll": "Scrollen"
@@ -18,9 +18,9 @@
     "text": "Seit Jahrzehnten ist der TSV Phönix Steinsfurt das Zuhause für alle, die Fußball lieben. Ob ambitioniert oder einfach aus Spaß am Kicken – bei uns findest du deinen Platz auf und neben dem Rasen.",
     "stats": [
       { "value": 1910, "suffix": "", "label": "Gegründet" },
-      { "value": 4, "suffix": "", "label": "Aktive Teams" },
-      { "value": 120, "suffix": "+", "label": "Aktive Spieler:innen" },
-      { "value": 3, "suffix": "×", "label": "Training pro Woche" }
+      { "value": 2, "suffix": "", "label": "Aktive Teams" },
+      { "value": 50, "suffix": "+", "label": "Aktive Spieler" },
+      { "value": 2, "suffix": "×", "label": "Training pro Woche" }
     ]
   },
   "teams": {
@@ -28,9 +28,7 @@
     "title": "Finde dein Team",
     "items": [
       { "image": "team-erste", "name": "1. Mannschaft", "league": "Kreisliga", "vibe": "Ehrgeizig, eingespielt – und immer hungrig auf den nächsten Sieg." },
-      { "image": "team-zweite", "name": "2. Mannschaft", "league": "Kreisklasse A", "vibe": "Ideal zum Einsteigen, Wiedereinsteigen und Spielpraxis sammeln." },
-      { "image": "team-frauen", "name": "Frauen", "league": "Bezirksliga", "vibe": "Starkes Team, starker Zusammenhalt – neue Gesichter willkommen!" },
-      { "image": "team-ajugend", "name": "A-Jugend (U19)", "league": "Kreisstaffel", "vibe": "Für alle ab 16: Der perfekte Sprung Richtung Aktive." }
+      { "image": "team-zweite", "name": "2. Mannschaft", "league": "Kreisklasse A", "vibe": "Ideal zum Einsteigen, Wiedereinsteigen und Spielpraxis sammeln." }
     ]
   },
   "offer": {
@@ -58,7 +56,7 @@
     "title": "Warum wir hier spielen",
     "items": [
       { "image": "player-01", "quote": "Ich kam zum Probetraining – und bin geblieben. Die Jungs haben mich vom ersten Tag an aufgenommen.", "name": "Max, 24", "role": "Mittelfeld, 1. Mannschaft" },
-      { "image": "player-02", "quote": "Nach fünf Jahren Pause wieder einzusteigen war hier überhaupt kein Problem.", "name": "Lena, 31", "role": "Abwehr, Frauen" },
+      { "image": "player-02", "quote": "Nach fünf Jahren Pause wieder einzusteigen war hier überhaupt kein Problem.", "name": "Daniel, 31", "role": "Abwehr, 2. Mannschaft" },
       { "image": "player-03", "quote": "Von der A-Jugend in die Aktiven – die Trainer haben mich super vorbereitet.", "name": "Jonas, 18", "role": "Sturm, 2. Mannschaft" }
     ]
   },
@@ -68,9 +66,7 @@
     "text": "Keine Anmeldung, kein Stress: Bring Fußballschuhe und Lust mit – wir stellen den Rest. Gib uns gern kurz vorher Bescheid.",
     "scheduleTitle": "Trainingszeiten",
     "schedule": [
-      { "team": "1. & 2. Mannschaft", "times": "Di & Do · 19:00–20:30" },
-      { "team": "Frauen", "times": "Mo & Mi · 19:00–20:30" },
-      { "team": "A-Jugend", "times": "Di & Fr · 18:00–19:30" }
+      { "team": "1. & 2. Mannschaft", "times": "Di & Do · 19:00–20:30" }
     ],
     "locationTitle": "Hier findest du uns",
     "address": "Sportgelände TSV Phönix Steinsfurt, 74889 Sinsheim-Steinsfurt",
@@ -84,9 +80,8 @@
     "call": "Anrufen",
     "email": "E-Mail",
     "people": [
-      { "name": "Vorname Nachname", "role": "Trainer 1. & 2. Mannschaft", "phone": "+49 151 00000000", "email": "herren@tsv-steinsfurt.de" },
-      { "name": "Vorname Nachname", "role": "Trainerin Frauen", "phone": "+49 151 00000001", "email": "frauen@tsv-steinsfurt.de" },
-      { "name": "Vorname Nachname", "role": "Jugendleitung A-Jugend", "phone": "+49 151 00000002", "email": "jugend@tsv-steinsfurt.de" }
+      { "name": "Vorname Nachname", "role": "Trainer 1. Mannschaft", "phone": "+49 151 00000000", "email": "erste@tsv-steinsfurt.de" },
+      { "name": "Vorname Nachname", "role": "Trainer 2. Mannschaft", "phone": "+49 151 00000001", "email": "zweite@tsv-steinsfurt.de" }
     ]
   },
   "footer": {

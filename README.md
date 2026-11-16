@@ -1,6 +1,6 @@
 # TSV Phönix Steinsfurt – Recruitment One-Pager
 
-A single scrolling page that wins new players (aged 16–40) for TSV Phönix Steinsfurt. It's built with **Astro** as a static site and hosted on **AWS** (S3 in `eu-central-1` / Frankfurt behind CloudFront). It's deployed by **GitHub Actions**.
+A single scrolling page that wins new male players (aged 18+) for TSV Phönix Steinsfurt. It's built with **Astro** as a static site and hosted on **AWS** (S3 in `eu-central-1` / Frankfurt behind CloudFront). It's deployed by **GitHub Actions**.
 
 - German at `/`, English at `/en/`. The DE/EN switch sits top right.
 - No tracking and no cookies. Fonts are self-hosted.
