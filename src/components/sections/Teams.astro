@@ -16,18 +16,25 @@ const { t } = Astro.props;
       <h2>{t.teams.title}</h2>
     </div>
 
+    <figure class="group-photo reveal">
+      <Image src={img('team-gesamt')} alt={t.teams.groupAlt} widths={[600, 1000, 1600]} sizes="(min-width: 1200px) 1200px, 100vw" />
+    </figure>
+
     <ul class="team-grid stagger">
       {
         t.teams.items.map((team) => (
           <li class="team-card reveal">
-            <div class="team-media">
-              <Image src={img(team.image)} alt={team.name} widths={[400, 700, 1000]} sizes="(min-width: 1000px) 25vw, (min-width: 600px) 50vw, 100vw" />
-              <span class="league">{team.league}</span>
-            </div>
-            <div class="team-body">
-              <h3>{team.name}</h3>
-              <p>{team.vibe}</p>
-            </div>
+            <a class="team-link" href={team.url} target="_blank" rel="noopener noreferrer">
+              <div class="team-media">
+                <Image src={img(team.image)} alt={team.name} widths={[400, 700, 1000]} sizes="(min-width: 1000px) 50vw, 100vw" />
+                <span class="league">{team.league}</span>
+              </div>
+              <div class="team-body">
+                <h3>{team.name}</h3>
+                <p>{team.vibe}</p>
+                <span class="more">{t.teams.linkLabel} <span aria-hidden="true">↗</span></span>
+              </div>
+            </a>
           </li>
         ))
       }
@@ -36,6 +43,19 @@ const { t } = Astro.props;
 </section>
 
 <style>
+  .group-photo {
+    margin: 0 0 1.5rem;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    aspect-ratio: 2 / 1;
+  }
+  .group-photo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center bottom; /* trim sky, keep all players */
+  }
   .team-grid {
     list-style: none;
     padding: 0;
@@ -54,9 +74,16 @@ const { t } = Astro.props;
     transform: translateY(-6px) rotate(-0.6deg);
     box-shadow: var(--shadow-lg);
   }
+  .team-link {
+    display: block;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+    border-radius: inherit;
+  }
   .team-media {
     position: relative;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 16 / 9; /* whole team visible */
     overflow: hidden;
   }
   .team-media :global(img) {
@@ -85,5 +112,16 @@ const { t } = Astro.props;
   .team-body p {
     margin-top: 0.4rem;
     color: var(--c-ink-soft);
+  }
+  .more {
+    display: inline-block;
+    margin-top: 0.9rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--c-primary);
+  }
+  .team-card:hover .more {
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 </style>

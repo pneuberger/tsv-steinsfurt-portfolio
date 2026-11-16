@@ -7,6 +7,16 @@ interface Props {
   t: Dictionary;
 }
 const { t } = Astro.props;
+
+/**
+ * Player quotes. Each item: quote (paragraphs separated by a blank line "\n\n"),
+ * name, role (may be ""), optional image key (src/assets/photos/<key>.jpg).
+ * Without an image, the player's initials are shown in a circle.
+ */
+type Item = { quote: string; name: string; role: string; image?: string };
+const items = t.testimonials.items as Item[];
+const initials = (name: string) =>
+  name.split(/\s+/).map((w) => w[0]).join('').slice(0, 2).toUpperCase();
 ---
 
 <section id="stimmen" class="section voices">
@@ -18,16 +28,20 @@ const { t } = Astro.props;
 
     <ul class="quotes stagger">
       {
-        t.testimonials.items.map((q) => (
+        items.map((q) => (
           <li class="quote reveal">
             <blockquote>
-              <p><q>{q.quote}</q></p>
+              {q.quote.split(/\n\s*\n/).map((para) => <p>{para}</p>)}
             </blockquote>
             <div class="who">
-              <Image src={img(q.image)} alt="" width={112} height={112} />
+              {q.image ? (
+                <Image src={img(q.image)} alt="" width={112} height={112} />
+              ) : (
+                <span class="avatar" aria-hidden="true">{initials(q.name)}</span>
+              )}
               <div>
                 <strong>{q.name}</strong>
-                <span>{q.role}</span>
+                {q.role && <span class="role">{q.role}</span>}
               </div>
             </div>
           </li>
@@ -45,8 +59,20 @@ const { t } = Astro.props;
     list-style: none;
     padding: 0;
     display: grid;
-    gap: 1.5rem;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: 2.25rem 1.5rem; /* extra row gap for the big quote mark */
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 800px) {
+    .quotes { grid-template-columns: repeat(2, 1fr); }
+    /* odd count: the last card spans the full row instead of standing alone */
+    .quote:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  }
+  @media (min-width: 1100px) {
+    /* 5 quotes → 2 wide cards on top, 3 below */
+    .quotes { grid-template-columns: repeat(6, 1fr); }
+    .quote { grid-column: span 2; }
+    .quote:nth-child(-n + 2) { grid-column: span 3; }
+    .quote:last-child:nth-child(odd) { grid-column: span 2; }
   }
   .quote {
     display: flex;
@@ -59,8 +85,8 @@ const { t } = Astro.props;
     box-shadow: var(--shadow);
     position: relative;
   }
-  .quote:nth-child(odd) { rotate: -1deg; }
-  .quote:nth-child(even) { rotate: 1deg; }
+  .quote:nth-child(odd) { rotate: -0.6deg; }
+  .quote:nth-child(even) { rotate: 0.6deg; }
   .quote::before {
     content: '“';
     position: absolute;
@@ -72,20 +98,31 @@ const { t } = Astro.props;
     color: var(--c-primary);
   }
   blockquote p {
-    font-size: 1.15rem;
+    font-size: 1.08rem;
     font-weight: 500;
   }
+  blockquote p + p { margin-top: 0.8rem; }
   .who {
     display: flex;
     align-items: center;
     gap: 0.9rem;
   }
-  .who :global(img) {
+  .who :global(img),
+  .avatar {
     width: 3.5rem;
     height: 3.5rem;
     border-radius: 50%;
-    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .who :global(img) { object-fit: cover; }
+  .avatar {
+    display: grid;
+    place-items: center;
+    background: var(--c-primary);
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.15rem;
   }
   .who strong { display: block; }
-  .who span { color: var(--c-ink-soft); font-size: 0.9rem; }
+  .role { color: var(--c-ink-soft); font-size: 0.9rem; }
 </style>
