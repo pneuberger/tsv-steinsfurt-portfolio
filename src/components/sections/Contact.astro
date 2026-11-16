@@ -30,7 +30,6 @@ const digits = (phone: string) => phone.replace(/[^\d+]/g, '');
                 💬 {t.contact.whatsapp}
               </a>
               <a class="btn btn-ghost" href={`tel:${digits(p.phone)}`}>📞 {t.contact.call}</a>
-              <a class="btn btn-ghost" href={`mailto:${p.email}`}>✉️ {t.contact.email}</a>
             </div>
           </li>
         ))

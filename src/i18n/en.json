@@ -75,13 +75,13 @@
   "contact": {
     "eyebrow": "Contact",
     "title": "Fancy it? Get in touch!",
-    "text": "Just message us on WhatsApp, give us a call or send an email – we'll get back to you quickly.",
+    "text": "Just message us on WhatsApp or give us a call – we'll get back to you quickly.",
     "whatsapp": "WhatsApp",
     "call": "Call",
-    "email": "Email",
     "people": [
-      { "name": "First Last", "role": "Coach, first team", "phone": "+49 151 00000000", "email": "erste@tsv-steinsfurt.de" },
-      { "name": "First Last", "role": "Coach, second team", "phone": "+49 151 00000001", "email": "zweite@tsv-steinsfurt.de" }
+      { "name": "Jason Kreß", "role": "Team committee", "phone": "+49 1523 3731019" },
+      { "name": "First Last", "role": "Coach, first team", "phone": "+49 151 00000000" },
+      { "name": "First Last", "role": "Coach, second team", "phone": "+49 151 00000001" }
     ]
   },
   "footer": {
