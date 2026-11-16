@@ -17,7 +17,7 @@
     "title": "More than just a club",
     "text": "For decades, TSV Steinsfurt has been home to everyone who loves football. Whether you're ambitious or just play for fun – you'll find your place here, on and off the pitch.",
     "stats": [
-      { "value": 1900, "suffix": "", "label": "Founded" },
+      { "value": 1910, "suffix": "", "label": "Founded" },
       { "value": 4, "suffix": "", "label": "Active teams" },
       { "value": 120, "suffix": "+", "label": "Active players" },
       { "value": 3, "suffix": "×", "label": "Sessions per week" }
