@@ -100,7 +100,8 @@ export async function handler(event: APIGatewayProxyEventV2): Promise<APIGateway
   }
 
   if (method === 'GET' && path === '/api/invites') {
-    const { Items = [] } = await ddb.send(new ScanCommand({ TableName: TABLE_NAME }));
+    // ConsistentRead: a link created a moment ago must show up in the list right away.
+    const { Items = [] } = await ddb.send(new ScanCommand({ TableName: TABLE_NAME, ConsistentRead: true }));
     Items.sort((a, b) => b.createdAt - a.createdAt);
     return json(200, Items.map(({ id, name, createdBy, createdAt, expiresAt, revoked }) => ({ id, name, createdBy, createdAt, expiresAt, revoked: !!revoked })));
   }

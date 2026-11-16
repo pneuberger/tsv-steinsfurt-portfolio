@@ -39,7 +39,7 @@ else
   aws cloudfront-keyvaluestore put-key --kvs-arn "$KVS_ARN" --if-match "$ETAG" \
     --key secret --value "$(openssl rand -hex 32)" >/dev/null
   if [ "$ROTATE_SECRET" = true ]; then
-    echo "✓ NOT-AUS: neuer HMAC-Schlüssel gesetzt – alle bisherigen Einladungslinks sind ab sofort ungültig."
+    echo "✓ NOT-AUS: neuer HMAC-Schlüssel gesetzt – alle bisherigen Einladungslinks werden innerhalb von etwa einer Minute ungültig."
   else
     echo "✓ HMAC-Schlüssel erzeugt."
   fi
