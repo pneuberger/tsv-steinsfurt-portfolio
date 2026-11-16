@@ -14,10 +14,10 @@
   "about": {
     "eyebrow": "Wer wir sind",
     "title": "Mehr als nur ein Verein",
-    "text": "Seit Jahrzehnten ist der TSV Phönix Steinsfurt das Zuhause für alle, die Fußball lieben. Ob ambitioniert oder einfach aus Spaß am Kicken – bei uns findest du deinen Platz auf und neben dem Rasen.",
+    "text": "Seit Jahrzehnten sind wir, der TSV Phönix Steinsfurt, das Zuhause für alle, die Fußball lieben. Wir sind ambitioniert und modern – und wollen als Gemeinschaft allen voran auch einfach Spaß am Kicken haben. Bei uns findest du deinen Platz auf und neben dem Rasen.",
     "stats": [
       { "value": 1910, "suffix": "", "label": "Gegründet" },
-      { "value": 2, "suffix": "", "label": "Aktive Teams" },
+      { "value": 2, "suffix": "", "label": "Aktive Herrenteams" },
       { "value": 40, "suffix": "+", "label": "Aktive Spieler" },
       { "value": 2, "suffix": "×", "label": "Training pro Woche" }
     ]

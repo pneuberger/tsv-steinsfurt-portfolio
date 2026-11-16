@@ -14,10 +14,10 @@
   "about": {
     "eyebrow": "Who we are",
     "title": "More than just a club",
-    "text": "For decades, TSV Phönix Steinsfurt has been home to everyone who loves football. Whether you're ambitious or just play for fun – you'll find your place here, on and off the pitch.",
+    "text": "For decades, we at TSV Phönix Steinsfurt have been home to everyone who loves football. We're ambitious and modern – and as a community, above all, we simply want to have fun playing. You'll find your place here, on and off the pitch.",
     "stats": [
       { "value": 1910, "suffix": "", "label": "Founded" },
-      { "value": 2, "suffix": "", "label": "Active teams" },
+      { "value": 2, "suffix": "", "label": "Active men's teams" },
       { "value": 40, "suffix": "+", "label": "Active players" },
       { "value": 2, "suffix": "×", "label": "Sessions per week" }
     ]
