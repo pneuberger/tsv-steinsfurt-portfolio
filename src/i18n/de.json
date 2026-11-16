@@ -46,9 +46,9 @@
       { "image": "offer-rundenabschluss", "icon": "🏆", "title": "Rundenabschluss", "text": "Zum Saisonende feiern wir zusammen – mit allen Teams, Trainern und Unterstützern." },
       { "image": "offer-kabinenparty", "icon": "🎶", "title": "Kabinenparty", "text": "Nach dem Sieg wird die Musik laut – die Kabine ist unser Ort zum Feiern." },
       { "image": "offer-teamabende", "icon": "🍻", "title": "Teamabende", "text": "LAN-Party, Grillen, Bowling – regelmäßig etwas zusammen unternehmen, auch abseits des Platzes." },
-      { "image": "offer-neu-10", "icon": "✨", "title": "Platzhalter Angebot 10", "text": "Platzhalter – Text folgt." },
-      { "image": "offer-neu-11", "icon": "✨", "title": "Platzhalter Angebot 11", "text": "Platzhalter – Text folgt." },
-      { "image": "offer-neu-12", "icon": "✨", "title": "Platzhalter Angebot 12", "text": "Platzhalter – Text folgt." }
+      { "image": "offer-kabine", "icon": "🏠", "title": "Neue Kabine", "text": "Frisch renoviert – mit TV, Musikbox und Kühlschrank. Hier fühlt sich die Mannschaft zu Hause." },
+      { "image": "offer-dusche", "icon": "🚿", "title": "Moderne Duschen", "text": "Neu gefliest und hell – mit unserem Wappen an der Wand." },
+      { "image": "offer-leuchtwappen", "icon": "💡", "title": "Leuchtwappen", "text": "Unser Wappen in Neon – das Highlight der renovierten Kabine." }
     ]
   },
   "gallery": {

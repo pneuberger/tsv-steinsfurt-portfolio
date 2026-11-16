@@ -46,9 +46,9 @@
       { "image": "offer-rundenabschluss", "icon": "🏆", "title": "Season finale", "text": "At the end of the season we celebrate together – with all teams, coaches and supporters." },
       { "image": "offer-kabinenparty", "icon": "🎶", "title": "Locker-room party", "text": "After a win the music gets loud – the locker room is where we celebrate." },
       { "image": "offer-teamabende", "icon": "🍻", "title": "Team nights", "text": "LAN parties, barbecues, bowling – regular get-togethers, off the pitch too." },
-      { "image": "offer-neu-10", "icon": "✨", "title": "Placeholder offer 10", "text": "Placeholder – text to follow." },
-      { "image": "offer-neu-11", "icon": "✨", "title": "Placeholder offer 11", "text": "Placeholder – text to follow." },
-      { "image": "offer-neu-12", "icon": "✨", "title": "Placeholder offer 12", "text": "Placeholder – text to follow." }
+      { "image": "offer-kabine", "icon": "🏠", "title": "New locker room", "text": "Freshly renovated – with TV, speaker and fridge. A place where the team feels at home." },
+      { "image": "offer-dusche", "icon": "🚿", "title": "Modern showers", "text": "Newly tiled and bright – with our crest on the wall." },
+      { "image": "offer-leuchtwappen", "icon": "💡", "title": "Neon crest", "text": "Our crest in neon – the highlight of the renovated locker room." }
     ]
   },
   "gallery": {
