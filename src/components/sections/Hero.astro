@@ -20,8 +20,7 @@ const { t } = Astro.props;
     {/* data-greeting: template for the personal greeting (staging only, script injected in astro.config.mjs) */}
     <h1 data-greeting={accessGate ? t.hero.titleGreeting : undefined}>{t.hero.title}</h1>
     <div class="hero-ctas">
-      <a class="btn btn-accent" href="#contact">{t.hero.cta} <span aria-hidden="true">→</span></a>
-      <a class="btn btn-ghost" href="#offer">{t.hero.secondary}</a>
+      <a class="btn btn-accent" href="#offer">{t.hero.cta} <span aria-hidden="true">→</span></a>
     </div>
   </div>
 
