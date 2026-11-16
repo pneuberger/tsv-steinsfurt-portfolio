@@ -26,7 +26,7 @@ const initials = (name: string) =>
       <h2>{t.testimonials.title}</h2>
     </div>
 
-    <ul class="quotes stagger">
+    <ul class:list={['quotes', 'stagger', `rest-${items.length % 3}`]}>
       {
         items.map((q) => (
           <li class="quote reveal">
@@ -68,11 +68,14 @@ const initials = (name: string) =>
     .quote:last-child:nth-child(odd) { grid-column: 1 / -1; }
   }
   @media (min-width: 1100px) {
-    /* 5 quotes → 2 wide cards on top, 3 below */
+    /* rows of three; leftover cards become wider so no row has a gap:
+       6 → 3+3, 5 → 2+3, 4 → 2+2, 7 → 2+3+2 */
     .quotes { grid-template-columns: repeat(6, 1fr); }
-    .quote { grid-column: span 2; }
-    .quote:nth-child(-n + 2) { grid-column: span 3; }
+    .quote,
     .quote:last-child:nth-child(odd) { grid-column: span 2; }
+    .rest-2 .quote:nth-child(-n + 2),
+    .rest-1 .quote:nth-child(-n + 2),
+    .rest-1 .quote:nth-last-child(-n + 2) { grid-column: span 3; }
   }
   .quote {
     display: flex;
