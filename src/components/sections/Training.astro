@@ -13,7 +13,7 @@ const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComp
     <div class="reveal">
       <p class="eyebrow">{t.training.eyebrow}</p>
       <h2>{t.training.title}</h2>
-      <p class="lead">{t.training.text}</p>
+      {t.training.text.split(/\n\s*\n/).map((para) => <p class="lead">{para}</p>)}
     </div>
 
     <div class="cards stagger">

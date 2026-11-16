@@ -8,19 +8,17 @@
     "eyebrow": "TSV Phönix Steinsfurt · Fußball",
     "title": "Wir wollen dich als Teil der Phönix-Gemeinschaft",
     "titleGreeting": "{name}, wir wollen dich als Teil der Phönix-Gemeinschaft",
-    "subtitle": "Du bist ab 18 und hast Bock auf Fußball? Dann melde dich bei uns – wir vereinbaren gern ein Gespräch oder ein Probetraining.",
-    "cta": "Jetzt Gespräch vereinbaren",
-    "secondary": "Was wir bieten",
+    "cta": "Warum du Teil davon werden solltest",
     "scroll": "Scrollen"
   },
   "about": {
     "eyebrow": "Wer wir sind",
     "title": "Mehr als nur ein Verein",
-    "text": "Seit Jahrzehnten ist der TSV Phönix Steinsfurt das Zuhause für alle, die Fußball lieben. Ob ambitioniert oder einfach aus Spaß am Kicken – bei uns findest du deinen Platz auf und neben dem Rasen.",
+    "text": "Seit Jahrzehnten sind wir, der TSV Phönix Steinsfurt, das Zuhause für alle, die Fußball lieben. Wir sind ambitioniert und modern – und wollen als Gemeinschaft allen voran auch einfach Spaß am Kicken haben. Bei uns findest du deinen Platz auf und neben dem Rasen.",
     "stats": [
       { "value": 1910, "suffix": "", "label": "Gegründet" },
-      { "value": 2, "suffix": "", "label": "Aktive Teams" },
-      { "value": 50, "suffix": "+", "label": "Aktive Spieler" },
+      { "value": 2, "suffix": "", "label": "Aktive Herrenteams" },
+      { "value": 40, "suffix": "+", "label": "Aktive Spieler" },
       { "value": 2, "suffix": "×", "label": "Training pro Woche" }
     ]
   },
@@ -30,26 +28,29 @@
     "groupAlt": "Mannschaftsfoto der 1. und 2. Mannschaft des TSV Phönix Steinsfurt",
     "linkLabel": "Zum Team auf FuPa",
     "items": [
-      { "image": "team-erste", "name": "1. Mannschaft", "league": "Kreisliga", "vibe": "Ehrgeizig, eingespielt – und immer hungrig auf den nächsten Sieg.", "url": "https://www.fupa.net/team/tsv-steinsfurt-m1-2026-27" },
-      { "image": "team-zweite", "name": "2. Mannschaft", "league": "Kreisklasse C", "vibe": "Ideal zum Einsteigen, Wiedereinsteigen und Spielpraxis sammeln.", "url": "https://www.fupa.net/team/sg-steinsfurt-sv-reihen-m2-2026-27" }
+      { "image": "team-erste", "name": "1. Mannschaft", "league": "Kreisliga", "vibe": "Ehrgeizig, jung und immer hungrig auf den nächsten Erfolg.", "url": "https://www.fupa.net/team/tsv-steinsfurt-m1-2026-27" },
+      { "image": "team-zweite", "name": "2. Mannschaft", "league": "Kreisklasse C", "vibe": "Spielpraxis sammeln, Wiedereinsteigen in einer ambitionierten Truppe.", "url": "https://www.fupa.net/team/sg-steinsfurt-sv-reihen-m2-2026-27" }
     ]
   },
   "offer": {
     "eyebrow": "Was wir bieten",
     "title": "Das bekommst du bei uns",
     "items": [
-      { "image": "offer-training", "icon": "⚡", "title": "Strukturiertes Training", "text": "Abwechslungsreiche Einheiten mit Plan – Technik, Taktik, Fitness." },
-      { "image": "offer-platz", "icon": "🏟️", "title": "Top Platz & Anlage", "text": "Gepflegter Rasen, Kunstrasen für den Winter, Flutlicht und moderne Kabinen." },
+      { "image": "offer-training", "icon": "⚡", "title": "Strukturiertes Training", "text": "Getrennt zwischen 1. und 2. Mannschaft: abwechslungsreiche Einheiten mit Plan – Technik, Taktik, Fitness." },
+      { "image": "offer-platz", "icon": "🏟️", "title": "Top Platz & Anlage", "text": "Zwei bespielbare Naturrasenplätze, Kunstrasen und große Halle für den Winter, Flutlicht und moderne Kabinen." },
       { "image": "offer-athletik", "icon": "💪", "title": "Athletiktraining", "text": "Kraft, Schnelligkeit und Ausdauer – gezielt trainiert, damit du fit durch die Saison kommst." },
       { "image": "offer-ausruestung", "icon": "👕", "title": "Ausrüstung", "text": "Trainings- und Spielkleidung im Vereinsdesign – gestellt vom Verein." },
-      { "image": "offer-events", "icon": "🎉", "title": "Teamevents", "text": "Fußballgolf, Trainingslager, Sommerfest – wir unternehmen viel gemeinsam." },
+      { "image": "offer-fanbase", "icon": "📣", "title": "Große Fanbase", "text": "Wir werden jeden Sonntag immer von vielen treuen Fans begleitet. Ebenfalls gibt es teilweise Choreos und Fanaktionen." },
+      { "image": "offer-events", "icon": "🎉", "title": "Teamevents", "text": "Fußballgolf, Lasertag, Trainingslager, Mannschaftsausflüge mit Spiel und Spaß – wir unternehmen viel gemeinsam." },
       { "image": "offer-gemeinschaft", "icon": "🤝", "title": "Gemeinschaft", "text": "Ein Verein, in dem man sich kennt – und füreinander da ist." },
       { "image": "offer-rundenabschluss", "icon": "🏆", "title": "Rundenabschluss", "text": "Zum Saisonende feiern wir zusammen – mit allen Teams, Trainern und Unterstützern." },
       { "image": "offer-kabinenparty", "icon": "🎶", "title": "Kabinenparty", "text": "Nach dem Sieg wird die Musik laut – die Kabine ist unser Ort zum Feiern." },
-      { "image": "offer-teamabende", "icon": "🍻", "title": "Teamabende", "text": "LAN-Party, Grillen, Bowling – regelmäßig etwas zusammen unternehmen, auch abseits des Platzes." },
+      { "image": "offer-teamabende", "icon": "🍻", "title": "Teamabende", "text": "LAN-Party, Grillen oder feuchtfröhliche Events – regelmäßig etwas zusammen unternehmen, auch abseits des Platzes." },
       { "image": "offer-kabine", "icon": "🏠", "title": "Neue Kabine", "text": "Frisch renoviert – mit TV, Musikbox und Kühlschrank. Hier fühlt sich die Mannschaft zu Hause." },
       { "image": "offer-dusche", "icon": "🚿", "title": "Moderne Duschen", "text": "Neu gefliest und hell – mit unserem Wappen an der Wand." },
-      { "image": "offer-leuchtwappen", "icon": "💡", "title": "Leuchtwappen", "text": "Unser Wappen in Neon – das Highlight der renovierten Kabine." }
+      { "image": "offer-leuchtwappen", "icon": "💡", "title": "Leuchtwappen", "text": "Unser Wappen in Neon – das Highlight der renovierten Kabine." },
+      { "image": "offer-neu-14", "icon": "✨", "title": "Platzhalter Angebot 14", "text": "Platzhalter – Text folgt." },
+      { "image": "offer-neu-15", "icon": "✨", "title": "Platzhalter Angebot 15", "text": "Platzhalter – Text folgt." }
     ]
   },
   "gallery": {
@@ -71,13 +72,14 @@
       { "quote": "Grund 1: Der Zusammenhalt untereinander ist mit jedem einfach nur mega, es wird sich bei allem von jedem unterstützt.\n\nGrund 2: Das ganze Drumherum, was der Verein für die Mannschaft leistet, ist einfach nur der Hammer und ein Punkt, auf den wir als Spieler sehr stolz sind.", "name": "Jonas Richter", "role": "", "image": "person-jonas-richter" },
       { "quote": "Bei uns bist du nicht einfach nur ein Spieler, sondern Teil einer Mannschaft, in der Zusammenhalt, Spaß und gegenseitige Unterstützung großgeschrieben werden. Wir wollen gemeinsam sportlich etwas erreichen, haben aber genauso neben dem Platz eine richtig gute Gemeinschaft – und genau das macht unser Team aus.", "name": "Dominik Streib", "role": "Ansprechpartner 2. Mannschaft", "image": "person-dominik-streib" },
       { "quote": "Steinsfurt hat mich sofort wie eine Familie aufgenommen und mir ein familiäres und ehrgeiziges Umfeld gegeben. Sportlich konnte ich mich hier auch durch die Unterstützung aller Beteiligten sehr gut weiterentwickeln.", "name": "Lukas Schell", "role": "", "image": "person-lukas-schell" },
-      { "quote": "Ich spiele seit der F-Jugend im Verein. Würde nie woanders hinwollen.", "name": "Dale Werner", "role": "", "image": "person-dale-werner" }
+      { "quote": "Ich spiele seit der F-Jugend im Verein. Würde nie woanders hinwollen.", "name": "Dale Werner", "role": "", "image": "person-dale-werner" },
+      { "quote": "Ich habe den TSV Steinsfurt als große Familie kennengelernt. Jeder ist für jeden da! Sowohl auf als auch neben dem Platz. Habe mich sofort super integriert gefühlt. Da passt der Spruch „Einer für alle, alle für einen“ perfekt!", "name": "Loris Lenz", "role": "", "image": "person-loris-lenz" }
     ]
   },
   "training": {
     "eyebrow": "Training & Probetraining",
     "title": "Dein Weg ins Team",
-    "text": "Du möchtest mittrainieren oder ein Probetraining machen? Melde dich bitte vorher kurz bei einem unserer Ansprechpartner (siehe Kontakt unten) – dann wissen wir Bescheid und nehmen dich direkt in Empfang. Bring einfach Fußballschuhe und Lust mit, den Rest stellen wir.",
+    "text": "Und falls du dir jetzt noch unsicher bist?\n\nDann vereinbaren wir gerne ein Probetraining und du machst dir selbst ein Bild.",
     "scheduleTitle": "Trainingszeiten",
     "schedule": [
       { "team": "1. & 2. Mannschaft", "times": "Di & Do · 19:00–20:30" }

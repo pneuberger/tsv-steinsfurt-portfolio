@@ -8,19 +8,17 @@
     "eyebrow": "TSV Phönix Steinsfurt · Football",
     "title": "We want you to be part of the Phönix community",
     "titleGreeting": "{name}, we want you to be part of the Phönix community",
-    "subtitle": "Aged 18+ and keen to play football? Get in touch – we'd love to arrange a chat or a trial session.",
-    "cta": "Arrange a chat",
-    "secondary": "What we offer",
+    "cta": "Why you should be part of it",
     "scroll": "Scroll"
   },
   "about": {
     "eyebrow": "Who we are",
     "title": "More than just a club",
-    "text": "For decades, TSV Phönix Steinsfurt has been home to everyone who loves football. Whether you're ambitious or just play for fun – you'll find your place here, on and off the pitch.",
+    "text": "For decades, we at TSV Phönix Steinsfurt have been home to everyone who loves football. We're ambitious and modern – and as a community, above all, we simply want to have fun playing. You'll find your place here, on and off the pitch.",
     "stats": [
       { "value": 1910, "suffix": "", "label": "Founded" },
-      { "value": 2, "suffix": "", "label": "Active teams" },
-      { "value": 50, "suffix": "+", "label": "Active players" },
+      { "value": 2, "suffix": "", "label": "Active men's teams" },
+      { "value": 40, "suffix": "+", "label": "Active players" },
       { "value": 2, "suffix": "×", "label": "Sessions per week" }
     ]
   },
@@ -30,26 +28,29 @@
     "groupAlt": "Team photo of the first and second team of TSV Phönix Steinsfurt",
     "linkLabel": "Team page on FuPa",
     "items": [
-      { "image": "team-erste", "name": "First team", "league": "Kreisliga", "vibe": "Ambitious, well-drilled – and always hungry for the next win.", "url": "https://www.fupa.net/team/tsv-steinsfurt-m1-2026-27" },
-      { "image": "team-zweite", "name": "Second team", "league": "Kreisklasse C", "vibe": "Perfect for starting out, coming back and getting match time.", "url": "https://www.fupa.net/team/sg-steinsfurt-sv-reihen-m2-2026-27" }
+      { "image": "team-erste", "name": "First team", "league": "Kreisliga", "vibe": "Ambitious, young and always hungry for the next success.", "url": "https://www.fupa.net/team/tsv-steinsfurt-m1-2026-27" },
+      { "image": "team-zweite", "name": "Second team", "league": "Kreisklasse C", "vibe": "Get match time or make your comeback – in an ambitious squad.", "url": "https://www.fupa.net/team/sg-steinsfurt-sv-reihen-m2-2026-27" }
     ]
   },
   "offer": {
     "eyebrow": "What we offer",
     "title": "What you get with us",
     "items": [
-      { "image": "offer-training", "icon": "⚡", "title": "Structured training", "text": "Varied sessions with a plan – technique, tactics, fitness." },
-      { "image": "offer-platz", "icon": "🏟️", "title": "Great pitch & facilities", "text": "Well-kept grass, artificial turf for winter, floodlights and modern changing rooms." },
+      { "image": "offer-training", "icon": "⚡", "title": "Structured training", "text": "Separate sessions for the first and second team: varied training with a plan – technique, tactics, fitness." },
+      { "image": "offer-platz", "icon": "🏟️", "title": "Great pitch & facilities", "text": "Two playable grass pitches, artificial turf and a large sports hall for the winter, floodlights and modern changing rooms." },
       { "image": "offer-athletik", "icon": "💪", "title": "Athletic training", "text": "Strength, speed and stamina – trained specifically so you stay fit all season." },
       { "image": "offer-ausruestung", "icon": "👕", "title": "Kit", "text": "Training and match kit in club colours – provided by the club." },
-      { "image": "offer-events", "icon": "🎉", "title": "Team events", "text": "Footgolf, training camp, summer fest – we do a lot together." },
+      { "image": "offer-fanbase", "icon": "📣", "title": "Big fan base", "text": "Every Sunday we're backed by lots of loyal fans – and every now and then there are choreos and fan campaigns too." },
+      { "image": "offer-events", "icon": "🎉", "title": "Team events", "text": "Footgolf, laser tag, training camps, team trips with games and fun – we do a lot together." },
       { "image": "offer-gemeinschaft", "icon": "🤝", "title": "Community", "text": "A club where people know each other – and look out for each other." },
       { "image": "offer-rundenabschluss", "icon": "🏆", "title": "Season finale", "text": "At the end of the season we celebrate together – with all teams, coaches and supporters." },
       { "image": "offer-kabinenparty", "icon": "🎶", "title": "Locker-room party", "text": "After a win the music gets loud – the locker room is where we celebrate." },
-      { "image": "offer-teamabende", "icon": "🍻", "title": "Team nights", "text": "LAN parties, barbecues, bowling – regular get-togethers, off the pitch too." },
+      { "image": "offer-teamabende", "icon": "🍻", "title": "Team nights", "text": "LAN parties, barbecues or the odd boozy night out – regular get-togethers, off the pitch too." },
       { "image": "offer-kabine", "icon": "🏠", "title": "New locker room", "text": "Freshly renovated – with TV, speaker and fridge. A place where the team feels at home." },
       { "image": "offer-dusche", "icon": "🚿", "title": "Modern showers", "text": "Newly tiled and bright – with our crest on the wall." },
-      { "image": "offer-leuchtwappen", "icon": "💡", "title": "Neon crest", "text": "Our crest in neon – the highlight of the renovated locker room." }
+      { "image": "offer-leuchtwappen", "icon": "💡", "title": "Neon crest", "text": "Our crest in neon – the highlight of the renovated locker room." },
+      { "image": "offer-neu-14", "icon": "✨", "title": "Placeholder offer 14", "text": "Placeholder – text to follow." },
+      { "image": "offer-neu-15", "icon": "✨", "title": "Placeholder offer 15", "text": "Placeholder – text to follow." }
     ]
   },
   "gallery": {
@@ -71,13 +72,14 @@
       { "quote": "Reason 1: The bond between all of us is simply awesome – everyone supports everyone, in everything.\n\nReason 2: Everything the club does for the team around the games is just brilliant, and something we as players are really proud of.", "name": "Jonas Richter", "role": "", "image": "person-jonas-richter" },
       { "quote": "Here you're not just a player – you're part of a team where togetherness, fun and supporting each other really matter. We want to achieve something together on the pitch, but we also have a really great community off it – and that's exactly what makes our team.", "name": "Dominik Streib", "role": "Contact, second team", "image": "person-dominik-streib" },
       { "quote": "Steinsfurt welcomed me like family straight away and gave me a close-knit yet ambitious environment. With the support of everyone involved, I've also been able to develop really well as a player.", "name": "Lukas Schell", "role": "", "image": "person-lukas-schell" },
-      { "quote": "I've played for the club since the under-9s. I'd never want to go anywhere else.", "name": "Dale Werner", "role": "", "image": "person-dale-werner" }
+      { "quote": "I've played for the club since the under-9s. I'd never want to go anywhere else.", "name": "Dale Werner", "role": "", "image": "person-dale-werner" },
+      { "quote": "I got to know TSV Steinsfurt as one big family. Everyone is there for everyone – on and off the pitch. I felt completely at home right away. The saying “one for all, all for one” fits perfectly!", "name": "Loris Lenz", "role": "", "image": "person-loris-lenz" }
     ]
   },
   "training": {
     "eyebrow": "Training & trial sessions",
     "title": "Your way into the team",
-    "text": "Want to join a session or come for a trial? Please get in touch with one of our contacts first (see Contact below) – then we know you're coming and can welcome you properly. Just bring your boots and some enthusiasm, we'll take care of the rest.",
+    "text": "Still not quite sure?\n\nThen we'll happily arrange a trial session so you can see for yourself.",
     "scheduleTitle": "Training times",
     "schedule": [
       { "team": "First & second team", "times": "Tue & Thu · 7:00–8:30 pm" }
