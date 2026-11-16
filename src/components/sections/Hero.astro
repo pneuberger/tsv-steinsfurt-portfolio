@@ -1,6 +1,8 @@
 ---
-import VideoClip from '../ui/VideoClip.astro';
+import { getImage } from 'astro:assets';
 import Wave from '../ui/Wave.astro';
+import bgDesktop from '../../assets/hero/hero-bg-desktop.jpg';
+import bgMobile from '../../assets/hero/hero-bg-mobile.jpg';
 import type { Dictionary } from '../../i18n';
 import { accessGate } from '../../access-gate';
 
@@ -8,10 +10,20 @@ interface Props {
   t: Dictionary;
 }
 const { t } = Astro.props;
+
+// Background: blue phoenix in flames. Landscape version (phoenix top right, text on the dark
+// left side) and portrait version for phones (phoenix at the top, text in the dark lower half).
+const bgLandscape = await getImage({ src: bgDesktop, widths: [1280, 1920, 2560, 3840], format: 'webp' });
+const bgPortrait = await getImage({ src: bgMobile, widths: [540, 1080], format: 'webp' });
+const bgFallback = await getImage({ src: bgDesktop, width: 1920, format: 'jpg' });
 ---
 
 <header class="hero">
-  <VideoClip name="hero" label={t.hero.title} class="hero-video" />
+  <picture class="hero-bg" aria-hidden="true">
+    <source media="(orientation: portrait)" type="image/webp" srcset={bgPortrait.srcSet.attribute} sizes="100vw" />
+    <source type="image/webp" srcset={bgLandscape.srcSet.attribute} sizes="100vw" />
+    <img src={bgFallback.src} alt="" width="1920" height="1080" fetchpriority="high" />
+  </picture>
   <div class="hero-overlay" aria-hidden="true"></div>
 
   <div class="container hero-content">
@@ -42,7 +54,8 @@ const { t } = Astro.props;
     background: var(--c-primary-dark);
     isolation: isolate;
   }
-  .hero :global(.hero-video) {
+  .hero-bg,
+  .hero-bg img {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -50,13 +63,45 @@ const { t } = Astro.props;
     object-fit: cover;
     z-index: -2;
   }
+  /* landscape art: anchored right, so narrow windows crop the empty dark left side, not the phoenix */
+  .hero-bg img { object-position: 100% 0; }
+  /* desktop: slightly smaller headline so it stays on the dark left side, clear of the phoenix */
+  @media (min-width: 900px) {
+    h1 { font-size: clamp(2.6rem, 0.8rem + 3.6vw, 4.75rem); }
+  }
+  /* phones (portrait): phoenix fills the top, text sits in the dark lower half; the phoenix
+     replaces the small crest there */
+  @media (orientation: portrait) and (max-width: 899px) {
+    .hero { align-items: end; }
+    .hero-content { padding-block: 7rem 8.5rem; }
+    /* crest small in the top-left corner (opposite the DE/EN switch), the phoenix fills the top */
+    .crest {
+      position: absolute;
+      top: max(1rem, env(safe-area-inset-top));
+      left: max(var(--gutter), env(safe-area-inset-left));
+      width: 3.25rem;
+      margin: 0;
+    }
+  }
+  /* portrait art (phones, upright tablets): anchored at the top and enlarged so the phoenix fills
+     the upper part; no darkening there – the overlay only starts where the text is */
+  @media (orientation: portrait) {
+    .hero-bg img {
+      object-position: 50% 0;
+      transform: scale(1.2);
+      transform-origin: 50% 0;
+    }
+    .hero > .hero-overlay { /* higher specificity: the base rule below comes later */
+      background: linear-gradient(180deg, transparent 0%, transparent 38%, rgb(0 0 64 / 0.55) 65%, rgb(0 0 64 / 0.85) 100%);
+    }
+  }
   .hero-overlay {
     position: absolute;
     inset: 0;
     z-index: -1;
     background:
-      radial-gradient(ellipse at 20% 80%, rgb(38 89 161 / 0.5), transparent 60%),
-      linear-gradient(180deg, rgb(0 0 64 / 0.35) 0%, rgb(0 0 64 / 0.8) 100%);
+      radial-gradient(ellipse at 20% 80%, rgb(38 89 161 / 0.35), transparent 60%),
+      linear-gradient(180deg, rgb(0 0 64 / 0.05) 0%, rgb(0 0 64 / 0.25) 55%, rgb(0 0 64 / 0.7) 100%);
   }
   .hero-content {
     padding-block: 7rem 9rem;
