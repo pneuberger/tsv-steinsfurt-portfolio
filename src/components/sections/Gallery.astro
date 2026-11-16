@@ -13,19 +13,23 @@ const { t } = Astro.props;
  * Bento grid of photos and clips. `size` controls the tile shape: wide | tall | big | (default 1×1).
  * Photos: key from src/assets. Clips: name of public/media/videos/<name>.mp4.
  */
+type Size = 'wide' | 'tall' | 'big';
 type Tile =
-  | { kind: 'photo'; key: string; size?: 'wide' | 'tall' | 'big' }
-  | { kind: 'clip'; name: string; size?: 'wide' | 'tall' | 'big' };
+  | { kind: 'photo'; key: string; size?: Size }
+  | { kind: 'clip'; name: string; size?: Size }
+  | { kind: 'cta'; size?: Size }; // "Werde Teil davon" tile → #kontakt
 
+// 4-column grid (2 on mobile): big = 2×2, wide = 2×1, tall = 1×2, default = 1×1.
+// Keep the cells adding up to full rows (here 16) so the grid has no holes.
 const tiles: Tile[] = [
-  { kind: 'clip', name: 'clip-01', size: 'tall' },
-  { kind: 'photo', key: 'gallery-01', size: 'big' },
-  { kind: 'photo', key: 'gallery-02' },
-  { kind: 'photo', key: 'gallery-03' },
-  { kind: 'photo', key: 'gallery-04', size: 'wide' },
-  { kind: 'clip', name: 'clip-02', size: 'tall' },
-  { kind: 'photo', key: 'gallery-05', size: 'tall' },
-  { kind: 'photo', key: 'gallery-06', size: 'wide' },
+  { kind: 'photo', key: 'gallery-01', size: 'big' }, // locker room, pink/black jerseys
+  { kind: 'photo', key: 'gallery-05', size: 'tall' }, // "Der Phönix hebt wieder ab!"
+  { kind: 'photo', key: 'gallery-04' }, // locker room, white jerseys
+  { kind: 'cta' },
+  { kind: 'photo', key: 'gallery-02', size: 'wide' }, // team celebrating on the pitch
+  { kind: 'photo', key: 'gallery-03', size: 'wide' }, // locker room, blue jerseys
+  { kind: 'photo', key: 'gallery-06', size: 'wide' }, // promotion with phoenix banner
+  { kind: 'photo', key: 'gallery-07', size: 'wide' }, // team in white on the pitch
 ];
 
 // Large versions for the lightbox.
@@ -41,6 +45,19 @@ const large = await Promise.all(
       <h2>{t.gallery.title}</h2>
     </div>
 
+    <!-- Featured video: muted teaser loop; click opens the full video with sound in the lightbox -->
+    <button
+      type="button"
+      class="feature reveal"
+      data-lightbox="video"
+      data-src="/media/videos/motivation.mp4"
+      data-poster="/media/videos/motivation-teaser-poster.jpg"
+      aria-label={t.gallery.watchFull}
+    >
+      <VideoClip name="motivation-teaser" label={t.gallery.watchFull} />
+      <span class="feature-cta"><span class="play-icon" aria-hidden="true">▶</span>{t.gallery.watchFull}</span>
+    </button>
+
     <ul class="bento stagger">
       {
         tiles.map((tile, i) => (
@@ -53,8 +70,19 @@ const large = await Promise.all(
                 data-alt={`${t.gallery.photo} ${i + 1}`}
                 aria-label={`${t.gallery.open}: ${t.gallery.photo} ${i + 1}`}
               >
-                <Image src={img(tile.key)} alt="" widths={[400, 800]} sizes="(min-width: 900px) 25vw, 50vw" />
+                <Image
+                  src={img(tile.key)}
+                  alt=""
+                  widths={[400, 800, 1200]}
+                  sizes={tile.size === 'big' || tile.size === 'wide' ? '(min-width: 900px) 50vw, 100vw' : '(min-width: 900px) 25vw, 50vw'}
+                />
               </button>
+            ) : tile.kind === 'cta' ? (
+              <a class="cta-tile" href="#kontakt">
+                <img src="/logo/tsv-steinsfurt.svg" alt="" width="48" height="55" />
+                <strong>{t.gallery.ctaTitle}</strong>
+                <span>{t.gallery.ctaText} <span aria-hidden="true">→</span></span>
+              </a>
             ) : (
               <button
                 type="button"
@@ -80,6 +108,70 @@ const large = await Promise.all(
 </section>
 
 <style>
+  .cta-tile {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0.35rem;
+    padding: clamp(0.9rem, 2vw, 1.4rem);
+    background: linear-gradient(135deg, var(--c-primary), var(--c-primary-dark));
+    color: #fff;
+    text-decoration: none;
+    transition: filter 0.2s ease;
+  }
+  .cta-tile:hover { filter: brightness(1.12); }
+  .cta-tile img { width: clamp(1.8rem, 3vw, 2.4rem); height: auto; margin-bottom: 0.2rem; }
+  .cta-tile strong { font-size: clamp(1rem, 0.9rem + 0.6vw, 1.35rem); line-height: 1.15; }
+  .cta-tile span { font-size: 0.9rem; font-weight: 600; color: var(--c-highlight); }
+  .feature {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    margin-bottom: clamp(0.6rem, 1.5vw, 1rem);
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--c-primary-dark);
+    box-shadow: var(--shadow);
+    cursor: pointer;
+  }
+  .feature :global(video) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  .feature:hover :global(video) { transform: scale(1.03); }
+  .feature-cta {
+    position: absolute;
+    left: clamp(0.8rem, 2vw, 1.5rem);
+    bottom: clamp(0.8rem, 2vw, 1.5rem);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.7rem 1.2rem 0.7rem 0.8rem;
+    border-radius: 999px;
+    background: var(--c-accent);
+    color: var(--c-primary-dark);
+    font-weight: 700;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s ease;
+  }
+  .feature:hover .feature-cta { transform: translateY(-2px); }
+  .play-icon {
+    width: 2rem;
+    height: 2rem;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--c-primary);
+    color: #fff;
+    font-size: 0.75rem;
+  }
   .bento {
     list-style: none;
     padding: 0;

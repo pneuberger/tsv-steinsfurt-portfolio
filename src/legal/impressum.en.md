@@ -20,7 +20,7 @@ Register number: VR 340140
 
 ## Liability for links
 
-This website contains links to external third-party websites (e.g. Google Maps, WhatsApp, Instagram, Facebook) whose content we cannot influence. The respective provider is always responsible for the content of linked pages. If we become aware of any legal violations, we will remove such links immediately.
+This website contains links to external third-party websites (e.g. Google Maps, WhatsApp, Instagram, Facebook, FuPa) whose content we cannot influence. The respective provider is always responsible for the content of linked pages. If we become aware of any legal violations, we will remove such links immediately.
 
 ## Image credits
 

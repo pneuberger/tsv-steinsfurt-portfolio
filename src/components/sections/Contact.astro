@@ -30,7 +30,6 @@ const digits = (phone: string) => phone.replace(/[^\d+]/g, '');
                 💬 {t.contact.whatsapp}
               </a>
               <a class="btn btn-ghost" href={`tel:${digits(p.phone)}`}>📞 {t.contact.call}</a>
-              <a class="btn btn-ghost" href={`mailto:${p.email}`}>✉️ {t.contact.email}</a>
             </div>
           </li>
         ))
@@ -53,7 +52,7 @@ const digits = (phone: string) => phone.replace(/[^\d+]/g, '');
     padding: 0;
     display: grid;
     gap: 1.25rem;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); /* auto-fit: the cards share the full width */
   }
   .person {
     background: rgb(255 255 255 / 0.08);

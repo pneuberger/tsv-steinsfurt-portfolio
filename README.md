@@ -25,7 +25,7 @@ npx astro check    # type-check
 | What | Where |
 | --- | --- |
 | All texts (per language) | `src/i18n/de.json`, `src/i18n/en.json` |
-| Teams, offers, testimonials, contacts, training times | same JSON files (arrays) |
+| Teams, offers, contacts, training times | same JSON files (arrays) |
 | Club colours, fonts, spacing | tokens at the top of `src/styles/global.css` |
 | Gallery tiles (order and size) | `tiles` array in `src/components/sections/Gallery.astro` |
 | Social links | `src/components/sections/Footer.astro` |
@@ -165,7 +165,7 @@ src/
   legal/*.md                                # legal texts (Markdown)
   site.config.ts                            # indexable switch (noindex until launch)
   components/OnePage.astro                  # section order
-  components/sections/*.astro               # Hero, About, Teams, Offer, Gallery, Testimonials, Training, Contact, Footer
+  components/sections/*.astro               # Hero, About, Teams, Offer, Gallery, Training, Contact, Footer
   components/ui/                            # VideoClip, Wave divider
   i18n/                                     # texts + helpers
   lib/images.ts                             # image key → photo/placeholder lookup

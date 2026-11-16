@@ -52,6 +52,7 @@ We link to services of other providers. These are **not embedded**; merely visit
 - **Google Maps** (Google Ireland Limited): directions to the sports ground
 - **WhatsApp** (WhatsApp Ireland Limited)
 - **Instagram** and **Facebook** (Meta Platforms Ireland Limited)
+- **FuPa** (FuPa GmbH): team pages of the first and second team
 
 ## 6. Photos and videos
 

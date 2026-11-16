@@ -8,7 +8,7 @@
     "eyebrow": "TSV Phönix Steinsfurt · Football",
     "title": "Your club. Your team. Your game.",
     "subtitle": "Aged 18+ and keen to play football? Come along – trial sessions are possible any time.",
-    "cta": "Book a trial session",
+    "cta": "Arrange a chat",
     "secondary": "What we offer",
     "scroll": "Scroll"
   },
@@ -26,9 +26,11 @@
   "teams": {
     "eyebrow": "Our teams",
     "title": "Find your team",
+    "groupAlt": "Team photo of the first and second team of TSV Phönix Steinsfurt",
+    "linkLabel": "Team page on FuPa",
     "items": [
-      { "image": "team-erste", "name": "First team", "league": "Kreisliga", "vibe": "Ambitious, well-drilled – and always hungry for the next win." },
-      { "image": "team-zweite", "name": "Second team", "league": "Kreisklasse A", "vibe": "Perfect for starting out, coming back and getting match time." }
+      { "image": "team-erste", "name": "First team", "league": "Kreisliga", "vibe": "Ambitious, well-drilled – and always hungry for the next win.", "url": "https://www.fupa.net/team/tsv-steinsfurt-m1-2026-27" },
+      { "image": "team-zweite", "name": "Second team", "league": "Kreisklasse C", "vibe": "Perfect for starting out, coming back and getting match time.", "url": "https://www.fupa.net/team/sg-steinsfurt-sv-reihen-m2-2026-27" }
     ]
   },
   "offer": {
@@ -37,10 +39,13 @@
     "items": [
       { "image": "offer-training", "icon": "⚡", "title": "Structured training", "text": "Varied sessions with a plan – technique, tactics, fitness." },
       { "image": "offer-platz", "icon": "🏟️", "title": "Great pitch & facilities", "text": "Well-kept grass, artificial turf for winter, floodlights and modern changing rooms." },
-      { "image": "offer-trainer", "icon": "🎯", "title": "Licensed coaches", "text": "Experienced coaches who help you improve individually." },
+      { "image": "offer-athletik", "icon": "💪", "title": "Athletic training", "text": "Strength, speed and stamina – trained specifically so you stay fit all season." },
       { "image": "offer-ausruestung", "icon": "👕", "title": "Kit", "text": "Training and match kit in club colours – provided by the club." },
-      { "image": "offer-events", "icon": "🎉", "title": "Team events", "text": "End-of-season party, training camp, summer fest – we celebrate together." },
-      { "image": "offer-gemeinschaft", "icon": "🤝", "title": "Community", "text": "A club where people know each other – and look out for each other." }
+      { "image": "offer-events", "icon": "🎉", "title": "Team events", "text": "Footgolf, training camp, summer fest – we do a lot together." },
+      { "image": "offer-gemeinschaft", "icon": "🤝", "title": "Community", "text": "A club where people know each other – and look out for each other." },
+      { "image": "offer-rundenabschluss", "icon": "🏆", "title": "Season finale", "text": "At the end of the season we celebrate together – with all teams, coaches and supporters." },
+      { "image": "offer-kabinenparty", "icon": "🎶", "title": "Locker-room party", "text": "After a win the music gets loud – the locker room is where we celebrate." },
+      { "image": "offer-teamabende", "icon": "🍻", "title": "Team nights", "text": "LAN parties, barbecues, bowling – regular get-togethers, off the pitch too." }
     ]
   },
   "gallery": {
@@ -49,21 +54,15 @@
     "close": "Close",
     "open": "Enlarge",
     "clip": "Video clip",
-    "photo": "Photo"
-  },
-  "testimonials": {
-    "eyebrow": "Voices from the team",
-    "title": "Why we play here",
-    "items": [
-      { "image": "player-01", "quote": "I came for a trial session – and stayed. The lads welcomed me from day one.", "name": "Max, 24", "role": "Midfield, first team" },
-      { "image": "player-02", "quote": "Coming back after a five-year break was no problem at all here.", "name": "Daniel, 31", "role": "Defence, second team" },
-      { "image": "player-03", "quote": "From the under-19s to senior football – the coaches prepared me brilliantly.", "name": "Jonas, 18", "role": "Striker, second team" }
-    ]
+    "photo": "Photo",
+    "watchFull": "Watch the full video (5 min)",
+    "ctaTitle": "Be part of it!",
+    "ctaText": "Get in touch"
   },
   "training": {
     "eyebrow": "Training & trial sessions",
-    "title": "Just come along",
-    "text": "No sign-up, no stress: bring your boots and some enthusiasm – we'll take care of the rest. A quick heads-up beforehand is appreciated.",
+    "title": "Your way into the team",
+    "text": "Want to join a session or come for a trial? Please get in touch with one of our contacts first (see Contact below) – then we know you're coming and can welcome you properly. Just bring your boots and some enthusiasm, we'll take care of the rest.",
     "scheduleTitle": "Training times",
     "schedule": [
       { "team": "First & second team", "times": "Tue & Thu · 7:00–8:30 pm" }
@@ -75,13 +74,12 @@
   "contact": {
     "eyebrow": "Contact",
     "title": "Fancy it? Get in touch!",
-    "text": "Just message us on WhatsApp, give us a call or send an email – we'll get back to you quickly.",
+    "text": "Just message us on WhatsApp or give us a call – we'll get back to you quickly.",
     "whatsapp": "WhatsApp",
     "call": "Call",
-    "email": "Email",
     "people": [
-      { "name": "First Last", "role": "Coach, first team", "phone": "+49 151 00000000", "email": "erste@tsv-steinsfurt.de" },
-      { "name": "First Last", "role": "Coach, second team", "phone": "+49 151 00000001", "email": "zweite@tsv-steinsfurt.de" }
+      { "name": "Jason Kreß", "role": "Contact, first team", "phone": "+49 1523 3731019" },
+      { "name": "Dominik Streib", "role": "Contact, second team", "phone": "+49 172 1320419" }
     ]
   },
   "footer": {

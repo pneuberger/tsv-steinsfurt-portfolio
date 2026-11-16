@@ -8,7 +8,7 @@
     "eyebrow": "TSV Phönix Steinsfurt · Fußball",
     "title": "Dein Verein. Dein Team. Dein Spiel.",
     "subtitle": "Du bist ab 18 und hast Bock auf Fußball? Dann komm vorbei – Probetraining ist jederzeit möglich.",
-    "cta": "Jetzt Probetraining sichern",
+    "cta": "Jetzt Gespräch vereinbaren",
     "secondary": "Was wir bieten",
     "scroll": "Scrollen"
   },
@@ -26,9 +26,11 @@
   "teams": {
     "eyebrow": "Unsere Teams",
     "title": "Finde dein Team",
+    "groupAlt": "Mannschaftsfoto der 1. und 2. Mannschaft des TSV Phönix Steinsfurt",
+    "linkLabel": "Zum Team auf FuPa",
     "items": [
-      { "image": "team-erste", "name": "1. Mannschaft", "league": "Kreisliga", "vibe": "Ehrgeizig, eingespielt – und immer hungrig auf den nächsten Sieg." },
-      { "image": "team-zweite", "name": "2. Mannschaft", "league": "Kreisklasse A", "vibe": "Ideal zum Einsteigen, Wiedereinsteigen und Spielpraxis sammeln." }
+      { "image": "team-erste", "name": "1. Mannschaft", "league": "Kreisliga", "vibe": "Ehrgeizig, eingespielt – und immer hungrig auf den nächsten Sieg.", "url": "https://www.fupa.net/team/tsv-steinsfurt-m1-2026-27" },
+      { "image": "team-zweite", "name": "2. Mannschaft", "league": "Kreisklasse C", "vibe": "Ideal zum Einsteigen, Wiedereinsteigen und Spielpraxis sammeln.", "url": "https://www.fupa.net/team/sg-steinsfurt-sv-reihen-m2-2026-27" }
     ]
   },
   "offer": {
@@ -37,10 +39,13 @@
     "items": [
       { "image": "offer-training", "icon": "⚡", "title": "Strukturiertes Training", "text": "Abwechslungsreiche Einheiten mit Plan – Technik, Taktik, Fitness." },
       { "image": "offer-platz", "icon": "🏟️", "title": "Top Platz & Anlage", "text": "Gepflegter Rasen, Kunstrasen für den Winter, Flutlicht und moderne Kabinen." },
-      { "image": "offer-trainer", "icon": "🎯", "title": "Lizenzierte Trainer", "text": "Erfahrene Coaches, die dich individuell weiterbringen." },
+      { "image": "offer-athletik", "icon": "💪", "title": "Athletiktraining", "text": "Kraft, Schnelligkeit und Ausdauer – gezielt trainiert, damit du fit durch die Saison kommst." },
       { "image": "offer-ausruestung", "icon": "👕", "title": "Ausrüstung", "text": "Trainings- und Spielkleidung im Vereinsdesign – gestellt vom Verein." },
-      { "image": "offer-events", "icon": "🎉", "title": "Teamevents", "text": "Saisonabschluss, Trainingslager, Sommerfest – wir feiern gemeinsam." },
-      { "image": "offer-gemeinschaft", "icon": "🤝", "title": "Gemeinschaft", "text": "Ein Verein, in dem man sich kennt – und füreinander da ist." }
+      { "image": "offer-events", "icon": "🎉", "title": "Teamevents", "text": "Fußballgolf, Trainingslager, Sommerfest – wir unternehmen viel gemeinsam." },
+      { "image": "offer-gemeinschaft", "icon": "🤝", "title": "Gemeinschaft", "text": "Ein Verein, in dem man sich kennt – und füreinander da ist." },
+      { "image": "offer-rundenabschluss", "icon": "🏆", "title": "Rundenabschluss", "text": "Zum Saisonende feiern wir zusammen – mit allen Teams, Trainern und Unterstützern." },
+      { "image": "offer-kabinenparty", "icon": "🎶", "title": "Kabinenparty", "text": "Nach dem Sieg wird die Musik laut – die Kabine ist unser Ort zum Feiern." },
+      { "image": "offer-teamabende", "icon": "🍻", "title": "Teamabende", "text": "LAN-Party, Grillen, Bowling – regelmäßig etwas zusammen unternehmen, auch abseits des Platzes." }
     ]
   },
   "gallery": {
@@ -49,21 +54,15 @@
     "close": "Schließen",
     "open": "Vergrößern",
     "clip": "Video-Clip",
-    "photo": "Foto"
-  },
-  "testimonials": {
-    "eyebrow": "Stimmen aus dem Team",
-    "title": "Warum wir hier spielen",
-    "items": [
-      { "image": "player-01", "quote": "Ich kam zum Probetraining – und bin geblieben. Die Jungs haben mich vom ersten Tag an aufgenommen.", "name": "Max, 24", "role": "Mittelfeld, 1. Mannschaft" },
-      { "image": "player-02", "quote": "Nach fünf Jahren Pause wieder einzusteigen war hier überhaupt kein Problem.", "name": "Daniel, 31", "role": "Abwehr, 2. Mannschaft" },
-      { "image": "player-03", "quote": "Von der A-Jugend in die Aktiven – die Trainer haben mich super vorbereitet.", "name": "Jonas, 18", "role": "Sturm, 2. Mannschaft" }
-    ]
+    "photo": "Foto",
+    "watchFull": "Ganzes Video ansehen (5 Min.)",
+    "ctaTitle": "Werde Teil davon!",
+    "ctaText": "Melde dich bei uns"
   },
   "training": {
     "eyebrow": "Training & Probetraining",
-    "title": "Einfach vorbeikommen",
-    "text": "Keine Anmeldung, kein Stress: Bring Fußballschuhe und Lust mit – wir stellen den Rest. Gib uns gern kurz vorher Bescheid.",
+    "title": "Dein Weg ins Team",
+    "text": "Du möchtest mittrainieren oder ein Probetraining machen? Melde dich bitte vorher kurz bei einem unserer Ansprechpartner (siehe Kontakt unten) – dann wissen wir Bescheid und nehmen dich direkt in Empfang. Bring einfach Fußballschuhe und Lust mit, den Rest stellen wir.",
     "scheduleTitle": "Trainingszeiten",
     "schedule": [
       { "team": "1. & 2. Mannschaft", "times": "Di & Do · 19:00–20:30" }
@@ -75,13 +74,12 @@
   "contact": {
     "eyebrow": "Kontakt",
     "title": "Bock bekommen? Melde dich!",
-    "text": "Schreib uns einfach per WhatsApp, ruf an oder schick eine Mail – wir antworten schnell.",
+    "text": "Schreib uns einfach per WhatsApp oder ruf an – wir antworten schnell.",
     "whatsapp": "WhatsApp",
     "call": "Anrufen",
-    "email": "E-Mail",
     "people": [
-      { "name": "Vorname Nachname", "role": "Trainer 1. Mannschaft", "phone": "+49 151 00000000", "email": "erste@tsv-steinsfurt.de" },
-      { "name": "Vorname Nachname", "role": "Trainer 2. Mannschaft", "phone": "+49 151 00000001", "email": "zweite@tsv-steinsfurt.de" }
+      { "name": "Jason Kreß", "role": "Ansprechpartner 1. Mannschaft", "phone": "+49 1523 3731019" },
+      { "name": "Dominik Streib", "role": "Ansprechpartner 2. Mannschaft", "phone": "+49 172 1320419" }
     ]
   },
   "footer": {

@@ -52,6 +52,7 @@ Auf dieser Website verlinken wir auf Angebote anderer Anbieter. Diese sind **nic
 - **Google Maps** (Google Ireland Limited): Link zur Wegbeschreibung zum Sportgelände
 - **WhatsApp** (WhatsApp Ireland Limited)
 - **Instagram** und **Facebook** (Meta Platforms Ireland Limited)
+- **FuPa** (FuPa GmbH): Mannschaftsseiten der 1. und 2. Mannschaft
 
 ## 6. Fotos und Videos
 
