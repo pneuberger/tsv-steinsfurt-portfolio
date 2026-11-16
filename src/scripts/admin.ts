@@ -9,6 +9,13 @@ const $ = <T extends HTMLElement>(sel: string, root: ParentNode = document) => r
 
 const loginForm = $<HTMLFormElement>('#login');
 const app = $('#app');
+const logoutBtn = $<HTMLButtonElement>('#logout');
+/** Logged-in view (list + forms + logout button in the header) vs. login form. */
+function showApp(on: boolean) {
+  app.hidden = !on;
+  logoutBtn.hidden = !on;
+  loginForm.hidden = on;
+}
 const createForm = $<HTMLFormElement>('#create');
 const result = $('#result');
 const tbody = $('#invites');
@@ -157,9 +164,8 @@ function showResult(name: string, link: string, expiresAt: number) {
 function logout(message = '') {
   window.clearTimeout(pollTimer);
   sessionStorage.removeItem(PW_KEY);
-  app.hidden = true;
+  showApp(false);
   result.hidden = true;
-  loginForm.hidden = false;
   showMsg($('.msg', loginForm), message);
 }
 
@@ -172,8 +178,7 @@ loginForm.addEventListener('submit', async (ev) => {
   try {
     await api('GET', '/api/invites');
     loginForm.reset();
-    loginForm.hidden = true;
-    app.hidden = false;
+    showApp(true);
     showMsg(msg, '');
     await loadList();
   } catch (e) {
@@ -220,7 +225,6 @@ $('#logout').addEventListener('click', () => logout());
 
 // Still logged in from earlier in this tab?
 if (sessionStorage.getItem(PW_KEY)) {
-  loginForm.hidden = true;
-  app.hidden = false;
+  showApp(true);
   loadList();
 }

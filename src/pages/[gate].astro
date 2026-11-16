@@ -31,6 +31,11 @@ const dayOptions = [7, 14, 30, MAX_DAYS];
     <div class="container head-inner">
       <img src="/logo/tsv-steinsfurt.svg" alt="TSV Phönix Steinsfurt Logo" width="48" height="55" />
       <strong>TSV Phönix Steinsfurt</strong>
+      {isAdmin && (
+        <button type="button" class="btn btn-logout" id="logout" hidden>
+          Abmelden <span aria-hidden="true">→</span>
+        </button>
+      )}
     </div>
   </header>
 
@@ -109,7 +114,7 @@ const dayOptions = [7, 14, 30, MAX_DAYS];
           <p class="small">
             Eine Sperre wird an alle CloudFront-Standorte verteilt und greift meist nach 20–60 Sekunden. Solange steht
             „Sperre wird aktiv …“ in der Liste, danach „gesperrt ✓“. Einträge werden 30 Tage nach Ablauf automatisch
-            gelöscht. <button type="button" class="linklike" id="logout">Abmelden</button>
+            gelöscht.
           </p>
         </div>
       </main>
@@ -180,6 +185,18 @@ const dayOptions = [7, 14, 30, MAX_DAYS];
   :global(.status-pending) { background: #fff4d6; color: #8a5a00; }
   :global(.revoke) { font: inherit; font-size: 0.85rem; font-weight: 600; color: #b42318; background: none; border: 0; text-decoration: underline; cursor: pointer; }
   .small { font-size: 0.88rem; color: var(--c-ink-soft); }
-  .linklike { font: inherit; color: var(--c-primary); background: none; border: 0; padding: 0; text-decoration: underline; cursor: pointer; }
+  .btn-logout {
+    margin-left: auto;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0.55rem 1.1rem;
+    font-size: 0.92rem;
+    color: #fff;
+    background: rgb(255 255 255 / 0.1);
+    box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / 0.6);
+  }
+  .btn-logout:hover { background: rgb(255 255 255 / 0.2); }
+  .btn-logout[hidden] { display: none; }
   .error { color: #b42318; font-weight: 600; }
 </style>
