@@ -52,7 +52,7 @@ const digits = (phone: string) => phone.replace(/[^\d+]/g, '');
     padding: 0;
     display: grid;
     gap: 1.25rem;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); /* auto-fill: a single card keeps its normal width */
   }
   .person {
     background: rgb(255 255 255 / 0.08);

@@ -79,9 +79,7 @@
     "whatsapp": "WhatsApp",
     "call": "Anrufen",
     "people": [
-      { "name": "Jason Kreß", "role": "Spielausschuss", "phone": "+49 1523 3731019" },
-      { "name": "Vorname Nachname", "role": "Trainer 1. Mannschaft", "phone": "+49 151 00000000" },
-      { "name": "Vorname Nachname", "role": "Trainer 2. Mannschaft", "phone": "+49 151 00000001" }
+      { "name": "Jason Kreß", "role": "Spielausschuss", "phone": "+49 1523 3731019" }
     ]
   },
   "footer": {
