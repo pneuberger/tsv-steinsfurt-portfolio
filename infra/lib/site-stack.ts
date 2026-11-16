@@ -187,7 +187,7 @@ export class SiteStack extends Stack {
       errorResponses: [403, 404].map((httpStatus) => ({
         httpStatus,
         responseHttpStatus: 404,
-        responsePagePath: gate ? '/kein-zugang/index.html' : '/index.html',
+        responsePagePath: gate ? '/no-access/index.html' : '/index.html',
         ttl: Duration.minutes(5),
       })),
     });

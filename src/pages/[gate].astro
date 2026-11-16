@@ -3,7 +3,7 @@
  * Pages that only exist when the invite-link access gate is enabled (staging build):
  *   /admin/ – committee form to create / list / revoke invite links (public page,
  *             the API behind it is password protected)
- * The no-access page (/kein-zugang/, /en/no-access/) is in [...noAccess].astro.
+ * The no-access page (/no-access/, /en/no-access/) is in [...noAccess].astro.
  * Without PUBLIC_ACCESS_GATE=true, getStaticPaths returns nothing → no pages are built.
  */
 import Base from '../layouts/Base.astro';

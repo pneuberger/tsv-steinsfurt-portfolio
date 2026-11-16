@@ -3,7 +3,7 @@
  *
  * Enabled only when the site is built with PUBLIC_ACCESS_GATE=true, which the staging
  * deploy script does (`npm run deploy:staging`). Production builds are unaffected:
- * no /admin/ and /kein-zugang/ pages, no extra privacy section.
+ * no /admin/ and /no-access/ pages, no extra privacy section.
  */
 export const accessGate = import.meta.env.PUBLIC_ACCESS_GATE === 'true';
 

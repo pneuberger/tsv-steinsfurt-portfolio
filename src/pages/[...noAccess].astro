@@ -1,7 +1,7 @@
 ---
 /**
  * "No access" page, shown to visitors without a valid invite link (staging build only):
- *   /kein-zugang/     – German (the gate redirects here)
+ *   /no-access/       – German (the gate redirects here)
  *   /en/no-access/    – English
  * With the same DE/EN switch as the legal pages. Both paths are public in
  * infra/functions/gate-request.js. Without PUBLIC_ACCESS_GATE=true no pages are built.
@@ -12,12 +12,12 @@ import Footer from '../components/sections/Footer.astro';
 import { accessGate } from '../access-gate';
 import type { Lang, PagePaths } from '../i18n';
 
-const noAccessPaths: PagePaths = { de: '/kein-zugang/', en: '/en/no-access/' };
+const noAccessPaths: PagePaths = { de: '/no-access/', en: '/en/no-access/' };
 
 export function getStaticPaths() {
   if (!accessGate) return [];
   return [
-    { params: { noAccess: 'kein-zugang' }, props: { lang: 'de' } },
+    { params: { noAccess: 'no-access' }, props: { lang: 'de' } },
     { params: { noAccess: 'en/no-access' }, props: { lang: 'en' } },
   ];
 }

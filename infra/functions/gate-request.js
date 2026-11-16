@@ -12,16 +12,16 @@ import crypto from 'crypto';
 
 const kvs = cf.kvs('__KVS_ID__');
 const COOKIE = 'tsv_zugang';
-const NO_ACCESS = '/kein-zugang/';
+const NO_ACCESS = '/no-access/';
 
 // Reachable without invitation: no-access page, legal pages, committee form,
 // share preview image, crest/favicon, and the CSS/JS/fonts those pages need.
 // Photos and videos are NOT public.
 const PUBLIC = [
-  /^\/kein-zugang(\/|\/index\.html)?$/,
+  /^\/no-access(\/|\/index\.html)?$/,
   /^\/en\/no-access(\/|\/index\.html)?$/,
-  /^\/impressum(\/|\/index\.html)?$/,
-  /^\/datenschutz(\/|\/index\.html)?$/,
+  /^\/legal-notice(\/|\/index\.html)?$/,
+  /^\/privacy(\/|\/index\.html)?$/,
   /^\/en\/legal-notice(\/|\/index\.html)?$/,
   /^\/en\/privacy(\/|\/index\.html)?$/,
   /^\/admin(\/|\/index\.html)?$/,
