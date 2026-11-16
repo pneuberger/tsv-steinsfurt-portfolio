@@ -39,7 +39,7 @@
     "items": [
       { "image": "offer-training", "icon": "⚡", "title": "Strukturiertes Training", "text": "Abwechslungsreiche Einheiten mit Plan – Technik, Taktik, Fitness." },
       { "image": "offer-platz", "icon": "🏟️", "title": "Top Platz & Anlage", "text": "Gepflegter Rasen, Kunstrasen für den Winter, Flutlicht und moderne Kabinen." },
-      { "image": "offer-trainer", "icon": "🎯", "title": "Lizenzierte Trainer", "text": "Erfahrene Coaches, die dich individuell weiterbringen." },
+      { "image": "offer-athletik", "icon": "💪", "title": "Athletiktraining", "text": "Kraft, Schnelligkeit und Ausdauer – gezielt trainiert, damit du fit durch die Saison kommst." },
       { "image": "offer-ausruestung", "icon": "👕", "title": "Ausrüstung", "text": "Trainings- und Spielkleidung im Vereinsdesign – gestellt vom Verein." },
       { "image": "offer-events", "icon": "🎉", "title": "Teamevents", "text": "Saisonabschluss, Trainingslager, Sommerfest – wir feiern gemeinsam." },
       { "image": "offer-gemeinschaft", "icon": "🤝", "title": "Gemeinschaft", "text": "Ein Verein, in dem man sich kennt – und füreinander da ist." }
