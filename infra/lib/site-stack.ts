@@ -202,7 +202,7 @@ export class SiteStack extends Stack {
       });
       const api = new NodejsFunction(this, 'InviteApi', {
         entry: fileURLToPath(new URL('../lambda/invites/index.ts', import.meta.url)),
-        runtime: Runtime.NODEJS_24_X,
+        runtime: Runtime.NODEJS_26_X, // public preview until GA (planned Nov 2026), fine for staging
         memorySize: 256, // scrypt needs ~32 MB
         timeout: Duration.seconds(10),
         environment: {
@@ -210,7 +210,7 @@ export class SiteStack extends Stack {
           KVS_ARN: gateStore.keyValueStoreArn,
           PASSWORD_PARAM: gate.passwordParameterName,
         },
-        bundling: { format: OutputFormat.ESM, minify: true, target: 'node24', externalModules: [], banner: "import{createRequire}from'module';const require=createRequire(import.meta.url);" },
+        bundling: { format: OutputFormat.ESM, minify: true, target: 'node26', externalModules: [], banner: "import{createRequire}from'module';const require=createRequire(import.meta.url);" },
         description: 'Invite-link API for the committee form',
       });
       table.grantReadWriteData(api);
