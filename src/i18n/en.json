@@ -50,7 +50,7 @@
       { "image": "offer-dusche", "icon": "🚿", "title": "Modern showers", "text": "Newly tiled and bright – with our crest on the wall." },
       { "image": "offer-leuchtwappen", "icon": "💡", "title": "Neon crest", "text": "Our crest in neon – the highlight of the renovated locker room." },
       { "image": "offer-vereinsfeste", "icon": "🎪", "title": "Club festivities", "text": "Carnival, village fair, “Bier im Dorf”, Christmas market and many more." },
-      { "image": "offer-neu-15", "icon": "✨", "title": "Placeholder offer 15", "text": "Placeholder – text to follow." }
+      { "image": "offer-anbindung", "icon": "🚆", "title": "Easy to reach", "text": "Right by the A6 motorway and with our own train stop – getting to us is quick, by car or by train." }
     ]
   },
   "gallery": {
