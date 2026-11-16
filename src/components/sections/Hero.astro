@@ -1,9 +1,8 @@
 ---
-import { getImage, Image } from 'astro:assets';
+import { getImage } from 'astro:assets';
 import Wave from '../ui/Wave.astro';
 import bgDesktop from '../../assets/hero/hero-bg-desktop.jpg';
 import bgMobile from '../../assets/hero/hero-bg-mobile.jpg';
-import emblem from '../../assets/hero/hero-emblem.png';
 import type { Dictionary } from '../../i18n';
 import { accessGate } from '../../access-gate';
 
@@ -12,10 +11,9 @@ interface Props {
 }
 const { t } = Astro.props;
 
-// Background: blurred flames from the phoenix emblem (no lettering). Separate crops for
-// landscape (desktop) and portrait (phones); the sharp emblem sits on top as its own element,
-// next to the text on desktop and above it on phones – so it never collides with the headline.
-const bgLandscape = await getImage({ src: bgDesktop, widths: [1280, 1920, 2560], format: 'webp' });
+// Background: blue phoenix in flames. Landscape version (phoenix top right, text on the dark
+// left side) and portrait version for phones (phoenix at the top, text in the dark lower half).
+const bgLandscape = await getImage({ src: bgDesktop, widths: [1280, 1920, 2560, 3840], format: 'webp' });
 const bgPortrait = await getImage({ src: bgMobile, widths: [540, 1080], format: 'webp' });
 const bgFallback = await getImage({ src: bgDesktop, width: 1920, format: 'jpg' });
 ---
@@ -29,15 +27,12 @@ const bgFallback = await getImage({ src: bgDesktop, width: 1920, format: 'jpg' }
   <div class="hero-overlay" aria-hidden="true"></div>
 
   <div class="container hero-content">
-    <Image class="hero-emblem" src={emblem} alt="" widths={[320, 480, 640]} sizes="(min-width: 900px) 34vw, 60vw" loading="eager" />
-    <div class="hero-text">
-      <img class="crest" src="/logo/tsv-steinsfurt.svg" alt="TSV Phönix Steinsfurt Logo" width="96" height="109" />
-      <p class="hero-eyebrow">{t.hero.eyebrow}</p>
-      {/* data-greeting: template for the personal greeting (staging only, script injected in astro.config.mjs) */}
-      <h1 data-greeting={accessGate ? t.hero.titleGreeting : undefined}>{t.hero.title}</h1>
-      <div class="hero-ctas">
-        <a class="btn btn-accent" href="#offer">{t.hero.cta} <span aria-hidden="true">→</span></a>
-      </div>
+    <img class="crest" src="/logo/tsv-steinsfurt.svg" alt="TSV Phönix Steinsfurt Logo" width="96" height="109" />
+    <p class="hero-eyebrow">{t.hero.eyebrow}</p>
+    {/* data-greeting: template for the personal greeting (staging only, script injected in astro.config.mjs) */}
+    <h1 data-greeting={accessGate ? t.hero.titleGreeting : undefined}>{t.hero.title}</h1>
+    <div class="hero-ctas">
+      <a class="btn btn-accent" href="#offer">{t.hero.cta} <span aria-hidden="true">→</span></a>
     </div>
   </div>
 
@@ -68,40 +63,24 @@ const bgFallback = await getImage({ src: bgDesktop, width: 1920, format: 'jpg' }
     object-fit: cover;
     z-index: -2;
   }
-  /* phoenix emblem: above the text on phones, own column right of the text on desktop */
-  .hero-content {
-    display: grid;
-    align-items: center;
-    gap: 1.5rem clamp(2rem, 5vw, 5rem);
-  }
-  .hero :global(.hero-emblem) {
-    width: min(52vw, 15rem);
-    height: auto;
-    border-radius: 50%;
-    filter: drop-shadow(0 0 2.5rem rgb(38 89 161 / 0.75));
-    animation: pop 0.9s 0.15s cubic-bezier(.2,1.4,.4,1) both;
-  }
-  /* phones: the emblem takes the place of the small crest (no doubled logos) */
-  @media (max-width: 899px) {
-    .crest { display: none; }
-  }
-  @media (max-width: 899px) and (max-height: 720px) {
-    .hero :global(.hero-emblem) { width: min(38vw, 10rem); }
-  }
+  /* desktop: slightly smaller headline so it stays on the dark left side, clear of the phoenix */
   @media (min-width: 900px) {
-    .hero-content { grid-template-columns: minmax(0, 1fr) clamp(14rem, 26vw, 30rem); }
-    .hero :global(.hero-emblem) { grid-column: 2; grid-row: 1; width: 100%; }
-    .hero-text { grid-column: 1; grid-row: 1; }
-    /* the text column is narrower next to the emblem: slightly smaller headline → 3 lines instead of 4 */
     h1 { font-size: clamp(2.6rem, 0.8rem + 3.6vw, 4.75rem); }
+  }
+  /* phones (portrait): phoenix fills the top, text sits in the dark lower half; the phoenix
+     replaces the small crest there */
+  @media (orientation: portrait) and (max-width: 899px) {
+    .hero { align-items: end; }
+    .hero-content { padding-block: 7rem 8.5rem; }
+    .crest { display: none; }
   }
   .hero-overlay {
     position: absolute;
     inset: 0;
     z-index: -1;
     background:
-      radial-gradient(ellipse at 20% 80%, rgb(38 89 161 / 0.5), transparent 60%),
-      linear-gradient(180deg, rgb(0 0 64 / 0.35) 0%, rgb(0 0 64 / 0.8) 100%);
+      radial-gradient(ellipse at 20% 80%, rgb(38 89 161 / 0.35), transparent 60%),
+      linear-gradient(180deg, rgb(0 0 64 / 0.05) 0%, rgb(0 0 64 / 0.25) 55%, rgb(0 0 64 / 0.7) 100%);
   }
   .hero-content {
     padding-block: 7rem 9rem;
