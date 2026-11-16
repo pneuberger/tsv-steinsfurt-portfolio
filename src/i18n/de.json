@@ -44,13 +44,13 @@
       { "image": "offer-events", "icon": "🎉", "title": "Teamevents", "text": "Fußballgolf, Lasertag, Trainingslager, Mannschaftsausflüge mit Spiel und Spaß – wir unternehmen viel gemeinsam." },
       { "image": "offer-gemeinschaft", "icon": "🤝", "title": "Gemeinschaft", "text": "Ein Verein, in dem man sich kennt – und füreinander da ist." },
       { "image": "offer-rundenabschluss", "icon": "🏆", "title": "Rundenabschluss", "text": "Zum Saisonende feiern wir zusammen – mit allen Teams, Trainern und Unterstützern." },
-      { "image": "offer-kabinenparty", "icon": "🎶", "title": "Kabinenparty", "text": "Nach dem Sieg wird die Musik laut – die Kabine ist unser Ort zum Feiern." },
+      { "image": "offer-kabinenparty", "icon": "🎶", "title": "Kabinenpartys", "text": "Nach dem Sieg wird die Musik laut – die Kabine ist unser Ort zum Feiern." },
       { "image": "offer-teamabende", "icon": "🍻", "title": "Teamabende", "text": "LAN-Party, Grillen oder feuchtfröhliche Events – regelmäßig etwas zusammen unternehmen, auch abseits des Platzes." },
       { "image": "offer-kabine", "icon": "🏠", "title": "Neue Kabine", "text": "Frisch renoviert – mit TV, Musikbox und Kühlschrank. Hier fühlt sich die Mannschaft zu Hause." },
       { "image": "offer-dusche", "icon": "🚿", "title": "Moderne Duschen", "text": "Neu gefliest und hell – mit unserem Wappen an der Wand." },
       { "image": "offer-leuchtwappen", "icon": "💡", "title": "Leuchtwappen", "text": "Unser Wappen in Neon – das Highlight der renovierten Kabine." },
-      { "image": "offer-neu-14", "icon": "✨", "title": "Platzhalter Angebot 14", "text": "Platzhalter – Text folgt." },
-      { "image": "offer-neu-15", "icon": "✨", "title": "Platzhalter Angebot 15", "text": "Platzhalter – Text folgt." }
+      { "image": "offer-vereinsfeste", "icon": "🎪", "title": "Vereinsfeste", "text": "Fasching, Dorffest, Bier im Dorf, Weihnachtsmarkt und viele weitere." },
+      { "image": "offer-anfahrt", "icon": "🚆", "title": "Top Anbindung", "text": "Direkt an der A6 und mit eigener Bahnhaltestelle – du bist schnell bei uns, ob mit Auto oder Zug." }
     ]
   },
   "gallery": {
@@ -73,7 +73,8 @@
       { "quote": "Bei uns bist du nicht einfach nur ein Spieler, sondern Teil einer Mannschaft, in der Zusammenhalt, Spaß und gegenseitige Unterstützung großgeschrieben werden. Wir wollen gemeinsam sportlich etwas erreichen, haben aber genauso neben dem Platz eine richtig gute Gemeinschaft – und genau das macht unser Team aus.", "name": "Dominik Streib", "role": "Ansprechpartner 2. Mannschaft", "image": "person-dominik-streib" },
       { "quote": "Steinsfurt hat mich sofort wie eine Familie aufgenommen und mir ein familiäres und ehrgeiziges Umfeld gegeben. Sportlich konnte ich mich hier auch durch die Unterstützung aller Beteiligten sehr gut weiterentwickeln.", "name": "Lukas Schell", "role": "", "image": "person-lukas-schell" },
       { "quote": "Ich spiele seit der F-Jugend im Verein. Würde nie woanders hinwollen.", "name": "Dale Werner", "role": "", "image": "person-dale-werner" },
-      { "quote": "Ich habe den TSV Steinsfurt als große Familie kennengelernt. Jeder ist für jeden da! Sowohl auf als auch neben dem Platz. Habe mich sofort super integriert gefühlt. Da passt der Spruch „Einer für alle, alle für einen“ perfekt!", "name": "Loris Lenz", "role": "", "image": "person-loris-lenz" }
+      { "quote": "Ich habe den TSV Steinsfurt als große Familie kennengelernt. Jeder ist für jeden da! Sowohl auf als auch neben dem Platz. Habe mich sofort super integriert gefühlt. Da passt der Spruch „Einer für alle, alle für einen“ perfekt!", "name": "Loris Lenz", "role": "", "image": "person-loris-lenz" },
+      { "quote": "Wir sind ein sehr geiles Team aus jungen und erfahrenen Spielern. Wir haben immer Spaß – und den Erfolg und die Ziele im Blick.", "name": "Liam Hinderhauser", "role": "", "image": "person-liam-hinderhauser" }
     ]
   },
   "training": {

@@ -44,13 +44,13 @@
       { "image": "offer-events", "icon": "🎉", "title": "Team events", "text": "Footgolf, laser tag, training camps, team trips with games and fun – we do a lot together." },
       { "image": "offer-gemeinschaft", "icon": "🤝", "title": "Community", "text": "A club where people know each other – and look out for each other." },
       { "image": "offer-rundenabschluss", "icon": "🏆", "title": "Season finale", "text": "At the end of the season we celebrate together – with all teams, coaches and supporters." },
-      { "image": "offer-kabinenparty", "icon": "🎶", "title": "Locker-room party", "text": "After a win the music gets loud – the locker room is where we celebrate." },
+      { "image": "offer-kabinenparty", "icon": "🎶", "title": "Locker-room parties", "text": "After a win the music gets loud – the locker room is where we celebrate." },
       { "image": "offer-teamabende", "icon": "🍻", "title": "Team nights", "text": "LAN parties, barbecues or the odd boozy night out – regular get-togethers, off the pitch too." },
       { "image": "offer-kabine", "icon": "🏠", "title": "New locker room", "text": "Freshly renovated – with TV, speaker and fridge. A place where the team feels at home." },
       { "image": "offer-dusche", "icon": "🚿", "title": "Modern showers", "text": "Newly tiled and bright – with our crest on the wall." },
       { "image": "offer-leuchtwappen", "icon": "💡", "title": "Neon crest", "text": "Our crest in neon – the highlight of the renovated locker room." },
-      { "image": "offer-neu-14", "icon": "✨", "title": "Placeholder offer 14", "text": "Placeholder – text to follow." },
-      { "image": "offer-neu-15", "icon": "✨", "title": "Placeholder offer 15", "text": "Placeholder – text to follow." }
+      { "image": "offer-vereinsfeste", "icon": "🎪", "title": "Club festivities", "text": "Carnival, village fair, “Bier im Dorf”, Christmas market and many more." },
+      { "image": "offer-anfahrt", "icon": "🚆", "title": "Easy to reach", "text": "Right by the A6 motorway and with our own train stop – getting to us is quick, by car or by train." }
     ]
   },
   "gallery": {
@@ -73,7 +73,8 @@
       { "quote": "Here you're not just a player – you're part of a team where togetherness, fun and supporting each other really matter. We want to achieve something together on the pitch, but we also have a really great community off it – and that's exactly what makes our team.", "name": "Dominik Streib", "role": "Contact, second team", "image": "person-dominik-streib" },
       { "quote": "Steinsfurt welcomed me like family straight away and gave me a close-knit yet ambitious environment. With the support of everyone involved, I've also been able to develop really well as a player.", "name": "Lukas Schell", "role": "", "image": "person-lukas-schell" },
       { "quote": "I've played for the club since the under-9s. I'd never want to go anywhere else.", "name": "Dale Werner", "role": "", "image": "person-dale-werner" },
-      { "quote": "I got to know TSV Steinsfurt as one big family. Everyone is there for everyone – on and off the pitch. I felt completely at home right away. The saying “one for all, all for one” fits perfectly!", "name": "Loris Lenz", "role": "", "image": "person-loris-lenz" }
+      { "quote": "I got to know TSV Steinsfurt as one big family. Everyone is there for everyone – on and off the pitch. I felt completely at home right away. The saying “one for all, all for one” fits perfectly!", "name": "Loris Lenz", "role": "", "image": "person-loris-lenz" },
+      { "quote": "We're a really awesome team of young and experienced players. We always have fun – and keep success and our goals in sight.", "name": "Liam Hinderhauser", "role": "", "image": "person-liam-hinderhauser" }
     ]
   },
   "training": {
