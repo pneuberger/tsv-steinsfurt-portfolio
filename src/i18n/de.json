@@ -52,7 +52,9 @@
     "open": "Vergrößern",
     "clip": "Video-Clip",
     "photo": "Foto",
-    "watchFull": "Ganzes Video ansehen (5 Min.)"
+    "watchFull": "Ganzes Video ansehen (5 Min.)",
+    "ctaTitle": "Werde Teil davon!",
+    "ctaText": "Melde dich bei uns"
   },
   "testimonials": {
     "eyebrow": "Stimmen aus dem Team",

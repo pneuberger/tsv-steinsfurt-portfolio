@@ -52,7 +52,9 @@
     "open": "Enlarge",
     "clip": "Video clip",
     "photo": "Photo",
-    "watchFull": "Watch the full video (5 min)"
+    "watchFull": "Watch the full video (5 min)",
+    "ctaTitle": "Be part of it!",
+    "ctaText": "Get in touch"
   },
   "testimonials": {
     "eyebrow": "Voices from the team",
