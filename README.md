@@ -157,7 +157,7 @@ From then on, every push to `main` builds the site, uploads it to S3 (hashed ass
 
 ## Private access via invite links
 
-The site is **private**: the team committee (Spielausschuss) sends personal, time-limited links to prospective players. The gate runs in **production** (deployed by the GitHub pipeline) and in a separate **staging** environment for testing (deployed by hand; the pipeline never deploys staging). Each environment has its own HMAC secret, committee password and invite table, so links and passwords don't carry over.
+The site is **private**: the team committee (Spielausschuss) sends personal, time-limited links to prospective players. The gate runs in **production**; pages are deployed by the GitHub pipeline.
 
 **How it works**
 - An invite link looks like `https://<site-url>/?t=<id>.<expiry>.<signature>`. A CloudFront Function checks the HMAC signature, the expiry and a revocation list at the edge. Without a valid link, visitors see `/no-access/`; photos and videos return 403.
@@ -165,24 +165,20 @@ The site is **private**: the team committee (Spielausschuss) sends personal, tim
 - Always public: `/no-access/` (`/en/no-access/`), the legal pages, `/admin/`, the share image, logo and favicon, CSS, JS and fonts.
 - The committee creates, lists and revokes links at **`/admin/`** with a shared password. The API is a Lambda behind CloudFront `/api/*`. Invites are stored in DynamoDB and deleted automatically 30 days after expiry.
 - The HMAC secret and the revocation list live in a CloudFront KeyValueStore. The password is stored only as a scrypt hash in SSM Parameter Store.
-- Feature switches: `accessGate` in the CDK stack, and `PUBLIC_ACCESS_GATE=true` at build time (set in the GitHub workflow and by `deploy:staging`), which adds `/admin/`, `/no-access/`, the greeting and an extra privacy section.
+- Feature switches: `accessGate` in the CDK stack, and `PUBLIC_ACCESS_GATE=true` at build time (set in the GitHub workflow), which adds `/admin/`, `/no-access/`, the greeting and an extra privacy section.
 
 **Setup and deploy**
 
 ```sh
 aws sso login --profile tsv
-# production – pages are deployed by the GitHub pipeline on every merge to main
-npm run prod:infra        # CDK: CloudFront, gate functions, KeyValueStore, Lambda, DynamoDB
+# pages are deployed by the GitHub pipeline on every merge to main
+npm run prod:infra        # CDK: CloudFront, gate functions, KeyValueStore, Lambda, DynamoDB (profile tsv by default)
 npm run prod:setup        # creates HMAC secret + committee password (printed once – run it yourself!)
-# staging
-npm run staging:infra
-npm run staging:setup
-npm run deploy:staging    # builds with the gate and uploads to the staging bucket
 ```
 
 The gate is fail-closed: until `prod:setup` has created the secret, every visitor lands on `/no-access/`.
 
-| Task | Command (production; staging: `staging:setup`) |
+| Task | Command |
 | --- | --- |
 | **Emergency stop:** invalidate *all* invite links (takes effect within ~1 minute) | button "Alle Links sperren" at `/admin/`, or `npm run prod:setup -- --rotate-secret` |
 | New committee password | `npm run prod:setup -- --new-password` |

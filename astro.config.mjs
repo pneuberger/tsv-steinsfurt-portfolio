@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 
 /**
  * Invite-link pages (/admin/, /no-access/, /en/no-access/) exist only in the gate build
- * (PUBLIC_ACCESS_GATE=true: GitHub pipeline for production, `npm run deploy:staging`). They live in src/gate-pages/
+ * (PUBLIC_ACCESS_GATE=true, set in the GitHub workflow). They live in src/gate-pages/
  * instead of src/pages/, so builds without the gate contain neither the pages nor their scripts/CSS.
  * The greeting script is injected the same way (no trace of it without the gate, not even a CSP hash).
  * @type {import('astro').AstroIntegration}
@@ -28,7 +28,7 @@ export default defineConfig({
   // Public address of the site (used for canonical/hreflang/OG URLs).
   // For now the CloudFront URL; switch to the custom domain once one is set up.
   // The site is independent of the club homepage (tsvphoenixsteinsfurt.de).
-  // SITE_URL overrides it for other environments (staging deploy script).
+  // SITE_URL overrides it (e.g. for a test environment).
   site: process.env.SITE_URL || 'https://d384ezf8yukgl8.cloudfront.net',
   trailingSlash: 'ignore',
   build: {

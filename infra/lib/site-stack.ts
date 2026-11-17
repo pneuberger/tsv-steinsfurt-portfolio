@@ -45,7 +45,7 @@ export interface SiteStackProps extends StackProps {
     hostedZoneName: string;
     certificate: ICertificate;
   };
-  /** GitHub Actions deploy role. Omit for environments deployed by hand (staging). */
+  /** GitHub Actions deploy role. Omit for environments deployed by hand. */
   github?: {
     /** "owner/repo" */
     repo: string;
@@ -61,11 +61,11 @@ export interface SiteStackProps extends StackProps {
     createOidcProvider: boolean;
   };
   /**
-   * Invite-link access gate (private site). Enabled in production and staging.
+   * Invite-link access gate (private site). Enabled in production.
    * Adds: CloudFront KeyValueStore + gate functions, /api/* → Lambda (invite API), DynamoDB table.
    */
   accessGate?: {
-    /** SSM SecureString holding the committee password hash (created by `npm run prod:setup` / `staging:setup`). */
+    /** SSM SecureString holding the committee password hash (created by `npm run prod:setup`). */
     passwordParameterName: string;
   };
   /** Distribution comment (shown in the AWS console). */
@@ -211,7 +211,7 @@ export class SiteStack extends Stack {
       });
       const api = new NodejsFunction(this, 'InviteApi', {
         entry: fileURLToPath(new URL('../lambda/invites/index.ts', import.meta.url)),
-        runtime: Runtime.NODEJS_26_X, // same runtime as the site build; proven on staging
+        runtime: Runtime.NODEJS_26_X, // same runtime as the site build
         memorySize: 256, // scrypt needs ~32 MB
         timeout: Duration.seconds(10),
         environment: {
