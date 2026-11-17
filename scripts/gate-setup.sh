@@ -4,11 +4,13 @@
 #
 #   npm run prod:setup                       create HMAC secret + committee password if missing
 #   npm run prod:setup -- --rotate-secret     EMERGENCY STOP: new secret → all invite links invalid
-#   npm run prod:setup -- --new-password      new committee password (old one stops working)
+#   npm run prod:setup -- --new-password      new random committee password (old one stops working)
+#   npm run prod:setup -- --set-password      choose the committee password yourself (asked twice,
+#                                             hidden input; without a terminal: one line from stdin)
 #   (same options for staging: npm run staging:setup …)
 #
 # The HMAC secret lives only in the CloudFront KeyValueStore, the password only as a
-# scrypt hash in SSM Parameter Store. The plain password is printed once and never stored.
+# scrypt hash in SSM Parameter Store. A random password is printed once and never stored.
 set -euo pipefail
 
 export AWS_PROFILE="${AWS_PROFILE:-tsv}"
@@ -16,7 +18,7 @@ REGION=eu-central-1
 case "${1:-}" in
   production) STACK=TsvSteinsfurtSite;    INFRA="npm run prod:infra" ;;
   staging)    STACK=TsvSteinsfurtStaging; INFRA="npm run staging:infra" ;;
-  *) echo "Aufruf: gate-setup.sh production|staging [--rotate-secret] [--new-password]" >&2; exit 1 ;;
+  *) echo "Aufruf: gate-setup.sh production|staging [--rotate-secret] [--new-password | --set-password]" >&2; exit 1 ;;
 esac
 ENV_NAME="$1"; shift
 PARAM=/tsv-steinsfurt/$ENV_NAME/admin-password-hash
@@ -24,13 +26,31 @@ echo "→ Umgebung: $ENV_NAME ($STACK)"
 
 ROTATE_SECRET=false
 NEW_PASSWORD=false
+SET_PASSWORD=false
 for arg in "$@"; do
   case "$arg" in
     --rotate-secret) ROTATE_SECRET=true ;;
     --new-password) NEW_PASSWORD=true ;;
+    --set-password) SET_PASSWORD=true ;;
     *) echo "Unbekannte Option: $arg" >&2; exit 1 ;;
   esac
 done
+[ "$NEW_PASSWORD" = true ] && [ "$SET_PASSWORD" = true ] && { echo "--new-password und --set-password nicht zusammen verwenden." >&2; exit 1; }
+
+# Ask for the chosen password first, before anything is changed in AWS.
+if [ "$SET_PASSWORD" = true ]; then
+  if [ -t 0 ]; then
+    read -rs -p "Neues Ausschuss-Passwort: " CHOSEN; echo
+    read -rs -p "Passwort wiederholen:     " CHOSEN2; echo
+    [ "$CHOSEN" = "$CHOSEN2" ] || { echo "Die Eingaben stimmen nicht überein – nichts geändert." >&2; exit 1; }
+    unset CHOSEN2
+  else
+    IFS= read -r CHOSEN || true
+  fi
+  # length in characters (not bytes), so "ö" counts once
+  [ "$(printf '%s' "$CHOSEN" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>console.log([...s.normalize("NFC")].length))')" -ge 12 ] \
+    || { echo "Das Passwort muss mindestens 12 Zeichen lang sein – nichts geändert." >&2; exit 1; }
+fi
 
 output() {
   aws cloudformation describe-stacks --region "$REGION" --stack-name "$STACK" \
@@ -54,7 +74,14 @@ else
 fi
 
 # ---------- Committee password (scrypt hash in SSM) ----------
-if aws ssm get-parameter --region "$REGION" --name "$PARAM" >/dev/null 2>&1 && [ "$NEW_PASSWORD" = false ]; then
+if [ "$SET_PASSWORD" = true ]; then
+  # chosen password goes to the hash script via stdin (never as an argument, never printed)
+  HASH=$(printf '%s' "$CHOSEN" | node "$(dirname "$0")/make-password.mjs" --stdin)
+  unset CHOSEN
+  [[ "$HASH" == scrypt\$* ]] || { echo "Passwort-Hash fehlgeschlagen" >&2; exit 1; }
+  aws ssm put-parameter --region "$REGION" --name "$PARAM" --type SecureString --overwrite --value "$HASH" >/dev/null
+  echo "✓ Ausschuss-Passwort gesetzt (gespeichert nur als Hash)."
+elif aws ssm get-parameter --region "$REGION" --name "$PARAM" >/dev/null 2>&1 && [ "$NEW_PASSWORD" = false ]; then
   echo "✓ Ausschuss-Passwort existiert bereits (unverändert)."
 else
   # 4 groups of 5 characters, without easily confused characters (0/O, 1/l/I)

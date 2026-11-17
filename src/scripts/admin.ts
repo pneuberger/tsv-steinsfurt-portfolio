@@ -54,7 +54,8 @@ async function sha256Hex(text: string): Promise<string> {
 async function api<T>(method: 'GET' | 'POST', path: string, body?: unknown): Promise<T> {
   const payload = body === undefined ? '' : JSON.stringify(body);
   const headers: Record<string, string> = {
-    'x-admin-password': sessionStorage.getItem(PW_KEY) ?? '',
+    // percent-encoded: HTTP headers can't carry UTF-8 (e.g. "ö"); the API decodes it
+    'x-admin-password': encodeURIComponent((sessionStorage.getItem(PW_KEY) ?? '').normalize('NFC')),
     // CloudFront Origin Access Control signs requests to the Lambda URL and needs the body hash.
     'x-amz-content-sha256': await sha256Hex(payload),
   };

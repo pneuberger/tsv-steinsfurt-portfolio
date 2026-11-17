@@ -65,11 +65,16 @@ async function checkPassword(given: string | undefined): Promise<boolean> {
   const passwordHash = await cached('pw', async () =>
     (await ssm.send(new GetParameterCommand({ Name: PASSWORD_PARAM, WithDecryption: true }))).Parameter?.Value);
   if (!passwordHash || !given) return false;
+  // The form sends the password percent-encoded (headers can't carry UTF-8 such as "ö");
+  // random passwords ([A-Za-z0-9-]) are unchanged by this. NFC like make-password.mjs.
+  let password = given;
+  try { password = decodeURIComponent(given); } catch { /* not encoded: use as is */ }
+  password = password.normalize('NFC');
   // format: scrypt$<N>$<saltHex>$<hashHex>
   const [algo, n, saltHex, hashHex] = passwordHash.split('$');
   if (algo !== 'scrypt') return false;
   const expected = Buffer.from(hashHex, 'hex');
-  const actual = await scrypt(given, Buffer.from(saltHex, 'hex'), expected.length, { N: Number(n), maxmem: 256 * 1024 * 1024 });
+  const actual = await scrypt(password, Buffer.from(saltHex, 'hex'), expected.length, { N: Number(n), maxmem: 256 * 1024 * 1024 });
   return timingSafeEqual(actual, expected);
 }
 
