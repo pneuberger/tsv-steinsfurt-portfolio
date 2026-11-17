@@ -25,7 +25,7 @@ const { lang, kind } = Astro.props;
 const t = useTranslations(lang);
 const docs = { imprint: { de: imprintDe, en: imprintEn }, privacy: { de: privacyDe, en: privacyEn } };
 const { Content } = docs[kind][lang];
-// Extra privacy section only when the invite-link access gate is enabled (staging build).
+// Extra privacy section only when the invite-link access gate is enabled (gate build).
 const GateSection = accessGate && kind === 'privacy' ? (lang === 'de' ? gateDe : gateEn).Content : undefined;
 const title = kind === 'imprint' ? t.legal.imprintTitle : t.legal.privacyTitle;
 const description = kind === 'imprint' ? t.legal.imprintDescription : t.legal.privacyDescription;

@@ -1,5 +1,5 @@
 /**
- * Committee form for invite links (/admin/, staging only).
+ * Committee form for invite links (/admin/, gate build only).
  * Talks to /api/invites (Lambda behind CloudFront). The password is kept in
  * sessionStorage only (gone when the tab is closed) and sent as x-admin-password.
  * All user-provided values are rendered with textContent – never as HTML.

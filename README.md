@@ -155,31 +155,37 @@ Copy the stack outputs into **GitHub → Settings → Secrets and variables → 
 
 From then on, every push to `main` builds the site, uploads it to S3 (hashed assets cached forever, media for 1 day, HTML always revalidated) and invalidates CloudFront. Pull requests are only built and type-checked.
 
-## Private access via invite links (staging only)
+## Private access via invite links
 
-The site is meant to be **private**: the team committee (Spielausschuss) sends personal, time-limited links to prospective players. This runs in a **separate staging environment** for now. **Production stays public and unchanged**, and the GitHub pipeline never deploys staging.
+The site is **private**: the team committee (Spielausschuss) sends personal, time-limited links to prospective players. The gate runs in **production** (deployed by the GitHub pipeline) and in a separate **staging** environment for testing (deployed by hand; the pipeline never deploys staging). Each environment has its own HMAC secret, committee password and invite table, so links and passwords don't carry over.
 
 **How it works**
-- An invite link looks like `https://<staging-url>/?t=<id>.<expiry>.<signature>`. A CloudFront Function checks the HMAC signature, the expiry and a revocation list at the edge. Without a valid link, visitors see `/no-access/`; photos and videos return 403.
+- An invite link looks like `https://<site-url>/?t=<id>.<expiry>.<signature>`. A CloudFront Function checks the HMAC signature, the expiry and a revocation list at the edge. Without a valid link, visitors see `/no-access/`; photos and videos return 403.
 - On the first visit, the token is stored in an `HttpOnly` cookie (`tsv_zugang`) that expires with the link, so reloads and subpages work.
 - Always public: `/no-access/` (`/en/no-access/`), the legal pages, `/admin/`, the share image, logo and favicon, CSS, JS and fonts.
 - The committee creates, lists and revokes links at **`/admin/`** with a shared password. The API is a Lambda behind CloudFront `/api/*`. Invites are stored in DynamoDB and deleted automatically 30 days after expiry.
 - The HMAC secret and the revocation list live in a CloudFront KeyValueStore. The password is stored only as a scrypt hash in SSM Parameter Store.
-- Feature switches: `accessGate` in the CDK stack, and `PUBLIC_ACCESS_GATE=true` at build time, which adds `/admin/`, `/no-access/` and an extra privacy section. Without them, nothing changes.
+- Feature switches: `accessGate` in the CDK stack, and `PUBLIC_ACCESS_GATE=true` at build time (set in the GitHub workflow and by `deploy:staging`), which adds `/admin/`, `/no-access/`, the greeting and an extra privacy section.
 
-**Setup and deploy (staging)**
+**Setup and deploy**
 
 ```sh
 aws sso login --profile tsv
-npm run staging:infra     # CDK: bucket, CloudFront, gate functions, KeyValueStore, Lambda, DynamoDB
-npm run staging:setup     # creates HMAC secret + committee password (printed once!)
+# production – pages are deployed by the GitHub pipeline on every merge to main
+npm run prod:infra        # CDK: CloudFront, gate functions, KeyValueStore, Lambda, DynamoDB
+npm run prod:setup        # creates HMAC secret + committee password (printed once – run it yourself!)
+# staging
+npm run staging:infra
+npm run staging:setup
 npm run deploy:staging    # builds with the gate and uploads to the staging bucket
 ```
 
-| Task | Command |
+The gate is fail-closed: until `prod:setup` has created the secret, every visitor lands on `/no-access/`.
+
+| Task | Command (production; staging: `staging:setup`) |
 | --- | --- |
-| **Emergency stop:** invalidate *all* invite links (takes effect within ~1 minute) | button "Alle Links sperren" at `/admin/`, or `npm run staging:setup -- --rotate-secret` |
-| New committee password | `npm run staging:setup -- --new-password` |
+| **Emergency stop:** invalidate *all* invite links (takes effect within ~1 minute) | button "Alle Links sperren" at `/admin/`, or `npm run prod:setup -- --rotate-secret` |
+| New committee password | `npm run prod:setup -- --new-password` |
 | Revoke a single link | committee form → "Sperren" |
 
 **For the committee (/admin/):** log in with the committee password, enter the prospect's first name or initials, pick the validity (24 or 48 hours, default 24), then "Link erstellen" and "Link kopieren" or "Per WhatsApp teilen". All links are listed with their status. "Sperren" disables a link within about half a minute (KeyValueStore propagation; measured ~20 s).

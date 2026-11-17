@@ -1,5 +1,5 @@
 /**
- * Personal greeting for invited players (staging build with access gate only).
+ * Personal greeting for invited players (gate build only).
  * Asks /api/greeting for the name belonging to the visitor's own access cookie and
  * puts it into the hero headline ("Max, wir wollen dich …"). The name is inserted with
  * textContent – never as HTML. No name / no JS / any error → the normal headline stays.
