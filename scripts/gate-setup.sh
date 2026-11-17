@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
-# Setup of the invite-link gate (run after `npm run prod:infra` / `npm run staging:infra`).
-# Production and staging each have their own secret, password and invite table.
+# Setup of the invite-link gate in production (run after `npm run prod:infra`).
 #
 #   npm run prod:setup                       create HMAC secret + committee password if missing
 #   npm run prod:setup -- --rotate-secret     EMERGENCY STOP: new secret → all invite links invalid
 #   npm run prod:setup -- --new-password      new random committee password (old one stops working)
 #   npm run prod:setup -- --set-password      choose the committee password yourself (asked twice,
 #                                             hidden input; without a terminal: one line from stdin)
-#   (same options for staging: npm run staging:setup …)
 #
 # The HMAC secret lives only in the CloudFront KeyValueStore, the password only as a
 # scrypt hash in SSM Parameter Store. A random password is printed once and never stored.
@@ -15,14 +13,9 @@ set -euo pipefail
 
 export AWS_PROFILE="${AWS_PROFILE:-tsv}"
 REGION=eu-central-1
-case "${1:-}" in
-  production) STACK=TsvSteinsfurtSite;    INFRA="npm run prod:infra" ;;
-  staging)    STACK=TsvSteinsfurtStaging; INFRA="npm run staging:infra" ;;
-  *) echo "Aufruf: gate-setup.sh production|staging [--rotate-secret] [--new-password | --set-password]" >&2; exit 1 ;;
-esac
-ENV_NAME="$1"; shift
-PARAM=/tsv-steinsfurt/$ENV_NAME/admin-password-hash
-echo "→ Umgebung: $ENV_NAME ($STACK)"
+STACK=TsvSteinsfurtSite
+INFRA="npm run prod:infra"
+PARAM=/tsv-steinsfurt/production/admin-password-hash
 
 ROTATE_SECRET=false
 NEW_PASSWORD=false

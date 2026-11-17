@@ -43,7 +43,7 @@ const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({}));
 const ssm = new SSMClient({});
 const kvs = new CloudFrontKeyValueStoreClient({ region: 'us-east-1' });
 
-// Short-lived cache: after `prod:setup` / `staging:setup --rotate-secret` / `--new-password` all Lambda
+// Short-lived cache: after `prod:setup --rotate-secret` / `--new-password` all Lambda
 // instances pick up the new values within a minute.
 const CACHE_MS = 60_000;
 const cache = new Map<string, { value: string; at: number }>();

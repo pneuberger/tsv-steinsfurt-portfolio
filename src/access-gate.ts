@@ -1,8 +1,8 @@
 /**
  * Invite-link access gate (private site).
  *
- * Enabled when the site is built with PUBLIC_ACCESS_GATE=true (GitHub pipeline for production,
- * `npm run deploy:staging` for staging). Without it: no /admin/ and /no-access/ pages,
+ * Enabled when the site is built with PUBLIC_ACCESS_GATE=true (set in the GitHub workflow).
+ * Without it: no /admin/ and /no-access/ pages,
  * no greeting, no extra privacy section.
  */
 export const accessGate = import.meta.env.PUBLIC_ACCESS_GATE === 'true';
