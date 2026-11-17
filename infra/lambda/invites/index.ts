@@ -3,8 +3,10 @@
  * Reached via CloudFront /api/* → Lambda Function URL (Origin Access Control).
  *
  *   GET  /api/invites               list invites
- *   POST /api/invites               create  { name, days, createdBy? } → { id, token, expiresAt }
+ *   POST /api/invites               create  { name, hours (24|48), createdBy? } → { id, token, expiresAt }
  *   POST /api/invites/{id}/revoke   revoke one invite
+ *   POST /api/invites/revoke-all    EMERGENCY STOP: revoke every active invite and rotate the
+ *                                   HMAC secret (also kills links that are no longer in the table)
  *   GET  /api/greeting              PUBLIC (no password): { name } for the visitor's own valid,
  *                                   non-revoked access cookie – used to greet invited players
  *   GET  /api/invites/{id}/check    is the revocation already in effect at the edge?
@@ -32,8 +34,9 @@ import '@aws-sdk/signature-v4a'; // KeyValueStore API requires SigV4A signing
 
 const scrypt = promisify(scryptCb) as (pw: string, salt: Buffer, len: number, opts: object) => Promise<Buffer>;
 const { TABLE_NAME, KVS_ARN, PASSWORD_PARAM, SITE_URL_PARAM } = process.env as Record<string, string>;
-const MAX_DAYS = 60;
-const DEFAULT_DAYS = 14;
+// Link validity: the committee can only choose 24 or 48 hours; anything else falls back to 24.
+const ALLOWED_HOURS = [24, 48];
+const DEFAULT_HOURS = 24;
 const RETAIN_AFTER_EXPIRY = 30 * 24 * 3600; // DynamoDB TTL: delete 30 days after expiry
 
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({}));
@@ -103,17 +106,29 @@ function newId(): string {
   return randomBytes(6).toString('base64url'); // 8 chars [A-Za-z0-9_-]
 }
 
-async function revokeInKvs(id: string): Promise<void> {
+/** Write one key to the KeyValueStore (optimistic locking via ETag, retried on conflicts). */
+async function putKvs(key: string, value: string): Promise<void> {
   for (let attempt = 0; attempt < 5; attempt++) {
     const { ETag } = await kvs.send(new DescribeKeyValueStoreCommand({ KvsARN: KVS_ARN }));
     try {
-      await kvs.send(new PutKeyCommand({ KvsARN: KVS_ARN, Key: `revoked:${id}`, Value: '1', IfMatch: ETag }));
+      await kvs.send(new PutKeyCommand({ KvsARN: KVS_ARN, Key: key, Value: value, IfMatch: ETag }));
       return;
     } catch (e) {
       if ((e as { name?: string }).name !== 'ConflictException') throw e;
     }
   }
   throw new Error('KeyValueStore busy, please retry');
+}
+
+const revokeInKvs = (id: string) => putKvs(`revoked:${id}`, '1');
+
+/** Mark one invite as revoked in the table (no-op if it was already deleted by TTL). */
+async function markRevoked(id: string, now: number): Promise<void> {
+  await ddb.send(new UpdateCommand({
+    TableName: TABLE_NAME, Key: { id },
+    UpdateExpression: 'SET revoked = :t, revokedAt = if_not_exists(revokedAt, :now)', ConditionExpression: 'attribute_exists(id)',
+    ExpressionAttributeValues: { ':t': true, ':now': now },
+  })).catch(() => undefined); // already deleted by TTL → revocation in KVS is what matters
 }
 
 /** Name for a valid, non-revoked access token (from the visitor's tsv_zugang cookie), else undefined. */
@@ -169,7 +184,7 @@ export async function handler(event: APIGatewayProxyEventV2): Promise<APIGateway
   }
 
   if (method === 'POST' && path === '/api/invites') {
-    let input: { name?: unknown; days?: unknown; createdBy?: unknown } = {};
+    let input: { name?: unknown; hours?: unknown; createdBy?: unknown } = {};
     try {
       input = JSON.parse(event.isBase64Encoded ? Buffer.from(event.body ?? '', 'base64').toString() : event.body ?? '{}');
     } catch {
@@ -177,9 +192,9 @@ export async function handler(event: APIGatewayProxyEventV2): Promise<APIGateway
     }
     const name = clean(input.name, 40);
     if (!name) return json(400, { error: 'Bitte einen Namen bzw. ein Kürzel angeben' });
-    const days = Math.min(MAX_DAYS, Math.max(1, Math.round(Number(input.days) || DEFAULT_DAYS)));
+    const hours = ALLOWED_HOURS.includes(Number(input.hours)) ? Number(input.hours) : DEFAULT_HOURS;
     const now = Math.floor(Date.now() / 1000);
-    const expiresAt = now + days * 24 * 3600;
+    const expiresAt = now + hours * 3600;
     const id = newId();
     const token = await sign(id, expiresAt);
     await ddb.send(new PutCommand({
@@ -194,12 +209,24 @@ export async function handler(event: APIGatewayProxyEventV2): Promise<APIGateway
   if (method === 'POST' && revoke) {
     const id = revoke[1];
     await revokeInKvs(id);
-    await ddb.send(new UpdateCommand({
-      TableName: TABLE_NAME, Key: { id },
-      UpdateExpression: 'SET revoked = :t, revokedAt = if_not_exists(revokedAt, :now)', ConditionExpression: 'attribute_exists(id)',
-      ExpressionAttributeValues: { ':t': true, ':now': Math.floor(Date.now() / 1000) },
-    })).catch(() => undefined); // already deleted by TTL → revocation in KVS is what matters
+    await markRevoked(id, Math.floor(Date.now() / 1000));
     return json(200, { id, revoked: true });
+  }
+
+  // Emergency stop: revoke every active invite (same path as single revocation, so the list and
+  // /check keep working), then rotate the HMAC secret so that even links missing from the table die.
+  if (method === 'POST' && path === '/api/invites/revoke-all') {
+    const now = Math.floor(Date.now() / 1000);
+    const { Items = [] } = await ddb.send(new ScanCommand({ TableName: TABLE_NAME, ConsistentRead: true }));
+    const active = Items.filter((i) => !i.revoked && i.expiresAt > now);
+    for (const inv of active) {
+      await revokeInKvs(inv.id);
+      await markRevoked(inv.id, now);
+    }
+    const secret = randomBytes(32).toString('hex');
+    await putKvs('secret', secret);
+    cache.set('secret', { value: secret, at: Date.now() }); // this instance signs with the new secret right away
+    return json(200, { revoked: active.length });
   }
 
   const check = path.match(/^\/api\/invites\/([A-Za-z0-9_-]{8})\/check$/);

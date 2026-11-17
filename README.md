@@ -178,11 +178,11 @@ npm run deploy:staging    # builds with the gate and uploads to the staging buck
 
 | Task | Command |
 | --- | --- |
-| **Emergency stop:** invalidate *all* invite links (takes effect within ~1 minute) | `npm run staging:setup -- --rotate-secret` |
+| **Emergency stop:** invalidate *all* invite links (takes effect within ~1 minute) | button "Alle Links sperren" at `/admin/`, or `npm run staging:setup -- --rotate-secret` |
 | New committee password | `npm run staging:setup -- --new-password` |
 | Revoke a single link | committee form → "Sperren" |
 
-**For the committee (/admin/):** log in with the committee password, enter the prospect's first name or initials, pick the validity (default 14 days), then "Link erstellen" and "Link kopieren" or "Per WhatsApp teilen". All links are listed with their status. "Sperren" disables a link within about half a minute (KeyValueStore propagation; measured ~20 s).
+**For the committee (/admin/):** log in with the committee password, enter the prospect's first name or initials, pick the validity (24 or 48 hours, default 24), then "Link erstellen" and "Link kopieren" or "Per WhatsApp teilen". All links are listed with their status. "Sperren" disables a link within about half a minute (KeyValueStore propagation; measured ~20 s).
 
 ## Project structure
 

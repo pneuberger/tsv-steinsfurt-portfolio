@@ -8,10 +8,9 @@
  */
 import Base from '../layouts/Base.astro';
 import Footer from '../components/sections/Footer.astro';
-import { DEFAULT_DAYS, MAX_DAYS } from '../access-gate';
+import { DEFAULT_HOURS, VALIDITY_HOURS } from '../access-gate';
 
 const paths = { de: '/admin/', en: '/admin/' };
-const dayOptions = [7, 14, 30, MAX_DAYS];
 ---
 
 <Base
@@ -31,7 +30,7 @@ const dayOptions = [7, 14, 30, MAX_DAYS];
     </div>
   </header>
 
-  <main class="container narrow admin" data-default-days={DEFAULT_DAYS}>
+  <main class="container narrow admin">
     <h1>Einladungslinks</h1>
     <p class="lead">
       Für den Spielausschuss: persönliche Links für Interessenten erstellen, verschicken und bei Bedarf sperren.
@@ -61,8 +60,8 @@ const dayOptions = [7, 14, 30, MAX_DAYS];
           </label>
           <label>
             Gültig für
-            <select name="days">
-              {dayOptions.map((d) => <option value={d} selected={d === DEFAULT_DAYS}>{d} Tage</option>)}
+            <select name="hours">
+              {VALIDITY_HOURS.map((h) => <option value={h} selected={h === DEFAULT_HOURS}>{h} Stunden</option>)}
             </select>
           </label>
           <label>
@@ -99,6 +98,17 @@ const dayOptions = [7, 14, 30, MAX_DAYS];
           </table>
         </div>
         <p class="small" id="empty" hidden>Noch keine Links erstellt.</p>
+      </section>
+
+      <section class="card danger-zone">
+        <h2>Notfall: Alle Links sperren</h2>
+        <p class="small">
+          Sperrt sofort alle Einladungslinks auf einmal – zum Beispiel, wenn ein Link in die falschen Hände geraten
+          ist. Wer die Seite gerade ansieht, wird ausgesperrt. Danach etwa eine Minute warten, bevor neue Links erstellt
+          werden.
+        </p>
+        <button type="button" class="btn btn-danger" id="revoke-all">Alle Links sperren</button>
+        <p class="msg" id="revoke-all-msg" role="alert" hidden></p>
       </section>
 
       <p class="small">
@@ -170,6 +180,9 @@ const dayOptions = [7, 14, 30, MAX_DAYS];
   .btn-ghost-dark { background: var(--c-tint); color: var(--c-primary-dark); padding: 0.55rem 1rem; font-size: 0.9rem; }
   .btn-danger { background: #b42318; color: #fff; }
   .btn-danger:hover { background: #912018; }
+  .danger-zone { border: 2px solid #f3b4b4; background: #fff7f7; }
+  .danger-zone h2 { color: #b42318; }
+  .danger-zone .btn { margin-top: 1rem; }
   button.btn { font: inherit; font-weight: 700; cursor: pointer; }
 
   /* confirmation dialog (replaces the browser's confirm()) */

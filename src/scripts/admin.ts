@@ -36,8 +36,9 @@ const pending = (inv: Invite) =>
   inv.revoked && !inv.effectiveAt && !!inv.revokedAt && nowS() - inv.revokedAt < GIVE_UP_AFTER_S;
 let pollTimer: number | undefined;
 
-const fmtDate = (s: number) =>
-  new Date(s * 1000).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+// Links live only 24 or 48 hours, so dates are shown with the time: "18.11.2026, 12:30".
+const fmtDateTime = (s: number) =>
+  new Date(s * 1000).toLocaleString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
 function showMsg(el: HTMLElement, text: string, ok = false) {
   el.textContent = text;
@@ -112,7 +113,7 @@ async function loadList() {
           btn.addEventListener('click', () => revoke(inv));
           actionTd.append(btn);
         }
-        tr.append(cell(inv.name), cell(inv.createdBy || '–'), cell(fmtDate(inv.createdAt)), cell(fmtDate(inv.expiresAt)), statusTd, actionTd);
+        tr.append(cell(inv.name), cell(inv.createdBy || '–'), cell(fmtDateTime(inv.createdAt)), cell(fmtDateTime(inv.expiresAt)), statusTd, actionTd);
         return tr;
       }),
     );
@@ -148,9 +149,22 @@ confirmDialog.addEventListener('click', (ev) => {
   if (ev.target === confirmDialog) confirmDialog.close('cancel');
 });
 
-/** Styled replacement for confirm(): resolves true only for "Ja, sperren". Escape = cancel. */
-function confirmRevoke(name: string): Promise<boolean> {
-  $('[data-name]', confirmDialog).textContent = name; // text only, never HTML
+type Confirm = { title: string; before: string; strong?: string; after: string; confirmLabel: string };
+
+/** Styled replacement for confirm(): resolves true only for the red button. Escape / outside = cancel.
+ *  All parts are inserted as text – never as HTML (names come from user input). */
+function confirmAction({ title, before, strong, after, confirmLabel }: Confirm): Promise<boolean> {
+  $('#confirm-title', confirmDialog).textContent = title;
+  const text = $('#confirm-text', confirmDialog);
+  const parts: (string | HTMLElement)[] = [before];
+  if (strong) {
+    const b = document.createElement('strong');
+    b.textContent = strong;
+    parts.push(b);
+  }
+  parts.push(after);
+  text.replaceChildren(...parts);
+  $('[data-confirm]', confirmDialog).textContent = confirmLabel;
   confirmDialog.returnValue = '';
   confirmDialog.showModal();
   $<HTMLButtonElement>('[data-cancel]', confirmDialog).focus(); // safe default
@@ -159,7 +173,14 @@ function confirmRevoke(name: string): Promise<boolean> {
 }
 
 async function revoke(inv: Invite) {
-  if (!(await confirmRevoke(inv.name))) return;
+  const ok = await confirmAction({
+    title: 'Link sperren?',
+    before: 'Der Link für ',
+    strong: inv.name,
+    after: ' funktioniert danach nicht mehr – auch wenn er schon geöffnet wurde. Das lässt sich nicht rückgängig machen.',
+    confirmLabel: 'Ja, sperren',
+  });
+  if (!ok) return;
   try {
     await api('POST', `/api/invites/${encodeURIComponent(inv.id)}/revoke`);
     await loadList();
@@ -168,12 +189,39 @@ async function revoke(inv: Invite) {
   }
 }
 
+/** Emergency stop: revoke every invite at once and rotate the signing secret. */
+async function revokeAll() {
+  const msg = $('#revoke-all-msg');
+  const ok = await confirmAction({
+    title: 'Alle Links sperren?',
+    before: 'Alle Einladungslinks werden gesperrt. Jeder, der gerade Zugang hat, wird ausgesperrt. ',
+    strong: 'Neue Links erst nach etwa einer Minute erstellen.',
+    after: ' Das lässt sich nicht rückgängig machen.',
+    confirmLabel: 'Ja, alle sperren',
+  });
+  if (!ok) return;
+  const btn = $<HTMLButtonElement>('#revoke-all');
+  btn.disabled = true;
+  showMsg(msg, 'Sperre alle Links …', true);
+  try {
+    const res = await api<{ revoked: number }>('POST', '/api/invites/revoke-all');
+    showMsg(msg, `${res.revoked} ${res.revoked === 1 ? 'Link' : 'Links'} gesperrt – wirksam in etwa einer Minute. Bitte erst danach neue Links erstellen.`, true);
+    result.hidden = true; // a link shown there is no longer valid
+    await loadList();
+  } catch (e) {
+    if ((e as { status?: number }).status === 401) return logout('Bitte erneut anmelden.');
+    showMsg(msg, (e as Error).message);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
 function showResult(name: string, link: string, expiresAt: number) {
   $('[data-name]', result).textContent = name;
-  $('[data-expires]', result).textContent = fmtDate(expiresAt);
+  $('[data-expires]', result).textContent = fmtDateTime(expiresAt);
   const input = $<HTMLInputElement>('[data-link]', result);
   input.value = link;
-  const text = `Hallo ${name}, hier ist dein persönlicher Link zum TSV Phönix Steinsfurt – schau mal rein: ${link} (gültig bis ${fmtDate(expiresAt)})`;
+  const text = `Hallo ${name}, hier ist dein persönlicher Link zum TSV Phönix Steinsfurt – schau mal rein: ${link} (gültig bis ${fmtDateTime(expiresAt)} Uhr)`;
   $<HTMLAnchorElement>('[data-whatsapp]', result).href = `https://wa.me/?text=${encodeURIComponent(text)}`;
   result.hidden = false;
   result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -212,7 +260,7 @@ createForm.addEventListener('submit', async (ev) => {
   try {
     const res = await api<{ token: string; expiresAt: number }>('POST', '/api/invites', {
       name: fd.get('name'),
-      days: Number(fd.get('days')),
+      hours: Number(fd.get('hours')),
       createdBy: fd.get('createdBy'),
     });
     const name = String(fd.get('name')).trim();
@@ -239,6 +287,7 @@ $('[data-copy]', result).addEventListener('click', async (ev) => {
 });
 
 $('#reload').addEventListener('click', () => loadList());
+$('#revoke-all').addEventListener('click', () => revokeAll());
 $('#logout').addEventListener('click', () => logout());
 
 // Still logged in from earlier in this tab?

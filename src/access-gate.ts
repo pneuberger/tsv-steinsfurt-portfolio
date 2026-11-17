@@ -7,6 +7,6 @@
  */
 export const accessGate = import.meta.env.PUBLIC_ACCESS_GATE === 'true';
 
-/** Default and maximum link validity offered in the committee form (days). */
-export const DEFAULT_DAYS = 14;
-export const MAX_DAYS = 60;
+/** Link validity offered in the committee form (hours). The API accepts only these values. */
+export const VALIDITY_HOURS = [24, 48];
+export const DEFAULT_HOURS = 24;
