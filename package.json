@@ -10,8 +10,10 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "prod:infra": "cd infra && npx cdk deploy TsvSteinsfurtSite",
+    "prod:setup": "bash scripts/gate-setup.sh production",
     "staging:infra": "cd infra && npx cdk deploy TsvSteinsfurtStaging",
-    "staging:setup": "bash scripts/staging-setup.sh",
+    "staging:setup": "bash scripts/gate-setup.sh staging",
     "deploy:staging": "bash scripts/deploy-staging.sh"
   },
   "dependencies": {

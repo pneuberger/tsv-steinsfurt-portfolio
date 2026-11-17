@@ -1,5 +1,5 @@
 // CloudFront Function (viewer request, cloudfront-js-2.0) – access gate for invite links.
-// Only used where the access gate is enabled (staging). Production keeps index-rewrite.js.
+// Used where the access gate is enabled (production and staging). Public sites use index-rewrite.js.
 //
 // A request passes if it targets a public path or carries a valid invite token,
 // either as ?t=<token> (first visit from the invite link) or as cookie tsv_zugang.
