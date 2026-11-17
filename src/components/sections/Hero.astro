@@ -29,7 +29,7 @@ const bgFallback = await getImage({ src: bgDesktop, width: 1920, format: 'jpg' }
   <div class="container hero-content">
     <img class="crest" src="/logo/tsv-steinsfurt.svg" alt="TSV Phönix Steinsfurt Logo" width="96" height="109" />
     <p class="hero-eyebrow">{t.hero.eyebrow}</p>
-    {/* data-greeting: template for the personal greeting (staging only, script injected in astro.config.mjs) */}
+    {/* data-greeting: template for the personal greeting (gate build only, script injected in astro.config.mjs) */}
     <h1 data-greeting={accessGate ? t.hero.titleGreeting : undefined}>{t.hero.title}</h1>
     <div class="hero-ctas">
       <a class="btn btn-accent" href="#offer">{t.hero.cta} <span aria-hidden="true">→</span></a>

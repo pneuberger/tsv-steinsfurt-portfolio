@@ -2,10 +2,10 @@
 import { defineConfig } from 'astro/config';
 
 /**
- * Invite-link pages (/admin/, /no-access/, /en/no-access/) exist only in the staging build
- * (PUBLIC_ACCESS_GATE=true, set by `npm run deploy:staging`). They live in src/gate-pages/
- * instead of src/pages/, so production builds contain neither the pages nor their scripts/CSS.
- * The greeting script is injected the same way (no trace of it in production, not even a CSP hash).
+ * Invite-link pages (/admin/, /no-access/, /en/no-access/) exist only in the gate build
+ * (PUBLIC_ACCESS_GATE=true: GitHub pipeline for production, `npm run deploy:staging`). They live in src/gate-pages/
+ * instead of src/pages/, so builds without the gate contain neither the pages nor their scripts/CSS.
+ * The greeting script is injected the same way (no trace of it without the gate, not even a CSP hash).
  * @type {import('astro').AstroIntegration}
  */
 const gatePages = {

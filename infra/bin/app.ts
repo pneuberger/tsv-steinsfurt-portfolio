@@ -25,9 +25,11 @@ const cert = dns
     })
   : undefined;
 
+// Production: private site with the invite-link access gate (own secret, password and table).
 new SiteStack(app, 'TsvSteinsfurtSite', {
   env: { account, region },
   crossRegionReferences: true,
+  accessGate: { passwordParameterName: '/tsv-steinsfurt/production/admin-password-hash' },
   dns: dns && cert ? { ...dns, certificate: cert.certificate } : undefined,
   github: {
     repo: ctx('githubRepo') ?? 'pneuberger/tsv-steinsfurt-portfolio',
@@ -39,9 +41,8 @@ new SiteStack(app, 'TsvSteinsfurtSite', {
   },
 });
 
-// Staging: separate bucket + CloudFront URL with the invite-link access gate.
+// Staging: separate bucket + CloudFront URL, also with the access gate, for testing changes.
 // Deployed by hand (`npm run deploy:staging`), never by the GitHub pipeline.
-// Production (TsvSteinsfurtSite above) stays public and unchanged.
 new SiteStack(app, 'TsvSteinsfurtStaging', {
   env: { account, region },
   comment: 'TSV Steinsfurt recruitment site – STAGING (invite links)',

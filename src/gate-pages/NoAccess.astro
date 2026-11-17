@@ -1,11 +1,11 @@
 ---
 /**
- * "No access" page, shown to visitors without a valid invite link (staging build only):
+ * "No access" page, shown to visitors without a valid invite link (gate build only):
  *   /no-access/     – German (the gate redirects here)  → no-access.de.astro
  *   /en/no-access/  – English                           → no-access.en.astro
  * With the same DE/EN switch as the legal pages. Both paths are public in
  * infra/functions/gate-request.js. Routes are registered in astro.config.mjs only for
- * the staging build (PUBLIC_ACCESS_GATE=true).
+ * the gate build (PUBLIC_ACCESS_GATE=true).
  */
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';

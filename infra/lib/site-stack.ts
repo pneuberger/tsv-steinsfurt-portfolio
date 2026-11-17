@@ -61,11 +61,11 @@ export interface SiteStackProps extends StackProps {
     createOidcProvider: boolean;
   };
   /**
-   * Invite-link access gate (private site). Off in production for now.
+   * Invite-link access gate (private site). Enabled in production and staging.
    * Adds: CloudFront KeyValueStore + gate functions, /api/* → Lambda (invite API), DynamoDB table.
    */
   accessGate?: {
-    /** SSM SecureString holding the committee password hash (created by `npm run staging:setup`). */
+    /** SSM SecureString holding the committee password hash (created by `npm run prod:setup` / `staging:setup`). */
     passwordParameterName: string;
   };
   /** Distribution comment (shown in the AWS console). */
@@ -95,7 +95,7 @@ export class SiteStack extends Stack {
     let functionAssociations;
     let gateStore: KeyValueStore | undefined;
     if (!gate) {
-      // Public site: only map directory URLs to index.html (unchanged production setup).
+      // Public site: only map directory URLs to index.html.
       const indexRewrite = new CfFunction(this, 'IndexRewrite', {
         runtime: FunctionRuntime.JS_2_0,
         code: FunctionCode.fromFile({ filePath: fnFile('index-rewrite.js') }),
@@ -211,7 +211,7 @@ export class SiteStack extends Stack {
       });
       const api = new NodejsFunction(this, 'InviteApi', {
         entry: fileURLToPath(new URL('../lambda/invites/index.ts', import.meta.url)),
-        runtime: Runtime.NODEJS_26_X, // public preview until GA (planned Nov 2026), fine for staging
+        runtime: Runtime.NODEJS_26_X, // same runtime as the site build; proven on staging
         memorySize: 256, // scrypt needs ~32 MB
         timeout: Duration.seconds(10),
         environment: {
